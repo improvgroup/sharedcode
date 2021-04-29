@@ -28,3 +28,8 @@ jobs:
       with:
         PROJECT_FILE_PATH: SharedCode.Core/SharedCode.Core.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Publish SharedCode.Data
+      uses: brandedoutcast/publish-nuget@v2.5.2
+      with:
+        PROJECT_FILE_PATH: SharedCode.Data/SharedCode.Data.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
