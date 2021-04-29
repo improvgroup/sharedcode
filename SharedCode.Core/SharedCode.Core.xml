@@ -69,18 +69,37 @@
             </returns>
         </member>
         <member name="M:SharedCode.DateTimeExtensions.Ceiling(System.DateTime,System.TimeSpan)">
-            <summary>
-            Rounds the specified DateTime up to the next TimeSpan
-            </summary>
-            <param name="date">The DateTime to round.</param>
-            <param name="span">The TimeSpan to round by.</param>
-            <returns>The rounded DateTime.</returns>
-            <example>
-            Rounds to nearest minute (replace 1 for 10 to get nearest 10 minutes)
-            <code>
+             <summary>
+             Rounds the specified DateTime up to the next TimeSpan
+             </summary>
+             <param name="date">The DateTime to round.</param>
+             <param name="span">The TimeSpan to round by.</param>
+             <returns>The rounded DateTime.</returns>
+             <example>
+             Rounds to nearest minute (replace 1 for 10 to get nearest 10 minutes)
+             <code>
             MyDate.Ceiling(new TimeSpan(0,1,0));
-            </code>
-            </example>
+             </code>
+             </example>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.DaysBetween(System.DateTime,System.DateTime)">
+            <summary>
+            Returns the number of days between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of days between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.DaysBetween(System.DateTime,System.DateTime,System.Boolean)">
+            <summary>
+            Returns the number of days between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of days between the specified dates.</returns>
         </member>
         <member name="M:SharedCode.DateTimeExtensions.DecreaseTime(System.DateTime,System.TimeSpan)">
             <summary>
@@ -108,18 +127,18 @@
             </returns>
         </member>
         <member name="M:SharedCode.DateTimeExtensions.Floor(System.DateTime,System.TimeSpan)">
-            <summary>
-            Rounds the specified DateTime down to the next TimeSpan
-            </summary>
-            <param name="date">The DateTime to round.</param>
-            <param name="span">The TimeSpan to round by.</param>
-            <returns>The rounded DateTime.</returns>
-            <example>
-            Rounds to nearest minute (replace 1 for 10 to get nearest 10 minutes)
-            <code>
+             <summary>
+             Rounds the specified DateTime down to the next TimeSpan
+             </summary>
+             <param name="date">The DateTime to round.</param>
+             <param name="span">The TimeSpan to round by.</param>
+             <returns>The rounded DateTime.</returns>
+             <example>
+             Rounds to nearest minute (replace 1 for 10 to get nearest 10 minutes)
+             <code>
             MyDate.Floor(new TimeSpan(0,1,0));
-            </code>
-            </example>
+             </code>
+             </example>
         </member>
         <member name="M:SharedCode.DateTimeExtensions.IncreaseTime(System.DateTime,System.TimeSpan)">
             <summary>
@@ -177,6 +196,25 @@
             </summary>
             <param name="value">The value.</param>
             <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.MonthsBetween(System.DateTime,System.DateTime)">
+            <summary>
+            Returns the number of months between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of months between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.MonthsBetween(System.DateTime,System.DateTime,System.Boolean)">
+            <summary>
+            Returns the number of months between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of months between the specified dates.</returns>
         </member>
         <member name="M:SharedCode.DateTimeExtensions.Next(System.DateTime,System.DayOfWeek)">
             <summary>
@@ -444,6 +482,75 @@
             <param name="start">The start.</param>
             <returns>The <see cref="T:System.DateTime" />.</returns>
         </member>
+        <member name="M:SharedCode.DateTimeExtensions.WeeksBetween(System.DateTime,System.DateTime)">
+            <summary>
+            Returns the number of weeks between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of weeks between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.WeeksBetween(System.DateTime,System.DateTime,System.Boolean)">
+            <summary>
+            Returns the number of weeks between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of weeks between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.WeeksBetween(System.DateTime,System.DateTime,System.Boolean,System.Int32@)">
+            <summary>
+            Returns the number of weeks between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <param name="excessDays">The remainder of excess days.</param>
+            <returns>The number of weeks between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.YearsBetween(System.DateTime,System.DateTime)">
+            <summary>
+            Returns the number of years between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of years between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.YearsBetween(System.DateTime,System.DateTime,System.Boolean)">
+            <summary>
+            Returns the number of years between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of years between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.YearsBetween(System.DateTime,System.DateTime,System.Boolean,System.Int32@)">
+            <summary>
+            Returns the number of years between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <param name="excessMonths">The remainder of excess months.</param>
+            <returns>The number of years between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.DateValue(System.DateTime)">
+            <summary>
+            Returns the date value as an Integer.
+            </summary>
+            <param name="input">The input date time.</param>
+            <returns>The date value as an Integer.</returns>
+        </member>
         <member name="M:SharedCode.DateTimeExtensions.GetRelativeDateValue(System.DateTime,System.DateTime)">
             <summary>
             Gets the relative date value.
@@ -534,6 +641,25 @@
             MyDate.Ceiling(new TimeSpan(0,1,0));
              </code>
              </example>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.DaysBetween(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            Returns the number of days between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of days between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.DaysBetween(System.DateTimeOffset,System.DateTimeOffset,System.Boolean)">
+            <summary>
+            Returns the number of days between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of days between the specified dates.</returns>
         </member>
         <member name="M:SharedCode.DateTimeOffsetExtensions.DecreaseTime(System.DateTimeOffset,System.TimeSpan)">
             <summary>
@@ -633,6 +759,25 @@
             </summary>
             <param name="value">The value.</param>
             <returns>The <see cref="T:System.DateTimeOffset" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.MonthsBetween(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            Returns the number of months between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of months between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.MonthsBetween(System.DateTimeOffset,System.DateTimeOffset,System.Boolean)">
+            <summary>
+            Returns the number of months between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of months between the specified dates.</returns>
         </member>
         <member name="M:SharedCode.DateTimeOffsetExtensions.Next(System.DateTimeOffset,System.DayOfWeek)">
             <summary>
@@ -901,6 +1046,75 @@
             </summary>
             <param name="start">The start.</param>
             <returns>The <see cref="T:System.DateTimeOffset" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.WeeksBetween(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            Returns the number of weeks between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of weeks between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.WeeksBetween(System.DateTimeOffset,System.DateTimeOffset,System.Boolean)">
+            <summary>
+            Returns the number of weeks between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of weeks between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.WeeksBetween(System.DateTimeOffset,System.DateTimeOffset,System.Boolean,System.Int32@)">
+            <summary>
+            Returns the number of weeks between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <param name="excessDays">The remainder of excess days.</param>
+            <returns>The number of weeks between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.YearsBetween(System.DateTimeOffset,System.DateTimeOffset)">
+            <summary>
+            Returns the number of years between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <returns>The number of years between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.YearsBetween(System.DateTimeOffset,System.DateTimeOffset,System.Boolean)">
+            <summary>
+            Returns the number of years between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <returns>The number of years between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.YearsBetween(System.DateTimeOffset,System.DateTimeOffset,System.Boolean,System.Int32@)">
+            <summary>
+            Returns the number of years between the specified dates.
+            </summary>
+            <param name="first">The first date.</param>
+            <param name="second">The second date.</param>
+            <param name="includeLastDay">
+            A value indicating whether to include the last day in the calculation.
+            </param>
+            <param name="excessMonths">The remainder of excess months.</param>
+            <returns>The number of years between the specified dates.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeOffsetExtensions.DateValue(System.DateTimeOffset)">
+            <summary>
+            Returns the date value as an Integer.
+            </summary>
+            <param name="input">The input date time.</param>
+            <returns>The date value as an Integer.</returns>
         </member>
         <member name="M:SharedCode.DateTimeOffsetExtensions.GetRelativeDateValue(System.DateTimeOffset,System.DateTimeOffset)">
             <summary>
@@ -2017,7 +2231,8 @@
         </member>
         <member name="M:SharedCode.Text.StringExtensions.FillInvariant(System.String,System.Object)">
             <summary>
-            Fills the specified format string with the invariant culture provider using the specified argument.
+            Fills the specified format string with the invariant culture provider using the
+            specified argument.
             </summary>
             <param name="format">The format.</param>
             <param name="arg">The argument.</param>
@@ -2025,7 +2240,8 @@
         </member>
         <member name="M:SharedCode.Text.StringExtensions.FillInvariant(System.String,System.Object[])">
             <summary>
-            Fills the specified format string with the invariant culture provider using the specified arguments.
+            Fills the specified format string with the invariant culture provider using the
+            specified arguments.
             </summary>
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>

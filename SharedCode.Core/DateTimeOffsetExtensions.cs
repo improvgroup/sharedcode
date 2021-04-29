@@ -166,6 +166,29 @@ namespace SharedCode
 			new(new DateTime((date.Ticks + span.Ticks - 1) / span.Ticks * span.Ticks));
 
 		/// <summary>
+		/// Returns the number of days between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <returns>The number of days between the specified dates.</returns>
+		public static int DaysBetween(this DateTimeOffset first, DateTimeOffset second) => (second.Date - first.Date).Duration().Days;
+
+		/// <summary>
+		/// Returns the number of days between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <param name="includeLastDay">
+		/// A value indicating whether to include the last day in the calculation.
+		/// </param>
+		/// <returns>The number of days between the specified dates.</returns>
+		public static int DaysBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay)
+		{
+			int days = first.DaysBetween(second);
+			return includeLastDay ? days + 1 : days;
+		}
+
+		/// <summary>
 		/// Decreases the <see cref="DateTimeOffset" /> object with given <see cref="TimeSpan" /> value.
 		/// </summary>
 		/// <param name="startDate">The start Date.</param>
@@ -266,6 +289,35 @@ namespace SharedCode
 		/// <param name="value">The value.</param>
 		/// <returns>The <see cref="DateTimeOffset" />.</returns>
 		public static DateTimeOffset Midnight(this DateTimeOffset value) => value.BeginningOfDay();
+
+		/// <summary>
+		/// Returns the number of months between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <returns>The number of months between the specified dates.</returns>
+		public static int MonthsBetween(this DateTimeOffset first, DateTimeOffset second) => Math.Abs((second.DateValue() - first.DateValue()) / 31);
+
+		/// <summary>
+		/// Returns the number of months between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <param name="includeLastDay">
+		/// A value indicating whether to include the last day in the calculation.
+		/// </param>
+		/// <returns>The number of months between the specified dates.</returns>
+		public static int MonthsBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay)
+		{
+			if (!includeLastDay)
+			{
+				return first.MonthsBetween(second);
+			}
+
+			int days = (second >= first) ? second.AddDays(1).DateValue() - first.DateValue() : first.AddDays(1).DateValue() - second.DateValue();
+
+			return days / 31;
+		}
 
 		/// <summary>
 		/// Returns first next occurrence of specified <see cref="DayOfWeek" />.
@@ -753,6 +805,85 @@ namespace SharedCode
 		/// <param name="start">The start.</param>
 		/// <returns>The <see cref="DateTimeOffset" />.</returns>
 		public static DateTimeOffset WeekEarlier(this DateTimeOffset start) => start - 1.Weeks();
+
+		/// <summary>
+		/// Returns the number of weeks between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <returns>The number of weeks between the specified dates.</returns>
+		public static int WeeksBetween(this DateTimeOffset first, DateTimeOffset second) => first.DaysBetween(second) / 7;
+
+		/// <summary>
+		/// Returns the number of weeks between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <param name="includeLastDay">
+		/// A value indicating whether to include the last day in the calculation.
+		/// </param>
+		/// <returns>The number of weeks between the specified dates.</returns>
+		public static int WeeksBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay) => first.DaysBetween(second, includeLastDay) / 7;
+
+		/// <summary>
+		/// Returns the number of weeks between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <param name="includeLastDay">
+		/// A value indicating whether to include the last day in the calculation.
+		/// </param>
+		/// <param name="excessDays">The remainder of excess days.</param>
+		/// <returns>The number of weeks between the specified dates.</returns>
+		public static int WeeksBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay, out int excessDays)
+		{
+			int days = first.DaysBetween(second, includeLastDay);
+			excessDays = days % 7;
+			return days / 7;
+		}
+
+		/// <summary>
+		/// Returns the number of years between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <returns>The number of years between the specified dates.</returns>
+		public static int YearsBetween(this DateTimeOffset first, DateTimeOffset second) => first.MonthsBetween(second) / 12;
+
+		/// <summary>
+		/// Returns the number of years between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <param name="includeLastDay">
+		/// A value indicating whether to include the last day in the calculation.
+		/// </param>
+		/// <returns>The number of years between the specified dates.</returns>
+		public static int YearsBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay) => first.MonthsBetween(second, includeLastDay) / 12;
+
+		/// <summary>
+		/// Returns the number of years between the specified dates.
+		/// </summary>
+		/// <param name="first">The first date.</param>
+		/// <param name="second">The second date.</param>
+		/// <param name="includeLastDay">
+		/// A value indicating whether to include the last day in the calculation.
+		/// </param>
+		/// <param name="excessMonths">The remainder of excess months.</param>
+		/// <returns>The number of years between the specified dates.</returns>
+		public static int YearsBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay, out int excessMonths)
+		{
+			int months = first.MonthsBetween(second, includeLastDay);
+			excessMonths = months % 12;
+			return months / 12;
+		}
+
+		/// <summary>
+		/// Returns the date value as an Integer.
+		/// </summary>
+		/// <param name="input">The input date time.</param>
+		/// <returns>The date value as an Integer.</returns>
+		private static int DateValue(this DateTimeOffset input) => (input.Year * 372) + ((input.Month - 1) * 31) + input.Day - 1;
 
 		/// <summary>
 		/// Gets the relative date value.
