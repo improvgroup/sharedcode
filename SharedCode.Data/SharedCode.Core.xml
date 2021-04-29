@@ -13,27 +13,27 @@
             <summary>
             Enumerates the specified database data reader.
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">The type of the objects being enumerated.</typeparam>
             <param name="dbDataReader">The database data reader.</param>
-            <returns>IEnumerable&lt;T&gt;.</returns>
+            <returns>The enumerable sequence.</returns>
             <exception cref="T:System.ArgumentNullException">dbDataReader</exception>
         </member>
         <member name="M:SharedCode.Data.DataReaderExtensions.EnumerateAsync``1(System.Data.Common.DbDataReader)">
             <summary>
-            enumerate as an asynchronous operation.
+            Enumerates the specified database data reader as an asynchronous operation.
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">The type of the objects being enumerated.</typeparam>
             <param name="dbDataReader">The database data reader.</param>
-            <returns>IAsyncEnumerable&lt;T&gt;.</returns>
+            <returns>The asynchronous enumerable sequence.</returns>
             <exception cref="T:System.ArgumentNullException">dbDataReader</exception>
         </member>
         <member name="M:SharedCode.Data.DataReaderExtensions.Map``1(System.Data.IDataRecord)">
             <summary>
-            Maps the specified database data record.
+            Maps the specified database data record to the specified object type <typeparamref name="T"/>.
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">The type of the object being mapped.</typeparam>
             <param name="dbDataRecord">The database data record.</param>
-            <returns>T.</returns>
+            <returns>The resulting object.</returns>
             <exception cref="T:System.ArgumentNullException">dbDataRecord</exception>
         </member>
         <member name="T:SharedCode.Data.DataRecordConverter`1">

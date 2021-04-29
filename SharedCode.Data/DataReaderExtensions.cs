@@ -17,9 +17,9 @@ namespace SharedCode.Data
 		/// <summary>
 		/// Enumerates the specified database data reader.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="T">The type of the objects being enumerated.</typeparam>
 		/// <param name="dbDataReader">The database data reader.</param>
-		/// <returns>IEnumerable&lt;T&gt;.</returns>
+		/// <returns>The enumerable sequence.</returns>
 		/// <exception cref="ArgumentNullException">dbDataReader</exception>
 		public static IEnumerable<T> Enumerate<T>(this IDataReader dbDataReader) where T : new()
 		{
@@ -41,11 +41,11 @@ namespace SharedCode.Data
 		}
 
 		/// <summary>
-		/// enumerate as an asynchronous operation.
+		/// Enumerates the specified database data reader as an asynchronous operation.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="T">The type of the objects being enumerated.</typeparam>
 		/// <param name="dbDataReader">The database data reader.</param>
-		/// <returns>IAsyncEnumerable&lt;T&gt;.</returns>
+		/// <returns>The asynchronous enumerable sequence.</returns>
 		/// <exception cref="ArgumentNullException">dbDataReader</exception>
 		public static IAsyncEnumerable<T> EnumerateAsync<T>(this DbDataReader dbDataReader) where T : new()
 		{
@@ -67,11 +67,11 @@ namespace SharedCode.Data
 		}
 
 		/// <summary>
-		/// Maps the specified database data record.
+		/// Maps the specified database data record to the specified object type <typeparamref name="T"/>.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="T">The type of the object being mapped.</typeparam>
 		/// <param name="dbDataRecord">The database data record.</param>
-		/// <returns>T.</returns>
+		/// <returns>The resulting object.</returns>
 		/// <exception cref="ArgumentNullException">dbDataRecord</exception>
 		public static T Map<T>(this IDataRecord dbDataRecord) where T : new()
 		{
