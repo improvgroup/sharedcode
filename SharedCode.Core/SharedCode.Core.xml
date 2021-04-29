@@ -4,6 +4,40 @@
         <name>SharedCode.Core</name>
     </assembly>
     <members>
+        <member name="T:SharedCode.Collections.Generic.EnumerableExtensions">
+            <summary>
+            The enumerable extensions class.
+            </summary>
+        </member>
+        <member name="M:SharedCode.Collections.Generic.EnumerableExtensions.Chunk``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Returns an enumerable sequence of enumerable sequences of the specified size by
+            splitting this enumerable sequence.
+            </summary>
+            <typeparam name="T">The type of items in the input sequence.</typeparam>
+            <param name="input">The input sequence.</param>
+            <param name="chunkSize">The size of the chunks.</param>
+            <returns>
+            The enumerable sequence of enumerable sequences of the specified size by splitting this
+            enumerable sequence.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">chunkSize</exception>
+        </member>
+        <member name="T:SharedCode.Collections.Generic.EnumerationUtilities">
+            <summary>
+            The enumeration utilities class.
+            </summary>
+        </member>
+        <member name="M:SharedCode.Collections.Generic.EnumerationUtilities.ToList``1">
+            <summary>
+            Returns a list of the values in the specified enumeration.
+            </summary>
+            <typeparam name="T">The type of the enumeration.</typeparam>
+            <returns>The list of the values in the specified enumeration.</returns>
+            <exception cref="T:System.ArgumentException">
+            The type of the specified enumeration must be derived from the base <see cref="T:System.Enum" /> structure.
+            </exception>
+        </member>
         <member name="T:SharedCode.DateTimeExtensions">
             <summary>
             DateTime Extensions
@@ -2190,6 +2224,11 @@
               Looks up a localized string similar to The collection is empty..
             </summary>
         </member>
+        <member name="P:SharedCode.Properties.Resources.TheTypeOfTMustBeOfTypeSystemEnum">
+            <summary>
+              Looks up a localized string similar to The type of T must be of type System.Enum..
+            </summary>
+        </member>
         <member name="T:SharedCode.Text.StringExtensions">
             <summary>
             The string extensions class.
@@ -2246,6 +2285,71 @@
             <param name="format">The format.</param>
             <param name="args">The arguments.</param>
             <returns>The formatted string.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Format(System.String,System.Object)">
+            <summary>
+            Replaces the format item in a specified <see cref="T:System.String" /> with the text equivalent
+            of the value of a specified <see cref="T:System.Object" /> instance.
+            </summary>
+            <param name="value">A composite format string</param>
+            <param name="arg0">An <see cref="T:System.Object" /> to format</param>
+            <returns>
+            A copy of format in which the first format item has been replaced by the <see
+            cref="T:System.String" /> equivalent of <paramref name="arg0" />.
+            </returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Format(System.String,System.Object[])">
+            <summary>
+            Replaces the format item in a specified <see cref="T:System.String" /> with the text equivalent
+            of the value of a specified <see cref="T:System.Object" /> instance.
+            </summary>
+            <param name="value">A composite format string.</param>
+            <param name="args">
+            An <see cref="T:System.Object" /> array containing zero or more objects to format.
+            </param>
+            <returns>
+            A copy of format in which the format items have been replaced by the <see cref="T:System.String"
+            /> equivalent of the corresponding instances of System.Object in args.
+            </returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.In(System.String,System.String[])">
+            <summary>
+            Returns a value indicating whether the specified values are found in this string.
+            </summary>
+            <param name="value">The string in which we are looking for values.</param>
+            <param name="stringValues">Array of string values to compare</param>
+            <returns>Return true if any string value matches</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.IsNumeric(System.String)">
+            <summary>
+            Determines whether the specified value is numeric.
+            </summary>
+            <param name="theValue">The value.</param>
+            <returns>A value indicating whether the specified value is numeric.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Left(System.String,System.Int32)">
+            <summary>
+            Returns characters from left of the value of specified length
+            </summary>
+            <param name="value">The string value.</param>
+            <param name="length">The maximum number of charaters to return.</param>
+            <returns>The string from left.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Right(System.String,System.Int32)">
+            <summary>
+            Returns characters from right of the value of the specified length
+            </summary>
+            <param name="value">The string value.</param>
+            <param name="length">The maximum number of charaters to return.</param>
+            <returns>The string from right.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.ToEnum``1(System.String)">
+            <summary>
+            Converts a string value to the specified enumeration type.
+            </summary>
+            <typeparam name="T">The type of enumeration.</typeparam>
+            <param name="value">The string value to convert.</param>
+            <returns>Returns enumeration value.</returns>
         </member>
     </members>
 </doc>

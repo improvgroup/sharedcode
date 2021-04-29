@@ -68,5 +68,14 @@ namespace SharedCode.Properties {
                 return ResourceManager.GetString("TheCollectionIsEmpty", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The type of T must be of type System.Enum..
+        /// </summary>
+        internal static string TheTypeOfTMustBeOfTypeSystemEnum {
+            get {
+                return ResourceManager.GetString("TheTypeOfTMustBeOfTypeSystemEnum", resourceCulture);
+            }
+        }
     }
 }

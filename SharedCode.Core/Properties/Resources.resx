@@ -120,4 +120,7 @@
   <data name="TheCollectionIsEmpty" xml:space="preserve">
     <value>The collection is empty.</value>
   </data>
+  <data name="TheTypeOfTMustBeOfTypeSystemEnum" xml:space="preserve">
+    <value>The type of T must be of type System.Enum.</value>
+  </data>
 </root>
