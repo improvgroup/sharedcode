@@ -1976,5 +1976,60 @@
               Looks up a localized string similar to The collection is empty..
             </summary>
         </member>
+        <member name="T:SharedCode.Text.StringExtensions">
+            <summary>
+            The string extensions class.
+            </summary>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Fill(System.String,System.Object)">
+            <summary>
+            Fills the specified format string using the specified argument.
+            </summary>
+            <param name="format">The format.</param>
+            <param name="arg">The argument.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Fill(System.String,System.Object[])">
+            <summary>
+            Fills the specified format string using the specified arguments.
+            </summary>
+            <param name="format">The format.</param>
+            <param name="args">The arguments.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Fill(System.String,System.IFormatProvider,System.Object)">
+            <summary>
+            Fills the specified format string with the provider using the specified argument.
+            </summary>
+            <param name="format">The format.</param>
+            <param name="provider">The provider.</param>
+            <param name="arg">The argument.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.Fill(System.String,System.IFormatProvider,System.Object[])">
+            <summary>
+            Fills the specified format string with the provider using the specified arguments.
+            </summary>
+            <param name="format">The format.</param>
+            <param name="provider">The provider.</param>
+            <param name="args">The arguments.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.FillInvariant(System.String,System.Object)">
+            <summary>
+            Fills the specified format string with the invariant culture provider using the specified argument.
+            </summary>
+            <param name="format">The format.</param>
+            <param name="arg">The argument.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.FillInvariant(System.String,System.Object[])">
+            <summary>
+            Fills the specified format string with the invariant culture provider using the specified arguments.
+            </summary>
+            <param name="format">The format.</param>
+            <param name="args">The arguments.</param>
+            <returns>The formatted string.</returns>
+        </member>
     </members>
 </doc>
