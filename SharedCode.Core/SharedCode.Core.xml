@@ -4,6 +4,454 @@
         <name>SharedCode.Core</name>
     </assembly>
     <members>
+        <member name="T:SharedCode.DateTimeExtensions">
+            <summary>
+            DateTime Extensions
+            </summary>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.AddBusinessDays(System.DateTime,System.Int32)">
+            <summary>
+            Adds the given number of business days to the <see cref="T:System.DateTime" />.
+            </summary>
+            <param name="current">The date to be changed.</param>
+            <param name="days">Number of business days to be added.</param>
+            <returns>A <see cref="T:System.DateTime" /> increased by a given number of business days.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.AddWeekdays(System.DateTime,System.Int32)">
+            <summary>
+            Adds the specified number of weekdays to the date/time.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="days">The number of days.</param>
+            <returns>The result.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.At(System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Returns the given <see cref="T:System.DateTime" /> with hour and minutes set At given values.
+            </summary>
+            <param name="current">The current <see cref="T:System.DateTime" /> to be changed.</param>
+            <param name="hour">The hour to set time to.</param>
+            <param name="minute">The minute to set time to.</param>
+            <returns><see cref="T:System.DateTime" /> with hour and minute set to given values.</returns>
+            ReSharper disable MethodNamesNotMeaningful
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.At(System.DateTime,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Returns the given <see cref="T:System.DateTime" /> with hour and minutes and seconds set At given values.
+            </summary>
+            <param name="current">The current <see cref="T:System.DateTime" /> to be changed.</param>
+            <param name="hour">The hour to set time to.</param>
+            <param name="minute">The minute to set time to.</param>
+            <param name="second">The second to set time to.</param>
+            <returns><see cref="T:System.DateTime" /> with hour and minutes and seconds set to given values.</returns>
+            ReSharper disable MethodNamesNotMeaningful
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.BeginningOfDay(System.DateTime)">
+            <summary>
+            Returns the Start of the given day (the first millisecond of the given <see
+            cref="T:System.DateTime" />).
+            </summary>
+            <param name="date">The date.</param>
+            <returns>A date/time at the beginning of the day (midnight).</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Between(System.DateTime,System.DateTime,System.DateTime,System.Boolean)">
+            <summary>
+            Returns true if the date and time fall between the start and end dates, inclusive or not
+            of the end date and time.
+            </summary>
+            <param name="dateTime">The date time.</param>
+            <param name="startDateTime">The start date time.</param>
+            <param name="endDateTime">The end date time.</param>
+            <param name="endInclusive">if set to <c>true</c> [end inclusive].</param>
+            <returns>
+            <c>true</c> if the date and time fall between the start and end dates, inclusive or not
+            of the end date and time, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Ceiling(System.DateTime,System.TimeSpan)">
+            <summary>
+            Rounds the specified DateTime up to the next TimeSpan
+            </summary>
+            <param name="date">The DateTime to round.</param>
+            <param name="span">The TimeSpan to round by.</param>
+            <returns>The rounded DateTime.</returns>
+            <example>
+            Rounds to nearest minute (replace 1 for 10 to get nearest 10 minutes)
+            <code>
+            MyDate.Ceiling(new TimeSpan(0,1,0));
+            </code>
+            </example>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.DecreaseTime(System.DateTime,System.TimeSpan)">
+            <summary>
+            Decreases the <see cref="T:System.DateTime" /> object with given <see cref="T:System.TimeSpan" /> value.
+            </summary>
+            <param name="startDate">The start Date.</param>
+            <param name="toSubtract">The to Subtract.</param>
+            <returns>The result.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.EndOfDay(System.DateTime)">
+            <summary>
+            Returns the very end of the given day (the last millisecond of the last hour for the
+            given <see cref="T:System.DateTime" /> ).
+            </summary>
+            <param name="date">The date.</param>
+            <returns>A date/time with time at the end of the day. (23:59:59.999)</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.FirstDayOfMonth(System.DateTime)">
+            <summary>
+            Sets the day of the <see cref="T:System.DateTime" /> to the first day in that month.
+            </summary>
+            <param name="current">The current <see cref="T:System.DateTime" /> to be changed.</param>
+            <returns>
+            given <see cref="T:System.DateTime" /> with the day part set to the first day in that month.
+            </returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Floor(System.DateTime,System.TimeSpan)">
+            <summary>
+            Rounds the specified DateTime down to the next TimeSpan
+            </summary>
+            <param name="date">The DateTime to round.</param>
+            <param name="span">The TimeSpan to round by.</param>
+            <returns>The rounded DateTime.</returns>
+            <example>
+            Rounds to nearest minute (replace 1 for 10 to get nearest 10 minutes)
+            <code>
+            MyDate.Floor(new TimeSpan(0,1,0));
+            </code>
+            </example>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.IncreaseTime(System.DateTime,System.TimeSpan)">
+            <summary>
+            Increases the <see cref="T:System.DateTime" /> object with given <see cref="T:System.TimeSpan" /> value.
+            </summary>
+            <param name="startDate">The start Date.</param>
+            <param name="toAdd">The to Add.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.IsAfter(System.DateTime,System.DateTime)">
+            <summary>
+            Determines whether the specified <see cref="T:System.DateTime" /> value is After then current value.
+            </summary>
+            <param name="current">The current value.</param>
+            <param name="toCompareWith">Value to compare with.</param>
+            <returns><c>true</c> if the specified current is after; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.IsBefore(System.DateTime,System.DateTime)">
+            <summary>
+            Determines whether the specified <see cref="T:System.DateTime" /> is before then current value.
+            </summary>
+            <param name="current">The current value.</param>
+            <param name="toCompareWith">Value to compare with.</param>
+            <returns><c>true</c> if the specified current is before; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.IsInFuture(System.DateTime)">
+            <summary>
+            Determine if a <see cref="T:System.DateTime" /> is in the future.
+            </summary>
+            <param name="dateTime">The date to be checked.</param>
+            <returns>
+            <c>true</c> if <paramref name="dateTime" /> is in the future; otherwise <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.IsInPast(System.DateTime)">
+            <summary>
+            Determine if a <see cref="T:System.DateTime" /> is in the past.
+            </summary>
+            <param name="dateTime">The date to be checked.</param>
+            <returns><c>true</c> if <paramref name="dateTime" /> is in the past; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.LastDayOfMonth(System.DateTime)">
+            <summary>
+            Sets the day of the <see cref="T:System.DateTime" /> to the last day in that month.
+            </summary>
+            <param name="current">The current DateTime to be changed.</param>
+            <returns>
+            given <see cref="T:System.DateTime" /> with the day part set to the last day in that month.
+            </returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Midnight(System.DateTime)">
+            <summary>
+            Returns original <see cref="T:System.DateTime" /> value with time part set to midnight (alias for
+            <see cref="M:SharedCode.DateTimeExtensions.BeginningOfDay(System.DateTime)" /> method).
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Next(System.DateTime,System.DayOfWeek)">
+            <summary>
+            Returns first next occurrence of specified <see cref="T:System.DayOfWeek" />.
+            </summary>
+            <param name="start">The start.</param>
+            <param name="day">The day.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.NextDay(System.DateTime)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> increased by 24 hours i.e. Next Day.
+            </summary>
+            <param name="start">The start.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.NextYear(System.DateTime)">
+            <summary>
+            Returns the same date (same Day, Month, Hour, Minute, Second etc) in the next calendar
+            year. If that day does not exist in next year in same month, number of missing days is
+            added to the last day in same month next year.
+            </summary>
+            <param name="start">The start.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Noon(System.DateTime)">
+            <summary>
+            Returns original <see cref="T:System.DateTime" /> value with time part set to Noon (12:00:00h).
+            </summary>
+            <param name="value">The <see cref="T:System.DateTime" /> find Noon for.</param>
+            <returns>A <see cref="T:System.DateTime" /> value with time part set to Noon (12:00:00h).</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Previous(System.DateTime,System.DayOfWeek)">
+            <summary>
+            Returns first next occurrence of specified <see cref="T:System.DayOfWeek" />.
+            </summary>
+            <param name="start">The start.</param>
+            <param name="day">The day.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.PreviousDay(System.DateTime)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> decreased by 24h period i.e. Previous Day.
+            </summary>
+            <param name="start">The start.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.PreviousYear(System.DateTime)">
+            <summary>
+            Returns the same date (same Day, Month, Hour, Minute, Second etc) in the previous
+            calendar year. If that day does not exist in previous year in same month, number of
+            missing days is added to the last day in same month previous year.
+            </summary>
+            <param name="start">The start.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.Round(System.DateTime,System.TimeSpan)">
+             <summary>
+             Rounds the specified DateTime to the nearest TimeSpan
+             </summary>
+             <param name="date">The DateTime to round.</param>
+             <param name="span">The TimeSpan to round by.</param>
+             <returns>The rounded DateTime.</returns>
+             <example>
+             Rounds to nearest minute (replace 1 for 10 to get nearest 10 minutes)
+             <code>
+            MyDate.Floor(new TimeSpan(0,1,0));
+             </code>
+             </example>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetDate(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Year part.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="year">The year.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetDate(System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Year and Month part.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="year">The year.</param>
+            <param name="month">The month.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetDate(System.DateTime,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Year, Month and Day part.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="year">The year.</param>
+            <param name="month">The month.</param>
+            <param name="day">The day.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetDay(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Day part.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="day">The day.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetHour(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Hour part.
+            </summary>
+            <param name="originalDate">The original Date.</param>
+            <param name="hour">The hour.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetMillisecond(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Millisecond part.
+            </summary>
+            <param name="originalDate">The original Date.</param>
+            <param name="millisecond">The millisecond.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetMinute(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Minute part.
+            </summary>
+            <param name="originalDate">The original Date.</param>
+            <param name="minute">The minute.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetMonth(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Month part.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="month">The month.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetSecond(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Second part.
+            </summary>
+            <param name="originalDate">The original Date.</param>
+            <param name="second">The second.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetTime(System.DateTime,System.Int32)">
+            <summary>
+            Sets the time.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="hour">The number of hours.</param>
+            <returns>The date/time with the time set as specified.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetTime(System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Sets the time.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="hour">The number of hours.</param>
+            <param name="minute">The number of minutes.</param>
+            <returns>The date/time with the time set as specified.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetTime(System.DateTime,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the time.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="hour">The number of hours.</param>
+            <param name="minute">The number of minutes.</param>
+            <param name="second">The number of seconds.</param>
+            <returns>The date/time with the time set as specified.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetTime(System.DateTime,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the time.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="hour">The number of hours.</param>
+            <param name="minute">The number of minutes.</param>
+            <param name="second">The number of seconds.</param>
+            <param name="millisecond">The number of milliseconds.</param>
+            <returns>The date/time with the time set as specified.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SetYear(System.DateTime,System.Int32)">
+            <summary>
+            Returns <see cref="T:System.DateTime" /> with changed Year part.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="year">The year.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.StartOfWeek(System.DateTime)">
+            <summary>
+            Returns a DateTime adjusted to the beginning of the week.
+            </summary>
+            <param name="dateTime">The DateTime to adjust</param>
+            <returns>A DateTime instance adjusted to the beginning of the current week</returns>
+            <remarks>the beginning of the week is controlled by the current Culture</remarks>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.SubtractBusinessDays(System.DateTime,System.Int32)">
+            <summary>
+            Subtracts the given number of business days to the <see cref="T:System.DateTime" />.
+            </summary>
+            <param name="current">The date to be changed.</param>
+            <param name="days">Number of business days to be subtracted.</param>
+            <returns>A <see cref="T:System.DateTime" /> increased by a given number of business days.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.ToRelativeDateString(System.DateTime)">
+            <summary>
+            Returns the relative date string.
+            </summary>
+            <param name="date">The date/time.</param>
+            <returns>The relative date string.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.ToRelativeDateStringUtc(System.DateTime)">
+            <summary>
+            Returns the relative date string for UTC time.
+            </summary>
+            <param name="date">The date/time.</param>
+            <returns>The relative date string for UTC time.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.ToString(System.Nullable{System.DateTime})">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <param name="date">The date/time.</param>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.ToString(System.Nullable{System.DateTime},System.String)">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="format">The format string.</param>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.ToString(System.Nullable{System.DateTime},System.IFormatProvider)">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="provider">The format provider.</param>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.ToString(System.Nullable{System.DateTime},System.String,System.IFormatProvider)">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents this instance.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="format">The format string.</param>
+            <param name="provider">The format provider.</param>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.WeekAfter(System.DateTime)">
+            <summary>
+            Increases supplied <see cref="T:System.DateTime" /> for 7 days i.e. returns the Next Week.
+            </summary>
+            <param name="start">The start.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.WeekEarlier(System.DateTime)">
+            <summary>
+            Decreases supplied <see cref="T:System.DateTime" /> for 7 days i.e. returns the Previous Week.
+            </summary>
+            <param name="start">The start.</param>
+            <returns>The <see cref="T:System.DateTime" />.</returns>
+        </member>
+        <member name="M:SharedCode.DateTimeExtensions.GetRelativeDateValue(System.DateTime,System.DateTime)">
+            <summary>
+            Gets the relative date value.
+            </summary>
+            <param name="date">The date/time.</param>
+            <param name="comparedTo">The date/time to compare to.</param>
+            <returns>The relative date value.</returns>
+        </member>
         <member name="T:SharedCode.DateTimeOffsetExtensions">
             <summary>
             DateTimeOffset Extensions
