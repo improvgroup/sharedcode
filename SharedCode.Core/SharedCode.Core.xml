@@ -2327,6 +2327,15 @@
             <param name="theValue">The value.</param>
             <returns>A value indicating whether the specified value is numeric.</returns>
         </member>
+        <member name="M:SharedCode.Text.StringExtensions.IsValidEmailAddress(System.String)">
+            <summary>
+            Determines whether the specified string is a valid email address.
+            </summary>
+            <param name="s">The s.</param>
+            <returns>
+            <c>true</c> if the specified string is a valid email address; otherwise, <c>false</c>.
+            </returns>
+        </member>
         <member name="M:SharedCode.Text.StringExtensions.Left(System.String,System.Int32)">
             <summary>
             Returns characters from left of the value of specified length

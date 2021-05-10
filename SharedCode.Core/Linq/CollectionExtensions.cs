@@ -16,7 +16,7 @@ namespace SharedCode.Linq
 	/// <summary>
 	/// Extensions for the ICollection interface.
 	/// </summary>
-	public static class CollectionExtensions
+	public static partial class CollectionExtensions
 	{
 		/// <summary>
 		/// Adds all of the given items to this collection. Can be used with dictionaries, which
@@ -671,57 +671,6 @@ namespace SharedCode.Linq
 			}
 
 			return collection.All(item => match(item));
-		}
-
-		/// <summary>
-		/// Describes changes made while syncing a collection.
-		/// </summary>
-		/// <typeparam name="T">The type of item synced.</typeparam>
-		[SuppressMessage(
-			"Design",
-			"CA1034:Nested types should not be visible",
-			Justification = "Reviewed.")]
-		public sealed class SyncChanges<T>
-		{
-			/// <summary>
-			/// The added items.
-			/// </summary>
-			private readonly IList<T> added = new List<T>();
-
-			/// <summary>
-			/// The removed items.
-			/// </summary>
-			private readonly IList<T> removed = new List<T>();
-
-			/// <summary>
-			/// Gets the items added during the sync.
-			/// </summary>
-			/// <value>The added items.</value>
-			[NotNull]
-			public IList<T> Added
-			{
-				get
-				{
-					Contract.Ensures(Contract.Result<IList<T>>() != null);
-
-					return this.added;
-				}
-			}
-
-			/// <summary>
-			/// Gets the items removed during the sync.
-			/// </summary>
-			/// <value>The removed items.</value>
-			[NotNull]
-			public IList<T> Removed
-			{
-				get
-				{
-					Contract.Ensures(Contract.Result<IList<T>>() != null);
-
-					return this.removed;
-				}
-			}
 		}
 	}
 }
