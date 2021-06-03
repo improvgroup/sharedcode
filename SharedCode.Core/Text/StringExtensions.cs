@@ -103,7 +103,7 @@ namespace SharedCode.Text
 		/// <returns>Return true if any string value matches</returns>
 		public static bool In(this string? value, params string[] stringValues)
 		{
-			foreach (string? otherValue in stringValues)
+			foreach (var otherValue in stringValues)
 			{
 				if (string.Equals(value, otherValue, StringComparison.Ordinal))
 				{
@@ -152,15 +152,30 @@ namespace SharedCode.Text
 		public static string? Right(this string? value, int length = 0) =>
 			value is not null &&
 				value.Length > length
-					? value.Substring(value.Length - length)
+					? value[^length..]
 					: value;
 
 		/// <summary>
-		/// Converts a string value to the specified enumeration type.
+		/// Converts the string value to the specified enumeration type.
 		/// </summary>
 		/// <typeparam name="T">The type of enumeration.</typeparam>
 		/// <param name="value">The string value to convert.</param>
 		/// <returns>Returns enumeration value.</returns>
 		public static T ToEnum<T>(this string value) where T : struct => value is null ? default : (T)Enum.Parse(typeof(T), value, true);
+
+		/// <summary>
+		/// Converts the specified string to title case.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <returns>The string.</returns>
+		public static string ToTitleCase(this string value) => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(value);
+
+		/// <summary>
+		/// Converts the string to title case using the specified culture information.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="cultureInfo">The culture information.</param>
+		/// <returns>string.</returns>
+		public static string ToTitleCase(this string value, CultureInfo cultureInfo) => cultureInfo.TextInfo.ToTitleCase(value);
 	}
 }

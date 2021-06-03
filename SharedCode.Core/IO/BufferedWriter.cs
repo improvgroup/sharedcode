@@ -110,7 +110,7 @@ namespace SharedCode.IO
 			if (this.StringBuilder.Length > 0)
 			{
 				this.writer.Write(this.StringBuilder.ToString());
-				this.StringBuilder.Clear();
+				_ = this.StringBuilder.Clear();
 			}
 		}
 
