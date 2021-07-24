@@ -2219,6 +2219,21 @@
               resource lookups using this strongly typed resource class.
             </summary>
         </member>
+        <member name="P:SharedCode.Properties.Resources.PropertySupport_ExpressionNotProperty_Exception">
+            <summary>
+              Looks up a localized string similar to The member access expression does not access a property..
+            </summary>
+        </member>
+        <member name="P:SharedCode.Properties.Resources.PropertySupport_NotMemberAccessExpression_Exception">
+            <summary>
+              Looks up a localized string similar to The expression is not a member access expression..
+            </summary>
+        </member>
+        <member name="P:SharedCode.Properties.Resources.PropertySupport_StaticExpression_Exception">
+            <summary>
+              Looks up a localized string similar to The referenced property is a static property..
+            </summary>
+        </member>
         <member name="P:SharedCode.Properties.Resources.TheCollectionIsEmpty">
             <summary>
               Looks up a localized string similar to The collection is empty..
@@ -2228,6 +2243,41 @@
             <summary>
               Looks up a localized string similar to The type of T must be of type System.Enum..
             </summary>
+        </member>
+        <member name="T:SharedCode.PropertySupport">
+            <summary>
+             Provides support for extracting property information based on a property expression.
+            </summary>
+        </member>
+        <member name="M:SharedCode.PropertySupport.ExtractPropertyName``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Extracts the property name from a property expression.
+            </summary>
+            <typeparam name="T">The object type containing the property specified in the expression.</typeparam>
+            <param name="propertyExpression">The property expression (e.g. p =&gt; p.PropertyName)</param>
+            <returns>The name of the property.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if the <paramref name="propertyExpression" /> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the expression is: <br /> Not a <see cref="T:System.Linq.Expressions.MemberExpression" /><br /> The
+            <see cref="T:System.Linq.Expressions.MemberExpression" /> does not represent a property. <br /> Or, the property
+            is static.
+            </exception>
+        </member>
+        <member name="M:SharedCode.PropertySupport.ExtractPropertyNameFromLambda(System.Linq.Expressions.LambdaExpression)">
+            <summary>
+            Extracts the property name from a LambdaExpression.
+            </summary>
+            <param name="expression">The LambdaExpression</param>
+            <returns>The name of the property.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if the <paramref name="expression" /> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the expression is: <br /> The <see cref="T:System.Linq.Expressions.MemberExpression" /> does not
+            represent a property. <br /> Or, the property is static.
+            </exception>
         </member>
         <member name="T:SharedCode.Text.StringExtensions">
             <summary>
@@ -2354,11 +2404,26 @@
         </member>
         <member name="M:SharedCode.Text.StringExtensions.ToEnum``1(System.String)">
             <summary>
-            Converts a string value to the specified enumeration type.
+            Converts the string value to the specified enumeration type.
             </summary>
             <typeparam name="T">The type of enumeration.</typeparam>
             <param name="value">The string value to convert.</param>
             <returns>Returns enumeration value.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.ToTitleCase(System.String)">
+            <summary>
+            Converts the specified string to title case.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The string.</returns>
+        </member>
+        <member name="M:SharedCode.Text.StringExtensions.ToTitleCase(System.String,System.Globalization.CultureInfo)">
+            <summary>
+            Converts the string to title case using the specified culture information.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="cultureInfo">The culture information.</param>
+            <returns>string.</returns>
         </member>
     </members>
 </doc>

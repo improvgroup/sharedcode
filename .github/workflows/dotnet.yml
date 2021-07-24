@@ -33,3 +33,13 @@ jobs:
       with:
         PROJECT_FILE_PATH: SharedCode.Data/SharedCode.Data.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Publish SharedCode.DependencyInjection
+      uses: brandedoutcast/publish-nuget@v2.5.2
+      with:
+        PROJECT_FILE_PATH: SharedCode.DependencyInjection/SharedCode.DependencyInjection.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Publish SharedCode.Windows.WPF
+      uses: brandedoutcast/publish-nuget@v2.5.2
+      with:
+        PROJECT_FILE_PATH: SharedCode.Windows.WPF/SharedCode.Windows.WPF.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}

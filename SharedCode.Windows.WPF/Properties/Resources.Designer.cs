@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SharedCode.Properties {
+namespace SharedCode.Windows.WPF.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SharedCode.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SharedCode.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SharedCode.Windows.WPF.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,51 +57,6 @@ namespace SharedCode.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The member access expression does not access a property..
-        /// </summary>
-        internal static string PropertySupport_ExpressionNotProperty_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_ExpressionNotProperty_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The expression is not a member access expression..
-        /// </summary>
-        internal static string PropertySupport_NotMemberAccessExpression_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_NotMemberAccessExpression_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The referenced property is a static property..
-        /// </summary>
-        internal static string PropertySupport_StaticExpression_Exception {
-            get {
-                return ResourceManager.GetString("PropertySupport_StaticExpression_Exception", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The collection is empty..
-        /// </summary>
-        internal static string TheCollectionIsEmpty {
-            get {
-                return ResourceManager.GetString("TheCollectionIsEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The type of T must be of type System.Enum..
-        /// </summary>
-        internal static string TheTypeOfTMustBeOfTypeSystemEnum {
-            get {
-                return ResourceManager.GetString("TheTypeOfTMustBeOfTypeSystemEnum", resourceCulture);
             }
         }
     }

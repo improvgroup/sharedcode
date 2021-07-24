@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SharedCode.Windows.WPF</name>
+    </assembly>
+    <members>
+        <member name="T:SharedCode.Windows.WPF.BindableBase">
+            <summary>
+            An implementation of <see cref="T:System.ComponentModel.INotifyPropertyChanged" /> and <see
+            cref="T:System.ComponentModel.INotifyPropertyChanging" /> to simplify models.
+            </summary>
+        </member>
+        <member name="E:SharedCode.Windows.WPF.BindableBase.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="E:SharedCode.Windows.WPF.BindableBase.PropertyChanging">
+            <summary>
+            Occurs when a property value is about to change.
+            </summary>
+        </member>
+        <member name="M:SharedCode.Windows.WPF.BindableBase.OnPropertyChanged(System.String)">
+            <summary>
+            Called when a property value has changed.
+            </summary>
+            <param name="propertyName">The name of the property.</param>
+        </member>
+        <member name="M:SharedCode.Windows.WPF.BindableBase.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Handles the <see cref="E:SharedCode.Windows.WPF.BindableBase.PropertyChanged" /> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:System.ComponentModel.PropertyChangedEventArgs" /> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:SharedCode.Windows.WPF.BindableBase.OnPropertyChanging(System.String)">
+            <summary>
+            Called when a property value is about to change.
+            </summary>
+            <param name="propertyName">The name of the property.</param>
+        </member>
+        <member name="M:SharedCode.Windows.WPF.BindableBase.OnPropertyChanging(System.ComponentModel.PropertyChangingEventArgs)">
+            <summary>
+            Handles the <see cref="E:SharedCode.Windows.WPF.BindableBase.PropertyChanging" /> event.
+            </summary>
+            <param name="e">
+            The <see cref="T:System.ComponentModel.PropertyChangingEventArgs" /> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:SharedCode.Windows.WPF.BindableBase.SetProperty``1(``0@,``0,System.String)">
+            <summary>
+            Checks if a property already matches a desired value. Sets the property and notifies
+            listeners only when necessary.
+            </summary>
+            <typeparam name="T">The type of the property.</typeparam>
+            <param name="storage">A reference to a property with both getter and setter.</param>
+            <param name="value">The desired value for the property.</param>
+            <param name="propertyName">
+            The name of the property used to notify listeners. This value is optional and can be
+            provided automatically when invoked from compilers that support CallerMemberName.
+            </param>
+            <returns>
+            True if the value was changed, false if the existing value matched the desired value.
+            </returns>
+        </member>
+        <member name="M:SharedCode.Windows.WPF.BindableBase.SetProperty``1(``0@,``0,System.Action,System.String)">
+            <summary>
+            Checks if a property already matches a desired value. Sets the property and notifies
+            listeners only when necessary.
+            </summary>
+            <typeparam name="T">The type of the property.</typeparam>
+            <param name="storage">A reference to a property with both getter and setter.</param>
+            <param name="value">The desired value for the property.</param>
+            <param name="propertyName">
+            The name of the property used to notify listeners. This value is optional and can be
+            provided automatically when invoked from compilers that support CallerMemberName.
+            </param>
+            <param name="onChanged">
+            The action that is called after the property value has been changed.
+            </param>
+            <returns>
+            True if the value was changed, false if the existing value matched the desired value.
+            </returns>
+        </member>
+        <member name="T:SharedCode.Windows.WPF.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SharedCode.Windows.WPF.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SharedCode.Windows.WPF.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>
