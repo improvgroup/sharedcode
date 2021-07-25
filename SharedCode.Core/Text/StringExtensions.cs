@@ -13,7 +13,7 @@ namespace SharedCode.Text
 	/// </summary>
 	public static class StringExtensions
 	{
-		private static readonly Regex EmailAddressRegex = new(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+		private static readonly Regex EmailAddressRegex = new("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
 		/// <summary>
 		/// Fills the specified format string using the specified argument.

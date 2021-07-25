@@ -6,6 +6,7 @@ namespace SharedCode
 {
 	using System;
 	using System.ComponentModel;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Runtime.InteropServices;
 
 	/// <summary>
@@ -26,12 +27,14 @@ namespace SharedCode
 		/// Gets or sets Months.
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[SuppressMessage("Style", "CC0047:You should change to 'private set' whenever possible.", Justification = "<Pending>")]
 		public int Months { get; set; }
 
 		/// <summary>
 		/// Gets or sets Years.
 		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[SuppressMessage("Style", "CC0047:You should change to 'private set' whenever possible.", Justification = "<Pending>")]
 		public int Years { get; set; }
 
 		/// <summary>
@@ -39,6 +42,7 @@ namespace SharedCode
 		/// </summary>
 		/// <value>TimeSpan.</value>
 		[EditorBrowsable(EditorBrowsableState.Advanced)]
+		[SuppressMessage("Style", "CC0047:You should change to 'private set' whenever possible.", Justification = "<Pending>")]
 		public TimeSpan TimeSpan { get; set; }
 
 		/// <summary>
@@ -329,13 +333,7 @@ namespace SharedCode
 		/// <returns>The result of the conversion.</returns>
 		public static implicit operator FluentTimeSpan(TimeSpan timeSpan) => new() { TimeSpan = timeSpan };
 
-		/// <summary>
-		/// Indicates whether the current object is equal to another object of the same type.
-		/// </summary>
-		/// <param name="other">An object to compare with this object.</param>
-		/// <returns>
-		/// <c>true</c> if the current object is equal to the other parameter; otherwise, <c>false</c>.
-		/// </returns>
+		/// <inheritdoc/>
 		public bool Equals(FluentTimeSpan other) => this == other;
 
 		/// <summary>
@@ -358,19 +356,10 @@ namespace SharedCode
 		/// <returns>A new object that is a copy of this instance.</returns>
 		public object Clone() => new FluentTimeSpan { TimeSpan = this.TimeSpan, Months = this.Months, Years = this.Years };
 
-		/// <summary>
-		/// Returns a <see cref="string" /> that represents this instance.
-		/// </summary>
-		/// <returns>A <see cref="string" /> that represents this instance.</returns>
+		/// <inheritdoc/>
 		public override string ToString() => ((TimeSpan)this).ToString();
 
-		/// <summary>
-		/// Determines whether the specified <see cref="object" /> is equal to this instance.
-		/// </summary>
-		/// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
-		/// <returns>
-		/// <c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.
-		/// </returns>
+		/// <inheritdoc/>
 		public override bool Equals(object? obj)
 		{
 			if (obj is null)
@@ -392,46 +381,10 @@ namespace SharedCode
 			return false;
 		}
 
-		/// <summary>
-		/// Returns a hash code for this instance.
-		/// </summary>
-		/// <returns>
-		/// A hash code for this instance, suitable for use in hashing algorithms and data
-		/// structures like a hash table.
-		/// </returns>
+		/// <inheritdoc/>
 		public override int GetHashCode() => this.Months.GetHashCode() ^ this.Years.GetHashCode() ^ this.TimeSpan.GetHashCode();
 
-		/// <summary>
-		/// Compares the current instance with another object of the same type and returns an
-		/// integer that indicates whether the current instance precedes, follows, or occurs in the
-		/// same position in the sort order as the other object.
-		/// </summary>
-		/// <param name="obj">An object to compare with this instance.</param>
-		/// <returns>
-		/// A value that indicates the relative order of the objects being compared. The return
-		/// value has these meanings:
-		/// <list type="table">
-		/// <listheader>
-		/// <term>Value</term>
-		/// <description>Meaning</description>
-		/// </listheader>
-		/// <item>
-		/// <term>Less than zero</term>
-		/// <description>This instance precedes <paramref name="obj" /> in the sort order.</description>
-		/// </item>
-		/// <item>
-		/// <term>Zero</term>
-		/// <description>
-		/// This instance occurs in the same position in the sort order as <paramref name="obj" />.
-		/// </description>
-		/// </item>
-		/// <item>
-		/// <term>Greater than zero</term>
-		/// <description>This instance follows <paramref name="obj" /> in the sort order.</description>
-		/// </item>
-		/// </list>
-		/// </returns>
-		/// <exception cref="ArgumentException">obj</exception>
+		/// <inheritdoc/>
 		public int CompareTo(object? obj) =>
 			obj switch
 			{
@@ -440,18 +393,10 @@ namespace SharedCode
 				_ => throw new ArgumentException("Object is not a FluentTimeSpan.", nameof(obj))
 			};
 
-		/// <summary>
-		/// Compares to.
-		/// </summary>
-		/// <param name="other">The other.</param>
-		/// <returns>The compare to.</returns>
+		/// <inheritdoc/>
 		public int CompareTo(TimeSpan other) => ((TimeSpan)this).CompareTo(other);
 
-		/// <summary>
-		/// Compares to.
-		/// </summary>
-		/// <param name="other">The value.</param>
-		/// <returns>The compare to.</returns>
+		/// <inheritdoc/>
 		public int CompareTo(FluentTimeSpan other) => ((TimeSpan)this).CompareTo(other);
 
 		/// <summary>

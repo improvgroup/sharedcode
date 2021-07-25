@@ -25,7 +25,7 @@ namespace SharedCode.Collections.Generic
 		/// </exception>
 		public static List<T> ToList<T>() where T : struct
 		{
-			Type enumType = typeof(T);
+			var enumType = typeof(T);
 
 			// Cannot use type constraints on value types, so have to do check like this.
 			if (enumType.BaseType != typeof(Enum))

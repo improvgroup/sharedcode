@@ -98,6 +98,20 @@ dotnet_style_qualification_for_property = true:suggestion
 dotnet_style_readonly_field = true:suggestion
 dotnet_style_require_accessibility_modifiers = always:suggestion
 
+dotnet_diagnostic.CC0022.severity = none
+dotnet_diagnostic.CC0035.severity = none
+dotnet_diagnostic.CC0038.severity = none
+dotnet_diagnostic.CC0042.severity = none
+dotnet_diagnostic.CC0043.severity = none
+dotnet_diagnostic.CC0045.severity = none
+dotnet_diagnostic.CC0057.severity = none
+dotnet_diagnostic.CC0071.severity = none
+dotnet_diagnostic.CC0076.severity = none
+dotnet_diagnostic.CC0079.severity = none
+dotnet_diagnostic.CC0088.severity = none
+dotnet_diagnostic.CC0092.severity = none
+dotnet_diagnostic.PullThroughDoc03.severity = none
+
 [*.css]
 indent_style = space
 

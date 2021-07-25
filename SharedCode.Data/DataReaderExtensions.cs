@@ -8,6 +8,7 @@ namespace SharedCode.Data
 	using System.Collections.Generic;
 	using System.Data;
 	using System.Data.Common;
+	using System.Diagnostics.CodeAnalysis;
 
 	/// <summary>
 	/// The data reader extensions class.
@@ -47,6 +48,10 @@ namespace SharedCode.Data
 		/// <param name="dbDataReader">The database data reader.</param>
 		/// <returns>The asynchronous enumerable sequence.</returns>
 		/// <exception cref="ArgumentNullException">dbDataReader</exception>
+		[SuppressMessage(
+			"Style",
+			"CC0072:Remove Async termination when method is not asynchronous.",
+			Justification = "We cannot do this as it would conflict with the synchronous method name above.")]
 		public static IAsyncEnumerable<T> EnumerateAsync<T>(this DbDataReader dbDataReader) where T : new()
 		{
 			if (dbDataReader is null)
@@ -67,7 +72,8 @@ namespace SharedCode.Data
 		}
 
 		/// <summary>
-		/// Maps the specified database data record to the specified object type <typeparamref name="T"/>.
+		/// Maps the specified database data record to the specified object type <typeparamref
+		/// name="T" />.
 		/// </summary>
 		/// <typeparam name="T">The type of the object being mapped.</typeparam>
 		/// <param name="dbDataRecord">The database data record.</param>

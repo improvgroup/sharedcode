@@ -26,16 +26,7 @@ namespace SharedCode.Data
 		/// <param name="record">The record.</param>
 		public DynamicDataRecord(IDataRecord record) => this.record = record;
 
-		/// <summary>
-		/// Tries the get member value.
-		/// </summary>
-		/// <param name="binder">The member binder.</param>
-		/// <param name="result">The result value.</param>
-		/// <returns><c>true</c> if we successfully got the value, <c>false</c> otherwise.</returns>
-		/// <exception cref="ArgumentNullException">The binder cannot be null.</exception>
-		/// <exception cref="ColumnIsNotInResultSetException">
-		/// The column is not in the result set.
-		/// </exception>
+		/// <inheritdoc/>
 		public override bool TryGetMember(GetMemberBinder binder, out object? result)
 		{
 			if (binder is null)

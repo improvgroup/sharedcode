@@ -56,6 +56,7 @@ namespace SharedCode
 				{
 					weekdaysAdded++;
 				}
+
 			}
 
 			return date;
@@ -184,7 +185,7 @@ namespace SharedCode
 		/// <returns>The number of days between the specified dates.</returns>
 		public static int DaysBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay)
 		{
-			int days = first.DaysBetween(second);
+			var days = first.DaysBetween(second);
 			return includeLastDay ? days + 1 : days;
 		}
 
@@ -314,7 +315,7 @@ namespace SharedCode
 				return first.MonthsBetween(second);
 			}
 
-			int days = (second >= first) ? second.AddDays(1).DateValue() - first.DateValue() : first.AddDays(1).DateValue() - second.DateValue();
+			var days = (second >= first) ? second.AddDays(1).DateValue() - first.DateValue() : first.AddDays(1).DateValue() - second.DateValue();
 
 			return days / 31;
 		}
@@ -837,7 +838,7 @@ namespace SharedCode
 		/// <returns>The number of weeks between the specified dates.</returns>
 		public static int WeeksBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay, out int excessDays)
 		{
-			int days = first.DaysBetween(second, includeLastDay);
+			var days = first.DaysBetween(second, includeLastDay);
 			excessDays = days % 7;
 			return days / 7;
 		}
@@ -873,7 +874,7 @@ namespace SharedCode
 		/// <returns>The number of years between the specified dates.</returns>
 		public static int YearsBetween(this DateTimeOffset first, DateTimeOffset second, bool includeLastDay, out int excessMonths)
 		{
-			int months = first.MonthsBetween(second, includeLastDay);
+			var months = first.MonthsBetween(second, includeLastDay);
 			excessMonths = months % 12;
 			return months / 12;
 		}

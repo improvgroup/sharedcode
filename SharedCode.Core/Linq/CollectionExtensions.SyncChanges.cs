@@ -1,4 +1,4 @@
-﻿// <copyright file="CollectionExtensions.cs" company="improvGroup, LLC">
+// <copyright file="CollectionExtensions.cs" company="improvGroup, LLC">
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -14,10 +14,6 @@ namespace SharedCode.Linq
 		/// Describes changes made while syncing a collection.
 		/// </summary>
 		/// <typeparam name="T">The type of item synced.</typeparam>
-		[SuppressMessage(
-			"Design",
-			"CA1034:Nested types should not be visible",
-			Justification = "Reviewed.")]
 		public sealed class SyncChanges<T>
 		{
 			/// <summary>

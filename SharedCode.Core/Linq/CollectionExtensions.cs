@@ -96,7 +96,7 @@ namespace SharedCode.Linq
 				throw new ArgumentNullException(nameof(predicate));
 			}
 
-			foreach (var item in collection.Where(item => predicate(item)))
+			foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default(bool)))
 			{
 				return item;
 			}
@@ -129,7 +129,7 @@ namespace SharedCode.Linq
 			}
 
 			var all = new Collection<T>();
-			foreach (var item in collection.Where(item => predicate(item)))
+			foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default(bool)))
 			{
 				all.Add(item);
 			}
@@ -239,13 +239,15 @@ namespace SharedCode.Linq
 					throw new ArgumentOutOfRangeException(nameof(collection));
 				}
 
-				if (predicate(collection.ElementAt(i)))
+				if (predicate?.Invoke(collection.ElementAt(i)) ?? default(bool))
 				{
 					return i;
 				}
 			}
 
+#pragma warning disable CS8777 // Parameter must have a non-null value when exiting.
 			return -1;
+#pragma warning restore CS8777 // Parameter must have a non-null value when exiting.
 		}
 
 		/// <summary>
@@ -270,7 +272,7 @@ namespace SharedCode.Linq
 
 			for (var i = collection.Count - 1; i >= 0; i--)
 			{
-				if (predicate(collection.ElementAt(i)))
+				if (predicate?.Invoke(collection.ElementAt(i)) ?? default(bool))
 				{
 					return collection.ElementAt(i);
 				}
@@ -278,7 +280,9 @@ namespace SharedCode.Linq
 
 #pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
 #pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8777 // Parameter must have a non-null value when exiting.
 			return default;
+#pragma warning restore CS8777 // Parameter must have a non-null value when exiting.
 #pragma warning restore CS8603 // Possible null reference return.
 #pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
 		}
@@ -387,13 +391,15 @@ namespace SharedCode.Linq
 					throw new ArgumentOutOfRangeException(nameof(collection));
 				}
 
-				if (predicate(collection.ElementAt(i)))
+				if (predicate?.Invoke(collection.ElementAt(i)) ?? default(bool))
 				{
 					return i;
 				}
 			}
 
+#pragma warning disable CS8777 // Parameter must have a non-null value when exiting.
 			return -1;
+#pragma warning restore CS8777 // Parameter must have a non-null value when exiting.
 		}
 
 		/// <summary>
@@ -417,7 +423,7 @@ namespace SharedCode.Linq
 
 			foreach (var item in collection)
 			{
-				action(item);
+				action?.Invoke(item);
 			}
 		}
 
@@ -439,7 +445,7 @@ namespace SharedCode.Linq
 		/// <param name="match">The match.</param>
 		/// <returns>The remove all.</returns>
 		/// <exception cref="ArgumentNullException">collection or match</exception>
-		public static int RemoveAll<T>([NotNull] this ICollection<T> collection, [NotNull] Predicate<T> match)
+		public static int RemoveAll<T>(this ICollection<T> collection, Predicate<T> match)
 		{
 			if (collection is null)
 			{
@@ -454,7 +460,7 @@ namespace SharedCode.Linq
 			var count = 0;
 			for (var i = 0; i < collection.Count; i++)
 			{
-				if (!match(collection.ElementAt(i)))
+				if (!match?.Invoke(collection.ElementAt(i)) ?? default(bool))
 				{
 					continue;
 				}
@@ -571,13 +577,26 @@ namespace SharedCode.Linq
 
 			keep.IntersectWith(sourceArray.Select(getKey));
 
-			foreach (var item in collection.Where(x => !keep.Contains(getKey(x))).ToArray())
+			foreach (var item in collection
+				.Where(
+					x =>
+					{
+						var handler = getKey;
+						return handler is null ? false : !keep.Contains(handler(x));
+					})
+				.ToArray())
 			{
 				collection.Remove(item);
 				returnValue.Removed.Add(item);
 			}
 
-			foreach (var item in sourceArray.Where(x => !keep.Contains(getKey(x))))
+			foreach (var item in sourceArray
+				.Where(
+					x =>
+					{
+						var handler = getKey;
+						return handler is null ? false : !keep.Contains(handler(x));
+					}))
 			{
 				collection.Add(item);
 				returnValue.Added.Add(item);
@@ -635,7 +654,14 @@ namespace SharedCode.Linq
 
 			keep.IntersectWith(newKeysArray);
 
-			foreach (var item in collection.Where(x => !keep.Contains(getKey(x))).ToArray())
+			foreach (var item in collection
+				.Where(
+					x =>
+					{
+						var handler = getKey;
+						return handler is null ? false : !keep.Contains(handler(x));
+					})
+				.ToArray())
 			{
 				collection.Remove(item);
 				returnValue.Removed.Add(item);
@@ -670,7 +696,7 @@ namespace SharedCode.Linq
 				throw new ArgumentNullException(nameof(match));
 			}
 
-			return collection.All(item => match(item));
+			return collection.All(item => match?.Invoke(item) ?? default(bool));
 		}
 	}
 }

@@ -51,7 +51,7 @@ namespace SharedCode.Data
         {
             var expressions = new List<Expression>();
 
-            var parameterExpression = Expression.Parameter(typeof(IDataRecord), "dataRecord");
+            var parameterExpression = Expression.Parameter(typeof(IDataRecord), nameof(dataRecord));
 
             var targetExpression = Expression.Variable(typeof(T));
             expressions.Add(Expression.Assign(targetExpression, Expression.New(targetExpression.Type)));

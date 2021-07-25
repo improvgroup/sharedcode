@@ -6,7 +6,6 @@ namespace SharedCode.IO
 {
 	using System;
 	using System.Diagnostics.CodeAnalysis;
-	using System.Diagnostics.Contracts;
 	using System.IO;
 	using System.Text;
 	using System.Threading;
@@ -43,7 +42,6 @@ namespace SharedCode.IO
 		/// <param name="writer">The writer.</param>
 		public BufferedWriter([NotNull] TextWriter writer)
 		{
-			Contract.Requires<ArgumentNullException>(writer != null);
 			this.writer = writer ?? throw new ArgumentNullException(nameof(writer));
 		}
 
@@ -62,10 +60,7 @@ namespace SharedCode.IO
 		[NotNull]
 		public StringBuilder StringBuilder { get; } = new StringBuilder(BufferLength * 3 / 2);
 
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting
-		/// unmanaged resources.
-		/// </summary>
+		/// <inheritdoc />
 		public void Dispose()
 		{
 			this.Dispose(true);
@@ -92,10 +87,8 @@ namespace SharedCode.IO
 
 			if (this.StringBuilder.Length > 0)
 			{
-				var builtString = this.StringBuilder.ToString();
-
+				await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 				this.StringBuilder.Clear();
-				await this.writer.WriteAsync(builtString).ConfigureAwait(true);
 			}
 
 			token.ThrowIfCancellationRequested();
@@ -119,19 +112,15 @@ namespace SharedCode.IO
 		/// </summary>
 		/// <param name="token">The token.</param>
 		/// <returns>A Task.</returns>
-		public Task StrongFlushAsync(CancellationToken token)
+		public async Task StrongFlushAsync(CancellationToken token)
 		{
 			token.ThrowIfCancellationRequested();
 
 			if (this.StringBuilder.Length > 0)
 			{
-				var builtString = this.StringBuilder.ToString();
-
+				await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
 				this.StringBuilder.Clear();
-				return this.writer.WriteAsync(builtString);
 			}
-
-			return FinishedTask;
 		}
 
 		/// <summary>
@@ -149,18 +138,15 @@ namespace SharedCode.IO
 		/// <summary>
 		/// Performs a weak flush of the buffer as an asynchronous operation.
 		/// </summary>
+		/// <param name="token">The cancellation token.</param>
 		/// <returns>A Task.</returns>
-		public Task WeakFlushAsync()
+		public async Task WeakFlushAsync(CancellationToken token = default)
 		{
 			if (this.StringBuilder.Length > BufferLength)
 			{
-				var builtString = this.StringBuilder.ToString();
-
+				await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
 				this.StringBuilder.Clear();
-				return this.writer.WriteAsync(builtString);
 			}
-
-			return FinishedTask;
 		}
 
 		/// <summary>
@@ -172,18 +158,20 @@ namespace SharedCode.IO
 		/// </param>
 		protected virtual void Dispose(bool disposing)
 		{
-			if (!this.disposedValue)
+			if (this.disposedValue)
 			{
-				if (disposing)
-				{
-					// dispose managed state (managed objects).
-					this.writer?.Dispose();
-				}
-
-				// free unmanaged resources (unmanaged objects) and override a finalizer below. set
-				// large fields to null.
-				this.disposedValue = true;
+				return;
 			}
+
+			if (disposing)
+			{
+				// dispose managed state (managed objects).
+				this.writer?.Dispose();
+			}
+
+			// free unmanaged resources (unmanaged objects) and override a finalizer below. set
+			// large fields to null.
+			this.disposedValue = true;
 		}
 	}
 }

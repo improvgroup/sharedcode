@@ -27,12 +27,9 @@ namespace SharedCode.Collections.Generic
 		/// <exception cref="ArgumentOutOfRangeException">chunkSize</exception>
 		public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> input, int chunkSize)
 		{
-			if (chunkSize <= 0)
-			{
-				throw new ArgumentOutOfRangeException(nameof(chunkSize));
-			}
-
-			return ChunkImpl();
+			return chunkSize <= 0
+				? throw new ArgumentOutOfRangeException(nameof(chunkSize))
+				: ChunkImpl();
 
 			IEnumerable<IEnumerable<T>> ChunkImpl()
 			{
