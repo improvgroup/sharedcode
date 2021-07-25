@@ -30,11 +30,11 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DocumentationFile>SharedCode.Core.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\SharedCode.Data.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>SharedCode.Core.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\SharedCode.Data.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

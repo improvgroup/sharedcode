@@ -31,11 +31,11 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DocumentationFile>SharedCode.Windows.WPF.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\SharedCode.Windows.WPF.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>SharedCode.Windows.WPF.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\SharedCode.Windows.WPF.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

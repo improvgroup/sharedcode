@@ -30,11 +30,11 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DocumentationFile>SharedCode.DependencyInjection.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\SharedCode.DependencyInjection.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>SharedCode.DependencyInjection.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\SharedCode.DependencyInjection.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
