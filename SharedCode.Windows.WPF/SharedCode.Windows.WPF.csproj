@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 		<ApplicationIcon>share.ico</ApplicationIcon>
 		<Authors>William Forney</Authors>
 		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
@@ -12,6 +14,9 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeSymbols>true</IncludeSymbols>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<LangVersion>latest</LangVersion>
+		<NoWarn>$(NoWarn);CA1014</NoWarn>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Nullable>enable</Nullable>
 		<PackageIcon>share.png</PackageIcon>
@@ -23,10 +28,14 @@
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/improvgroup/sharedcode.git</RepositoryUrl>
 		<RootNamespace>SharedCode.Windows.WPF</RootNamespace>
+		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<TargetFramework>net5.0-windows</TargetFramework>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<UseWPF>true</UseWPF>
-		<Version>1.0.0.1</Version>
+		<Version>1.0.0.2</Version>
+		<WarningsAsErrors>nullable</WarningsAsErrors>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -51,13 +60,29 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Roslynator.Analyzers" Version="3.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.1.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.2.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SharedCode.Core\SharedCode.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
