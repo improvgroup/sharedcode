@@ -7,6 +7,7 @@ namespace SharedCode.Windows.WPF
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
+	using System.Diagnostics;
 	using System.Runtime.CompilerServices;
 
 	/// <summary>
@@ -38,7 +39,13 @@ namespace SharedCode.Windows.WPF
 		/// <param name="e">
 		/// The <see cref="PropertyChangedEventArgs" /> instance containing the event data.
 		/// </param>
-		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
+		/// <exception cref="ArgumentNullException">e</exception>
+		protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+		{
+			_ = e ?? throw new ArgumentNullException(nameof(e));
+			this.VerifyPropertyName(e.PropertyName);
+			this.PropertyChanged?.Invoke(this, e);
+		}
 
 		/// <summary>
 		/// Called when a property value is about to change.
@@ -53,7 +60,13 @@ namespace SharedCode.Windows.WPF
 		/// <param name="e">
 		/// The <see cref="PropertyChangingEventArgs" /> instance containing the event data.
 		/// </param>
-		protected virtual void OnPropertyChanging(PropertyChangingEventArgs e) => this.PropertyChanging?.Invoke(this, e);
+		/// <exception cref="ArgumentNullException">e</exception>
+		protected virtual void OnPropertyChanging(PropertyChangingEventArgs e)
+		{
+			_ = e ?? throw new ArgumentNullException(nameof(e));
+			this.VerifyPropertyName(e.PropertyName);
+			this.PropertyChanging?.Invoke(this, e);
+		}
 
 		/// <summary>
 		/// Checks if a property already matches a desired value. Sets the property and notifies
@@ -118,6 +131,20 @@ namespace SharedCode.Windows.WPF
 			this.OnPropertyChanged(propertyName);
 
 			return true;
+		}
+
+		[Conditional("DEBUG")]
+		private void VerifyPropertyName(string? propertyName)
+		{
+			if (propertyName is null)
+			{
+				throw new ArgumentNullException(nameof(propertyName));
+			}
+
+			if (TypeDescriptor.GetProperties(this)[propertyName] is null)
+			{
+				throw new ArgumentNullException($"{this.GetType().Name} does not contain property: {propertyName}");
+			}
 		}
 	}
 }

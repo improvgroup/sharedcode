@@ -3,20 +3,20 @@ namespace SharedCode
 	using System;
 
 	/// <summary>
-	/// An event arguments class with a parameter of T.
+	/// An event arguments class with a value of T.
 	/// </summary>
-	/// <typeparam name="T">The type of the parameter.</typeparam>
+	/// <typeparam name="T">The type of the value.</typeparam>
 	public class EventArgs<T> : EventArgs
 	{
 		/// <summary>
 		/// Initializes a new instance of <see cref="EventArgs{T}"/>.
 		/// </summary>
-		/// <param name="item">The parameter.</param>
-		public EventArgs(T? item = default) => this.Item = item;
+		/// <param name="value">The value.</param>
+		public EventArgs(T? value = default) => this.Value = value;
 
 		/// <summary>
-		/// The parameter.
+		/// The value.
 		/// </summary>
-		public T? Item { get; set; }
+		public T? Value { get; init; }
 	}
 }

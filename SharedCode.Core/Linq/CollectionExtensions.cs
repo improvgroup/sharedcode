@@ -212,10 +212,10 @@ namespace SharedCode.Linq
 		/// The startIndex is out of range of the collection.
 		/// </exception>
 		public static int FindIndex<T>(
-		[NotNull] this ICollection<T> collection,
+			this ICollection<T> collection,
 			int startIndex,
 			int count,
-			[NotNull] Predicate<T> predicate)
+			Predicate<T> predicate)
 		{
 			if (collection is null)
 			{
@@ -245,9 +245,7 @@ namespace SharedCode.Linq
 				}
 			}
 
-#pragma warning disable CS8777 // Parameter must have a non-null value when exiting.
 			return -1;
-#pragma warning restore CS8777 // Parameter must have a non-null value when exiting.
 		}
 
 		/// <summary>
@@ -258,7 +256,7 @@ namespace SharedCode.Linq
 		/// <param name="predicate">The predicate.</param>
 		/// <returns>The element or a default instance of the type searched for.</returns>
 		/// <exception cref="ArgumentNullException">collection or predicate</exception>
-		public static T FindLast<T>([NotNull] this ICollection<T> collection, [NotNull] Predicate<T> predicate)
+		public static T FindLast<T>(this ICollection<T> collection, Predicate<T> predicate)
 		{
 			if (collection is null)
 			{
@@ -280,9 +278,7 @@ namespace SharedCode.Linq
 
 #pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
 #pragma warning disable CS8603 // Possible null reference return.
-#pragma warning disable CS8777 // Parameter must have a non-null value when exiting.
 			return default;
-#pragma warning restore CS8777 // Parameter must have a non-null value when exiting.
 #pragma warning restore CS8603 // Possible null reference return.
 #pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
 		}
@@ -364,10 +360,10 @@ namespace SharedCode.Linq
 		/// The startIndex is out of range of the collection.
 		/// </exception>
 		public static int FindLastIndex<T>(
-			[NotNull] this ICollection<T> collection,
+			this ICollection<T> collection,
 			int startIndex,
 			int count,
-			[NotNull] Predicate<T> predicate)
+			Predicate<T> predicate)
 		{
 			if (collection is null)
 			{
@@ -397,9 +393,7 @@ namespace SharedCode.Linq
 				}
 			}
 
-#pragma warning disable CS8777 // Parameter must have a non-null value when exiting.
 			return -1;
-#pragma warning restore CS8777 // Parameter must have a non-null value when exiting.
 		}
 
 		/// <summary>

@@ -9,7 +9,7 @@ namespace SharedCode.Windows.WPF.ViewModels
 	using System.Threading.Tasks;
 	using System.Windows.Input;
 
-	public abstract class PageBase : ViewModelBase, IPersistable
+	public abstract class PageViewModelBase : ViewModelBase, IPersistable, IPageViewModel
 	{
 		private ICommand? closePageCommand;
 		private ICommand? closeAllPagesCommand;
@@ -24,7 +24,7 @@ namespace SharedCode.Windows.WPF.ViewModels
 		private string? tabIcon;
 		private string? tabTitle;
 
-		protected PageBase(string? title = null, ICommand? selectPageCommand = null)
+		protected PageViewModelBase(string? title = null, ICommand? selectPageCommand = null)
 		{
 			this.TabTitle = title ?? string.Empty;
 			this.SelectPageCommand = selectPageCommand ??= new AsyncCommand(this.SelectPage, this.CanSelectPage);
@@ -33,7 +33,7 @@ namespace SharedCode.Windows.WPF.ViewModels
 		public event EventHandler? AllButThisClosed;
 		public event EventHandler? AllClosed;
 		public event EventHandler? Closed;
-		public event EventHandler<EventArgs<PageBase>>? OrderSwapped;
+		public event EventHandler<EventArgs<PageViewModelBase>>? OrderSwapped;
 		public event EventHandler? Selected;
 		public event EventHandler? Saved;
 		public event EventHandler? Saving;
@@ -72,7 +72,7 @@ namespace SharedCode.Windows.WPF.ViewModels
 		private async Task EditTitle() => this.IsEditingTitle = true;
 		private async Task FinishTabText() => this.IsEditingTitle = false;
 
-		public static PageBase? DraggingPage { get; set; }
+		public static PageViewModelBase? DraggingPage { get; set; }
 
 		public bool IsSelected
 		{
@@ -165,8 +165,8 @@ namespace SharedCode.Windows.WPF.ViewModels
 
 		protected virtual void OnSelected(object sender, EventArgs e) => Selected?.Invoke(sender, e);
 
-		protected void OnOrderSwapped(PageBase pageBase) => this.OnOrderSwapped(this, new EventArgs<PageBase>(pageBase));
+		protected void OnOrderSwapped(PageViewModelBase pageBase) => this.OnOrderSwapped(this, new EventArgs<PageViewModelBase>(pageBase));
 
-		protected virtual void OnOrderSwapped(object sender, EventArgs<PageBase> e) => this.OrderSwapped?.Invoke(sender, e);
+		protected virtual void OnOrderSwapped(object sender, EventArgs<PageViewModelBase> e) => this.OrderSwapped?.Invoke(sender, e);
 	}
 }
