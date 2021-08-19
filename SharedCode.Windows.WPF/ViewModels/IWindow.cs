@@ -3,13 +3,8 @@ namespace SharedCode.Windows.WPF.ViewModels
 	/// <summary>
 	/// The window interface.
 	/// </summary>
-	public interface IWindow
+	public interface IWindow : ICloseable
 	{
-		/// <summary>
-		/// Closes the window.
-		/// </summary>
-		void Close();
-
 		/// <summary>
 		/// Closes the application.
 		/// </summary>
