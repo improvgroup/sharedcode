@@ -13,31 +13,45 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
     - name: Publish SharedCode.Core
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
         PROJECT_FILE_PATH: SharedCode.Core/SharedCode.Core.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
     - name: Publish SharedCode.Data
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
         PROJECT_FILE_PATH: SharedCode.Data/SharedCode.Data.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+    - name: Publish SharedCode.Data.EntityFramework
+      uses: brandedoutcast/publish-nuget@v2.5.2
+      with:
+        PROJECT_FILE_PATH: SharedCode.Data.EntityFramework/SharedCode.Data.EntityFramework.csproj
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
     - name: Publish SharedCode.DependencyInjection
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
         PROJECT_FILE_PATH: SharedCode.DependencyInjection/SharedCode.DependencyInjection.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
     - name: Publish SharedCode.Windows.WPF
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
