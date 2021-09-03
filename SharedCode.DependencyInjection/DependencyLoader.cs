@@ -1,5 +1,5 @@
 // <copyright file="DependencyLoader.cs" company="improvGroup, LLC">
-//     Copyright � 2021 improvGroup, LLC. All Rights Reserved.
+//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
 namespace SharedCode.DependencyInjection
@@ -30,7 +30,7 @@ namespace SharedCode.DependencyInjection
 		{
 			var directoryCatalog = new DirectoryCatalog(path, pattern);
 			var importDefinition = (ImportDefinition)(new(
-				def => true,
+				_ => true,
 				typeof(IDependencyResolver).FullName,
 				ImportCardinality.ZeroOrMore,
 				false,

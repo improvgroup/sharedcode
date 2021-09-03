@@ -70,7 +70,7 @@ namespace SharedCode.Linq
 
 			if (items is not null)
 			{
-				collection.AddRange(items);
+				_ = collection.AddRange(items);
 			}
 
 			return collection;
@@ -96,7 +96,7 @@ namespace SharedCode.Linq
 				throw new ArgumentNullException(nameof(predicate));
 			}
 
-			foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default(bool)))
+			foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default))
 			{
 				return item;
 			}
@@ -129,7 +129,7 @@ namespace SharedCode.Linq
 			}
 
 			var all = new Collection<T>();
-			foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default(bool)))
+			foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default))
 			{
 				all.Add(item);
 			}
@@ -239,7 +239,7 @@ namespace SharedCode.Linq
 					throw new ArgumentOutOfRangeException(nameof(collection));
 				}
 
-				if (predicate?.Invoke(collection.ElementAt(i)) ?? default(bool))
+				if (predicate?.Invoke(collection.ElementAt(i)) ?? default)
 				{
 					return i;
 				}
@@ -270,7 +270,7 @@ namespace SharedCode.Linq
 
 			for (var i = collection.Count - 1; i >= 0; i--)
 			{
-				if (predicate?.Invoke(collection.ElementAt(i)) ?? default(bool))
+				if (predicate?.Invoke(collection.ElementAt(i)) ?? default)
 				{
 					return collection.ElementAt(i);
 				}
@@ -387,7 +387,7 @@ namespace SharedCode.Linq
 					throw new ArgumentOutOfRangeException(nameof(collection));
 				}
 
-				if (predicate?.Invoke(collection.ElementAt(i)) ?? default(bool))
+				if (predicate?.Invoke(collection.ElementAt(i)) ?? default)
 				{
 					return i;
 				}
@@ -454,7 +454,7 @@ namespace SharedCode.Linq
 			var count = 0;
 			for (var i = 0; i < collection.Count; i++)
 			{
-				if (!match?.Invoke(collection.ElementAt(i)) ?? default(bool))
+				if (!match?.Invoke(collection.ElementAt(i)) ?? default)
 				{
 					continue;
 				}
@@ -576,7 +576,7 @@ namespace SharedCode.Linq
 					x =>
 					{
 						var handler = getKey;
-						return handler is null ? false : !keep.Contains(handler(x));
+						return handler is not null && !keep.Contains(handler(x));
 					})
 				.ToArray())
 			{
@@ -589,7 +589,7 @@ namespace SharedCode.Linq
 					x =>
 					{
 						var handler = getKey;
-						return handler is null ? false : !keep.Contains(handler(x));
+						return handler is not null && !keep.Contains(handler(x));
 					}))
 			{
 				collection.Add(item);
@@ -653,11 +653,11 @@ namespace SharedCode.Linq
 					x =>
 					{
 						var handler = getKey;
-						return handler is null ? false : !keep.Contains(handler(x));
+						return handler is not null && !keep.Contains(handler(x));
 					})
 				.ToArray())
 			{
-				collection.Remove(item);
+				_ = collection.Remove(item);
 				returnValue.Removed.Add(item);
 			}
 
@@ -690,7 +690,7 @@ namespace SharedCode.Linq
 				throw new ArgumentNullException(nameof(match));
 			}
 
-			return collection.All(item => match?.Invoke(item) ?? default(bool));
+			return collection.All(item => match?.Invoke(item) ?? default);
 		}
 	}
 }

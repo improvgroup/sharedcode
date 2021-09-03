@@ -1,6 +1,7 @@
 namespace SharedCode.Windows.WPF.AttachedProperties
 {
 	using System;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Windows;
 
 	/// <summary>
@@ -21,9 +22,11 @@ namespace SharedCode.Windows.WPF.AttachedProperties
 		/// </summary>
 		public event Action<DependencyObject, object> ValueUpdated = (sender, value) => { };
 
+
 		/// <summary>
 		/// A singleton instance of our parent class
 		/// </summary>
+		[SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This will return instance per type. This is okay in this scenario.")]
 		public static TParent Instance { get; private set; } = new TParent();
 
 		/// <summary>
@@ -82,7 +85,12 @@ namespace SharedCode.Windows.WPF.AttachedProperties
 		/// </summary>
 		/// <param name="d">The element to get the property from</param>
 		/// <param name="value">The value to set the property to</param>
-		public static void SetValue(DependencyObject d, TProperty value) => d.SetValue(ValueProperty, value);
+		/// <exception cref="ArgumentNullException">d</exception>
+		public static void SetValue(DependencyObject d, TProperty value)
+		{
+			_ = d ?? throw new ArgumentNullException(nameof(d));
+			d.SetValue(ValueProperty, value);
+		}
 
 		/// <summary>
 		/// The method that is called when any attached property of this type is changed
@@ -95,7 +103,7 @@ namespace SharedCode.Windows.WPF.AttachedProperties
 		/// The method that is called when any attached property of this type is changed, even if the value is the same
 		/// </summary>
 		/// <param name="sender">The UI element that this property was changed for</param>
-		/// <param name="e">The arguments for this event</param>
+		/// <param name="value">The value</param>
 		public virtual void OnValueUpdated(DependencyObject sender, object value) { }
 	}
 }
