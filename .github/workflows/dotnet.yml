@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     tags:
-    - "v[0-9]+.[0-9]+.[0-9]+"
+    - "**"
   pull_request:
     branches: [ main ]
 
@@ -24,44 +24,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Set VERSION variable from tag
-      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
-
     - name: Build
-      run: dotnet build --no-restore --configuration Release /p:Version=${VERSION}
+      run: dotnet build --no-restore --configuration Release
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
+      run: dotnet test --no-build --verbosity normal --configuration Release
 
     - name: Push
-      run: dotnet nuget push SharedCode.Core/SharedCode.Core.*nupkg --skip-duplicate --api-key ${secrets.NUGET_API_KEY}
-
-    - name: Publish SharedCode.Core
-      uses: brandedoutcast/publish-nuget@v2.5.2
-      with:
-        PROJECT_FILE_PATH: SharedCode.Core/Core.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-    - name: Publish SharedCode.Data
-      uses: brandedoutcast/publish-nuget@v2.5.2
-      with:
-        PROJECT_FILE_PATH: SharedCode.Data/Data.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-    - name: Publish SharedCode.Data.EntityFramework
-      uses: brandedoutcast/publish-nuget@v2.5.2
-      with:
-        PROJECT_FILE_PATH: SharedCode.Data.EntityFramework/Data.EntityFramework.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-    - name: Publish SharedCode.DependencyInjection
-      uses: brandedoutcast/publish-nuget@v2.5.2
-      with:
-        PROJECT_FILE_PATH: SharedCode.DependencyInjection/DependencyInjection.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-    - name: Publish SharedCode.Windows.WPF
-      uses: brandedoutcast/publish-nuget@v2.5.2
-      with:
-        PROJECT_FILE_PATH: SharedCode.Windows.WPF/Windows.WPF.csproj
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      run: dotnet nuget push **/*nupkg --source nuget.org --skip-duplicate --api-key ${secrets.NUGET_API_KEY}
