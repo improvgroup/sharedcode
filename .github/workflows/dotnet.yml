@@ -34,9 +34,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
 
     - name: Push
-      run: dotnet nuget push SharedCode.Core/SharedCode.Core.${VERSION}.nupkg --source https://nuget.pkg.github.com/improvgroup/index.json --api-key ${NUGET_API_KEY}
-      env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push SharedCode.Core/SharedCode.Core.*nupkg --skip-duplicate --api-key ${secrets.NUGET_API_KEY}
 
     - name: Publish SharedCode.Core
       uses: brandedoutcast/publish-nuget@v2.5.2
