@@ -22,11 +22,19 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
+    - name: Set VERSION variable from tag
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore --configuration Release /p:Version=${VERSION}
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --configuration Release /p:Version=${VERSION}
+
+    - name: Push
+      run: dotnet nuget push SharedCode.Core/SharedCode.Core.${VERSION}.nupkg --source https://nuget.pkg.github.com/improvgroup/index.json --api-key ${NUGET_API_KEY}
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
     - name: Publish SharedCode.Core
       uses: brandedoutcast/publish-nuget@v2.5.2
