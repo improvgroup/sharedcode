@@ -30,5 +30,13 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
 
-    - name: Push
-      run: dotnet nuget push **/*nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
+    - name: Push Core
+      run: dotnet nuget push SharedCode.Core/*.?nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
+    - name: Push Data
+      run: dotnet nuget push SharedCode.Data/*.?nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
+    - name: Push Data.EntityFramework
+      run: dotnet nuget push SharedCode.Data.EntityFramework/*.?nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
+    - name: Push DependencyInjection
+      run: dotnet nuget push SharedCode.DependencyInjection/*.?nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
+    - name: Push Windows.WPF
+      run: dotnet nuget push SharedCode.Windows.WPF/*.?nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
