@@ -1,4 +1,5 @@
 # Shared Code
+[![.NET](https://github.com/improvgroup/sharedcode/actions/workflows/dotnet.yml/badge.svg)](https://github.com/improvgroup/sharedcode/actions/workflows/dotnet.yml)
 
 A library of code shared for free use to help with common scenarios.
 
