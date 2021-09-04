@@ -31,29 +31,29 @@ jobs:
     - name: Publish SharedCode.Core
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-        PROJECT_FILE_PATH: SharedCode.Core/SharedCode.Core.csproj
+        PROJECT_FILE_PATH: SharedCode.Core/Core.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
     - name: Publish SharedCode.Data
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-        PROJECT_FILE_PATH: SharedCode.Data/SharedCode.Data.csproj
+        PROJECT_FILE_PATH: SharedCode.Data/Data.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
     - name: Publish SharedCode.Data.EntityFramework
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-        PROJECT_FILE_PATH: SharedCode.Data.EntityFramework/SharedCode.Data.EntityFramework.csproj
+        PROJECT_FILE_PATH: SharedCode.Data.EntityFramework/Data.EntityFramework.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
     - name: Publish SharedCode.DependencyInjection
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-        PROJECT_FILE_PATH: SharedCode.DependencyInjection/SharedCode.DependencyInjection.csproj
+        PROJECT_FILE_PATH: SharedCode.DependencyInjection/DependencyInjection.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
     - name: Publish SharedCode.Windows.WPF
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-        PROJECT_FILE_PATH: SharedCode.Windows.WPF/SharedCode.Windows.WPF.csproj
+        PROJECT_FILE_PATH: SharedCode.Windows.WPF/Windows.WPF.csproj
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
