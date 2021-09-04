@@ -37,7 +37,7 @@
 		<!--<SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
 		<TargetFramework>net5.0</TargetFramework>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<Version>5.0.2.5</Version>
+		<Version>5.0.2.7</Version>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
 	</PropertyGroup>
 
