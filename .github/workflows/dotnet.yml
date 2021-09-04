@@ -29,14 +29,8 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
-
-    - name: Push Core
-      run: dotnet nuget push SharedCode.Core/bin/Release/SharedCode.Core.*.nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
-    - name: Push Data
-      run: dotnet nuget push SharedCode.Data/bin/Release/SharedCode.Data.*.nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
-    - name: Push Data.EntityFramework
-      run: dotnet nuget push SharedCode.Data.EntityFramework/bin/Release/SharedCode.Data.EntityFramework.*.nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
-    - name: Push DependencyInjection
-      run: dotnet nuget push SharedCode.DependencyInjection/bin/Release/SharedCode.DependencyInjection.*.nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
-    - name: Push Windows.WPF
-      run: dotnet nuget push SharedCode.Windows.WPF/bin/Release/SharedCode.Windows.WPF.*.nupkg --source nuget.org --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}}
+      
+    - name: Push to NuGet
+      uses: dansiegel/publish-nuget@v1.01
+      with:
+        apiKey: ${{secrets.NUGET_API_KEY}}
