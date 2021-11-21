@@ -2,74 +2,70 @@
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
-namespace SharedCode.Linq
+namespace SharedCode.Linq;
+
+using System;
+using System.Linq.Expressions;
+
+/// <summary>
+/// The predicates class.
+/// </summary>
+public static partial class Predicates
 {
-	using System;
-	using System.Linq.Expressions;
+	/// <summary>
+	/// Returns a LINQ friendly expression that returns whether the date and time is after the
+	/// specified date and time.
+	/// </summary>
+	/// <param name="after">The date and time to be after which we return true.</param>
+	/// <returns>
+	/// A LINQ friendly expression that returns whether the date and time is after the specified
+	/// date and time.
+	/// </returns>
+	public static Expression<Func<DateTimeOffset, bool>> After(DateTimeOffset after) =>
+		dateTime => dateTime > after;
 
 	/// <summary>
-	/// The predicates class.
+	/// Returns a LINQ friendly expression that returns whether the date and time is before the
+	/// specified date and time.
 	/// </summary>
-	public partial class Predicates
+	/// <param name="before">The date and time to be before which we return true.</param>
+	/// <returns>
+	/// A LINQ friendly expression that returns whether the date and time is before the
+	/// specified date and time.
+	/// </returns>
+	public static Expression<Func<DateTimeOffset, bool>> Before(DateTimeOffset before) =>
+		dateTime => dateTime < before;
+
+	/// <summary>
+	/// Returns a LINQ friendly expression that takes a date and time and returns whether it
+	/// falls between the start and end date times inclusive or exclusive of the end date time.
+	/// </summary>
+	/// <param name="start">The start date time.</param>
+	/// <param name="end">The end date time.</param>
+	/// <param name="inclusive">
+	/// if set to <c>true</c> include the end date and time in the comparison.
+	/// </param>
+	/// <returns>
+	/// A LINQ friendly expression that takes a date and time and returns whether it falls
+	/// between the start and end date times inclusive or exclusive of the end date time.
+	/// </returns>
+	public static Expression<Func<DateTimeOffset, bool>> Between(
+		DateTimeOffset start,
+		DateTimeOffset end,
+		bool inclusive = false)
 	{
-		/// <summary>
-		/// Returns a LINQ friendly expression that returns whether the date and time is after the
-		/// specified date and time.
-		/// </summary>
-		/// <param name="after">The date and time to be after which we return true.</param>
-		/// <returns>
-		/// A LINQ friendly expression that returns whether the date and time is after the specified
-		/// date and time.
-		/// </returns>
-		public static Expression<Func<DateTimeOffset, bool>> After(DateTimeOffset after) =>
-			dateTime => dateTime > after;
-
-		/// <summary>
-		/// Returns a LINQ friendly expression that returns whether the date and time is before the
-		/// specified date and time.
-		/// </summary>
-		/// <param name="before">The date and time to be before which we return true.</param>
-		/// <returns>
-		/// A LINQ friendly expression that returns whether the date and time is before the
-		/// specified date and time.
-		/// </returns>
-		public static Expression<Func<DateTimeOffset, bool>> Before(DateTimeOffset before) =>
-			dateTime => dateTime < before;
-
-		/// <summary>
-		/// Returns a LINQ friendly expression that takes a date and time and returns whether it
-		/// falls between the start and end date times inclusive or exclusive of the end date time.
-		/// </summary>
-		/// <param name="start">The start date time.</param>
-		/// <param name="end">The end date time.</param>
-		/// <param name="inclusive">
-		/// if set to <c>true</c> include the end date and time in the comparison.
-		/// </param>
-		/// <returns>
-		/// A LINQ friendly expression that takes a date and time and returns whether it falls
-		/// between the start and end date times inclusive or exclusive of the end date time.
-		/// </returns>
-		public static Expression<Func<DateTimeOffset, bool>> Between(
-			DateTimeOffset start,
-			DateTimeOffset end,
-			bool inclusive = false)
+		if (start == end)
 		{
-			if (start == end)
-			{
-				return dateTime => dateTime == start && inclusive;
-			}
-
-			if (start < end)
-			{
-				if (inclusive)
-				{
-					return dateTime => dateTime >= start && dateTime <= end;
-				}
-
-				return dateTime => dateTime >= start && dateTime < end;
-			}
-
-			return Between(end, start, inclusive);
+			return dateTime => dateTime == start && inclusive;
 		}
+
+		if (start < end)
+		{
+			return inclusive
+				? (dateTime => dateTime >= start && dateTime <= end)
+				: (dateTime => dateTime >= start && dateTime < end);
+		}
+
+		return Between(end, start, inclusive);
 	}
 }

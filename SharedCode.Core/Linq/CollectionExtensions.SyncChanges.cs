@@ -2,58 +2,58 @@
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
-namespace SharedCode.Linq
-{
-	using System.Collections.Generic;
-	using System.Diagnostics.CodeAnalysis;
-	using System.Diagnostics.Contracts;
+namespace SharedCode.Linq;
 
-	public static partial class CollectionExtensions
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
+
+public static partial class CollectionExtensions
+{
+	/// <summary>
+	/// Describes changes made while syncing a collection.
+	/// </summary>
+	/// <typeparam name="T">The type of item synced.</typeparam>
+	[SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "<Pending>")]
+	public sealed class SyncChanges<T>
 	{
 		/// <summary>
-		/// Describes changes made while syncing a collection.
+		/// The added items.
 		/// </summary>
-		/// <typeparam name="T">The type of item synced.</typeparam>
-		public sealed class SyncChanges<T>
+		private readonly IList<T> added = new List<T>();
+
+		/// <summary>
+		/// The removed items.
+		/// </summary>
+		private readonly IList<T> removed = new List<T>();
+
+		/// <summary>
+		/// Gets the items added during the sync.
+		/// </summary>
+		/// <value>The added items.</value>
+		[NotNull]
+		public IList<T> Added
 		{
-			/// <summary>
-			/// The added items.
-			/// </summary>
-			private readonly IList<T> added = new List<T>();
-
-			/// <summary>
-			/// The removed items.
-			/// </summary>
-			private readonly IList<T> removed = new List<T>();
-
-			/// <summary>
-			/// Gets the items added during the sync.
-			/// </summary>
-			/// <value>The added items.</value>
-			[NotNull]
-			public IList<T> Added
+			get
 			{
-				get
-				{
-					Contract.Ensures(Contract.Result<IList<T>>() != null);
+				Contract.Ensures(Contract.Result<IList<T>>() != null);
 
-					return this.added;
-				}
+				return this.added;
 			}
+		}
 
-			/// <summary>
-			/// Gets the items removed during the sync.
-			/// </summary>
-			/// <value>The removed items.</value>
-			[NotNull]
-			public IList<T> Removed
+		/// <summary>
+		/// Gets the items removed during the sync.
+		/// </summary>
+		/// <value>The removed items.</value>
+		[NotNull]
+		public IList<T> Removed
+		{
+			get
 			{
-				get
-				{
-					Contract.Ensures(Contract.Result<IList<T>>() != null);
+				Contract.Ensures(Contract.Result<IList<T>>() != null);
 
-					return this.removed;
-				}
+				return this.removed;
 			}
 		}
 	}

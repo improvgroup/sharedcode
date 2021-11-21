@@ -2,176 +2,173 @@
 //     Copyright © 2013-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
-namespace SharedCode.IO
+namespace SharedCode.IO;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+/// <summary>
+/// Provides a base for buffered data writers.
+/// </summary>
+public class BufferedWriter : IDisposable
 {
-	using System;
-	using System.Diagnostics.CodeAnalysis;
-	using System.IO;
-	using System.Text;
-	using System.Threading;
-	using System.Threading.Tasks;
+	/// <summary>
+	/// The buffer length
+	/// </summary>
+	private const int BufferLength = 512;
 
 	/// <summary>
-	/// Provides a base for buffered data writers.
+	/// The finished task
 	/// </summary>
-	public class BufferedWriter : IDisposable
+	private static readonly Task FinishedTask = Task.FromResult(true);
+
+	/// <summary>
+	/// The writer
+	/// </summary>
+	private readonly TextWriter writer;
+
+	/// <summary>
+	/// To detect redundant calls
+	/// </summary>
+	private bool disposedValue;
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="BufferedWriter" /> class.
+	/// </summary>
+	/// <param name="writer">The writer.</param>
+	public BufferedWriter([NotNull] TextWriter writer) =>
+		this.writer = writer ?? throw new ArgumentNullException(nameof(writer));
+
+	/// <summary>
+	/// Finalizes an instance of the <see cref="BufferedWriter" /> class.
+	/// </summary>
+	~BufferedWriter()
 	{
-		/// <summary>
-		/// The buffer length
-		/// </summary>
-		private const int BufferLength = 512;
+		this.Dispose(false);
+	}
 
-		/// <summary>
-		/// The finished task
-		/// </summary>
-		private static readonly Task FinishedTask = Task.FromResult(true);
+	/// <summary>
+	/// Gets the string builder.
+	/// </summary>
+	/// <value>The string builder.</value>
+	[NotNull]
+	public StringBuilder StringBuilder { get; } = new StringBuilder(BufferLength * 3 / 2);
 
-		/// <summary>
-		/// The writer
-		/// </summary>
-		private readonly TextWriter writer;
+	/// <inheritdoc />
+	public void Dispose()
+	{
+		this.Dispose(true);
+		GC.SuppressFinalize(this);
+	}
 
-		/// <summary>
-		/// To detect redundant calls
-		/// </summary>
-		private bool disposedValue;
+	/// <summary>
+	/// Performs a full flush of the buffer.
+	/// </summary>
+	public void FullFlush()
+	{
+		this.StrongFlush();
+		this.writer.Flush();
+	}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BufferedWriter" /> class.
-		/// </summary>
-		/// <param name="writer">The writer.</param>
-		public BufferedWriter([NotNull] TextWriter writer)
+	/// <summary>
+	/// Performs a full flush of the buffer as an asynchronous operation.
+	/// </summary>
+	/// <param name="token">The token.</param>
+	/// <returns>A Task.</returns>
+	public async Task FullFlushAsync(CancellationToken token)
+	{
+		token.ThrowIfCancellationRequested();
+
+		if (this.StringBuilder.Length > 0)
 		{
-			this.writer = writer ?? throw new ArgumentNullException(nameof(writer));
+			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
+			_ = this.StringBuilder.Clear();
 		}
 
-		/// <summary>
-		/// Finalizes an instance of the <see cref="BufferedWriter" /> class.
-		/// </summary>
-		~BufferedWriter()
+		token.ThrowIfCancellationRequested();
+		await this.writer.FlushAsync().ConfigureAwait(true);
+	}
+
+	/// <summary>
+	/// Performs a strong flush of the buffer.
+	/// </summary>
+	public void StrongFlush()
+	{
+		if (this.StringBuilder.Length > 0)
 		{
-			this.Dispose(false);
+			this.writer.Write(this.StringBuilder.ToString());
+			_ = this.StringBuilder.Clear();
+		}
+	}
+
+	/// <summary>
+	/// Performs a strong flush of the buffer as an asynchronous operation.
+	/// </summary>
+	/// <param name="token">The token.</param>
+	/// <returns>A Task.</returns>
+	public async Task StrongFlushAsync(CancellationToken token)
+	{
+		token.ThrowIfCancellationRequested();
+
+		if (this.StringBuilder.Length > 0)
+		{
+			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
+			_ = this.StringBuilder.Clear();
+		}
+	}
+
+	/// <summary>
+	/// Performs a weak flush of the buffer.
+	/// </summary>
+	public void WeakFlush()
+	{
+		if (this.StringBuilder.Length > BufferLength)
+		{
+			this.writer.Write(this.StringBuilder.ToString());
+			_ = this.StringBuilder.Clear();
+		}
+	}
+
+	/// <summary>
+	/// Performs a weak flush of the buffer as an asynchronous operation.
+	/// </summary>
+	/// <param name="token">The cancellation token.</param>
+	/// <returns>A Task.</returns>
+	public async Task WeakFlushAsync(CancellationToken token = default)
+	{
+		if (this.StringBuilder.Length > BufferLength)
+		{
+			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
+			_ = this.StringBuilder.Clear();
+		}
+	}
+
+	/// <summary>
+	/// Releases unmanaged and - optionally - managed resources.
+	/// </summary>
+	/// <param name="disposing">
+	/// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
+	/// unmanaged resources.
+	/// </param>
+	protected virtual void Dispose(bool disposing)
+	{
+		if (this.disposedValue)
+		{
+			return;
 		}
 
-		/// <summary>
-		/// Gets the string builder.
-		/// </summary>
-		/// <value>The string builder.</value>
-		[NotNull]
-		public StringBuilder StringBuilder { get; } = new StringBuilder(BufferLength * 3 / 2);
-
-		/// <inheritdoc />
-		public void Dispose()
+		if (disposing)
 		{
-			this.Dispose(true);
-			GC.SuppressFinalize(this);
+			// dispose managed state (managed objects).
+			this.writer?.Dispose();
 		}
 
-		/// <summary>
-		/// Performs a full flush of the buffer.
-		/// </summary>
-		public void FullFlush()
-		{
-			this.StrongFlush();
-			this.writer.Flush();
-		}
-
-		/// <summary>
-		/// Performs a full flush of the buffer as an asynchronous operation.
-		/// </summary>
-		/// <param name="token">The token.</param>
-		/// <returns>A Task.</returns>
-		public async Task FullFlushAsync(CancellationToken token)
-		{
-			token.ThrowIfCancellationRequested();
-
-			if (this.StringBuilder.Length > 0)
-			{
-				await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
-				this.StringBuilder.Clear();
-			}
-
-			token.ThrowIfCancellationRequested();
-			await this.writer.FlushAsync().ConfigureAwait(true);
-		}
-
-		/// <summary>
-		/// Performs a strong flush of the buffer.
-		/// </summary>
-		public void StrongFlush()
-		{
-			if (this.StringBuilder.Length > 0)
-			{
-				this.writer.Write(this.StringBuilder.ToString());
-				_ = this.StringBuilder.Clear();
-			}
-		}
-
-		/// <summary>
-		/// Performs a strong flush of the buffer as an asynchronous operation.
-		/// </summary>
-		/// <param name="token">The token.</param>
-		/// <returns>A Task.</returns>
-		public async Task StrongFlushAsync(CancellationToken token)
-		{
-			token.ThrowIfCancellationRequested();
-
-			if (this.StringBuilder.Length > 0)
-			{
-				await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
-				this.StringBuilder.Clear();
-			}
-		}
-
-		/// <summary>
-		/// Performs a weak flush of the buffer.
-		/// </summary>
-		public void WeakFlush()
-		{
-			if (this.StringBuilder.Length > BufferLength)
-			{
-				this.writer.Write(this.StringBuilder.ToString());
-				this.StringBuilder.Clear();
-			}
-		}
-
-		/// <summary>
-		/// Performs a weak flush of the buffer as an asynchronous operation.
-		/// </summary>
-		/// <param name="token">The cancellation token.</param>
-		/// <returns>A Task.</returns>
-		public async Task WeakFlushAsync(CancellationToken token = default)
-		{
-			if (this.StringBuilder.Length > BufferLength)
-			{
-				await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
-				this.StringBuilder.Clear();
-			}
-		}
-
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources.
-		/// </summary>
-		/// <param name="disposing">
-		/// <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release
-		/// only unmanaged resources.
-		/// </param>
-		protected virtual void Dispose(bool disposing)
-		{
-			if (this.disposedValue)
-			{
-				return;
-			}
-
-			if (disposing)
-			{
-				// dispose managed state (managed objects).
-				this.writer?.Dispose();
-			}
-
-			// free unmanaged resources (unmanaged objects) and override a finalizer below. set
-			// large fields to null.
-			this.disposedValue = true;
-		}
+		// free unmanaged resources (unmanaged objects) and override a finalizer below. set large
+		// fields to null.
+		this.disposedValue = true;
 	}
 }
