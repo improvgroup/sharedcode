@@ -38,7 +38,7 @@
 		<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<UseWPF>true</UseWPF>
-		<Version>1.0.0.4</Version>
+		<Version>6.0.0.0</Version>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
 		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
