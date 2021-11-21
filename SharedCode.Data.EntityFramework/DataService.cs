@@ -41,9 +41,13 @@ namespace SharedCode.Data
 			using var context = this.dbContextFactory.CreateDbContext();
 
 			var entity = await context.Set<T>().FindAsync(new object?[] { key }, cancellationToken: cancellationToken).ConfigureAwait(false);
+			if (entity is null)
+			{
+				return false;
+			}
+
 			_ = context.Set<T>().Remove(entity);
 			var result = await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-
 			return result > 0;
 		}
 
@@ -59,7 +63,7 @@ namespace SharedCode.Data
 		}
 
 		/// <inheritdoc />
-		public async Task<T> Get<TKey>(TKey key, CancellationToken cancellationToken = default)
+		public async Task<T?> Get<TKey>(TKey key, CancellationToken cancellationToken = default)
 		{
 			using var context = this.dbContextFactory.CreateDbContext();
 			return await context.Set<T>().FindAsync(new object?[] { key }, cancellationToken: cancellationToken).ConfigureAwait(false);

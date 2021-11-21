@@ -2,6 +2,7 @@ namespace SharedCode.Data
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading;
@@ -38,6 +39,7 @@ namespace SharedCode.Data
 		/// <returns>A value indicating whether the entity was successfully deleted.</returns>
 		Task<bool> Delete(T entity, CancellationToken cancellationToken = default);
 
+
 		/// <summary>
 		/// Gets the entity for the specified primary key.
 		/// </summary>
@@ -45,7 +47,8 @@ namespace SharedCode.Data
 		/// <param name="key">The primary key.</param>
 		/// <param name="cancellationToken">A cancellation token.</param>
 		/// <returns>The entity, or null if not found.</returns>
-		Task<T> Get<TKey>(TKey key, CancellationToken cancellationToken = default);
+		[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Common data service terminology.")]
+		Task<T?> Get<TKey>(TKey key, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		/// Gets an enumerable, optionally filtered using the specified expression.
