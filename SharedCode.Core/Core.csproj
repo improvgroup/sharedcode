@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<!-- wait for https://github.com/NuGet/Home/issues/10791 or just add pdb to main package-->
-		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 		<ApplicationIcon>share.ico</ApplicationIcon>
@@ -17,6 +15,7 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<IncludeSymbols>true</IncludeSymbols>
 		<LangVersion>latest</LangVersion>
 		<NoWarn>$(NoWarn);CA1014</NoWarn>
@@ -34,12 +33,11 @@
 		<RootNamespace>SharedCode</RootNamespace>
 		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-		<!--<SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<TargetFramework>net6.0</TargetFramework>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<Version>6.0.0.0</Version>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
-		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -48,8 +46,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile></DocumentationFile>
 		<DefineConstants>$(DefineConstants)</DefineConstants>
+		<DocumentationFile></DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -74,9 +72,9 @@
 
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
 		</Compile>
 	</ItemGroup>
 
