@@ -1,0 +1,35 @@
+// <copyright file="ISpecificationEvaluator.cs" company="improvGroup, LLC">
+//     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
+// </copyright>
+
+namespace SharedCode.Specifications.Evaluators;
+
+using SharedCode.Specifications;
+
+/// <summary>
+/// Evaluates the logic encapsulated by an <see cref="ISpecification{T}" />.
+/// </summary>
+public interface ISpecificationEvaluator
+{
+	/// <summary>
+	/// Applies the logic encapsulated by <paramref name="specification" /> to given <paramref
+	/// name="inputQuery" />, and projects the result into <typeparamref name="TResult" />.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="TResult">The type of the result.</typeparam>
+	/// <param name="inputQuery">The sequence of <typeparamref name="T" /></param>
+	/// <param name="specification">The encapsulated query logic.</param>
+	/// <returns>A filtered sequence of <typeparamref name="TResult" /></returns>
+	IQueryable<TResult> GetQuery<T, TResult>(IQueryable<T> inputQuery, ISpecification<T, TResult> specification) where T : class;
+
+	/// <summary>
+	/// Applies the logic encapsulated by <paramref name="specification" /> to given <paramref
+	/// name="inputQuery" />.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="inputQuery">The sequence of <typeparamref name="T" /></param>
+	/// <param name="specification">The encapsulated query logic.</param>
+	/// <param name="evaluateCriteriaOnly">A value indicating whether to evaluate criteria only.</param>
+	/// <returns>A filtered sequence of <typeparamref name="T" /></returns>
+	IQueryable<T> GetQuery<T>(IQueryable<T> inputQuery, ISpecification<T> specification, bool evaluateCriteriaOnly = false) where T : class;
+}
