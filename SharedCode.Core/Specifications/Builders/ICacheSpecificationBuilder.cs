@@ -5,7 +5,7 @@
 namespace SharedCode.Specifications.Builders;
 
 /// <summary>
-/// Interface ICacheSpecificationBuilder. Implements the <see cref="ISpecificationBuilder{T}" />.
+/// The cache specification builder class. Implements the <see cref="ISpecificationBuilder{T}" />.
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <seealso cref="ISpecificationBuilder{T}" />

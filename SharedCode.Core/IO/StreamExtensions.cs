@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.Versioning;
 
 /// <summary>
 /// The stream extension methods class.
@@ -25,6 +26,8 @@ public static class StreamExtensions
 	/// <param name="quality">The encoder quality in percent (90% recommended, the default).</param>
 	/// <returns>The thumbnail image.</returns>
 	/// <exception cref="ArgumentNullException">The input stream cannot be null.</exception>
+	/// <exception cref="PlatformNotSupportedException">The Image.FromStream() method is not available on non-Windows platforms.</exception>
+	[SupportedOSPlatform("windows")]
 	public static MemoryStream FitImage(this Stream stream, int maxWidth = 0, int maxHeight = 0, bool makeSquare = false, long quality = 90L)
 	{
 		if (stream is null)

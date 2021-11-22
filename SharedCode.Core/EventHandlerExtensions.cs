@@ -1,6 +1,7 @@
 namespace SharedCode;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// The event handler extension methods class.
@@ -12,6 +13,7 @@ public static class EventHandlerExtensions
 	/// </summary>
 	/// <param name="handler">The event handler.</param>
 	/// <param name="sender">The sender.</param>
+	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
 	public static void Raise(this EventHandler handler, object sender) =>
 		handler?.Invoke(sender, EventArgs.Empty);
 
@@ -22,6 +24,7 @@ public static class EventHandlerExtensions
 	/// <param name="handler">The event handler.</param>
 	/// <param name="sender">The sender.</param>
 	/// <param name="value">The value.</param>
+	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
 	public static void Raise<T>(this EventHandler<EventArgs<T>> handler, object sender, T value) =>
 		handler?.Invoke(sender, new EventArgs<T>(value));
 
@@ -32,6 +35,7 @@ public static class EventHandlerExtensions
 	/// <param name="handler">The event handler.</param>
 	/// <param name="sender">The sender.</param>
 	/// <param name="value">The event arguments.</param>
+	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
 	public static void Raise<T>(this EventHandler<T> handler, object sender, T value) where T : EventArgs =>
 		handler?.Invoke(sender, value);
 
@@ -42,6 +46,7 @@ public static class EventHandlerExtensions
 	/// <param name="handler">The event handler.</param>
 	/// <param name="sender">The sender.</param>
 	/// <param name="value">The event arguments.</param>
+	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
 	public static void Raise<T>(this EventHandler<EventArgs<T>> handler, object sender, EventArgs<T> value) =>
 		handler?.Invoke(sender, value);
 }

@@ -54,13 +54,14 @@ public interface IReadRepositoryBase<T> where T : class
 	/// Finds an entity that matches the encapsulated query logic of the <paramref
 	/// name="specification" />.
 	/// </summary>
+	/// <typeparam name="TSpecification"></typeparam>
 	/// <param name="specification">The encapsulated query logic.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>
 	/// A task that represents the asynchronous operation. The task result contains the
 	/// <typeparamref name="T" />, or <see langword="null" />.
 	/// </returns>
-	Task<T?> GetBySpecAsync<Spec>(Spec specification, CancellationToken? cancellationToken = default) where Spec : ISingleResultSpecification, ISpecification<T>;
+	Task<T?> GetBySpecAsync<TSpecification>(TSpecification specification, CancellationToken? cancellationToken = default) where TSpecification : ISingleResultSpecification, ISpecification<T>;
 
 	/// <summary>
 	/// Finds an entity that matches the encapsulated query logic of the <paramref
@@ -73,7 +74,7 @@ public interface IReadRepositoryBase<T> where T : class
 	/// A task that represents the asynchronous operation. The task result contains the
 	/// <typeparamref name="TResult" />.
 	/// </returns>
-	Task<TResult> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken? cancellationToken = default);
+	Task<TResult?> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken? cancellationToken = default);
 
 	/// <summary>
 	/// Finds all entities of <typeparamref name="T" /> from the database.

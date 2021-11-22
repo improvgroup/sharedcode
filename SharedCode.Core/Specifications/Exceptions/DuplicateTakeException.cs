@@ -5,9 +5,9 @@
 namespace SharedCode.Specifications.Exceptions;
 
 /// <summary>
-/// Class DuplicateTakeException. Implements the <see cref="System.Exception" />
+/// the duplicate take exception class. Implements the <see cref="Exception" />.
 /// </summary>
-/// <seealso cref="System.Exception" />
+/// <seealso cref="Exception" />
 public class DuplicateTakeException : Exception
 {
 	/// <summary>

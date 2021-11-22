@@ -1,4 +1,8 @@
-namespace SharedCode.Data
+// <copyright file="IDataService.cs" company="improvGroup, LLC">
+//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
+// </copyright>
+
+namespace SharedCode.Data.EntityFramework
 {
 	using System;
 	using System.Collections.Generic;
@@ -39,7 +43,6 @@ namespace SharedCode.Data
 		/// <returns>A value indicating whether the entity was successfully deleted.</returns>
 		Task<bool> Delete(T entity, CancellationToken cancellationToken = default);
 
-
 		/// <summary>
 		/// Gets the entity for the specified primary key.
 		/// </summary>
@@ -55,6 +58,7 @@ namespace SharedCode.Data
 		/// </summary>
 		/// <param name="expression">The filter expression.</param>
 		/// <returns>An asynchronous enumerable.</returns>
+		[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Common data service terminology.")]
 		IAsyncEnumerable<T> Get(Expression<Func<T, bool>>? expression = null);
 
 		/// <summary>

@@ -7,33 +7,6 @@ namespace SharedCode.Specifications;
 using System.Linq.Expressions;
 
 /// <summary>
-/// Encapsulates query logic for <typeparamref name="T" />, and projects the result into
-/// <typeparamref name="TResult" />.
-/// </summary>
-/// <typeparam name="T">The type being queried against.</typeparam>
-/// <typeparam name="TResult">The type of the result.</typeparam>
-public interface ISpecification<T, TResult> : ISpecification<T>
-{
-	/// <summary>
-	/// The transform function to apply to the result of the query encapsulated by the <see
-	/// cref="ISpecification{T, TResult}" />.
-	/// </summary>
-	new Func<IEnumerable<TResult>, IEnumerable<TResult>>? PostProcessingAction { get; }
-
-	/// <summary>
-	/// The transform function to apply to the <typeparamref name="T" /> element.
-	/// </summary>
-	Expression<Func<T, TResult>>? Selector { get; }
-
-	/// <summary>
-	/// Evaluates the specified entities.
-	/// </summary>
-	/// <param name="entities">The entities.</param>
-	/// <returns>IEnumerable&lt;TResult&gt;.</returns>
-	new IEnumerable<TResult> Evaluate(IEnumerable<T> entities);
-}
-
-/// <summary>
 /// Encapsulates query logic for <typeparamref name="T" />.
 /// </summary>
 /// <typeparam name="T">The type being queried against.</typeparam>
@@ -71,8 +44,8 @@ public interface ISpecification<T>
 	string? CacheKey { get; }
 
 	/// <summary>
-	/// The collection of <see cref="IncludeExpressionInformation" /> s describing each include expression.
-	/// This information is utilized to build Include/ThenInclude functions in the query.
+	/// The collection of <see cref="IncludeExpressionInformation" /> s describing each include
+	/// expression. This information is utilized to build Include/ThenInclude functions in the query.
 	/// </summary>
 	IEnumerable<IncludeExpressionInformation> IncludeExpressions { get; }
 
@@ -125,6 +98,33 @@ public interface ISpecification<T>
 	/// helpful when unit testing specification classes
 	/// </summary>
 	/// <param name="entities">the list of entities to which the specification will be applied</param>
-	/// <returns></returns>
+	/// <returns>The result.</returns>
 	IEnumerable<T> Evaluate(IEnumerable<T> entities);
+}
+
+/// <summary>
+/// Encapsulates query logic for <typeparamref name="T" />, and projects the result into
+/// <typeparamref name="TResult" />.
+/// </summary>
+/// <typeparam name="T">The type being queried against.</typeparam>
+/// <typeparam name="TResult">The type of the result.</typeparam>
+public interface ISpecification<T, TResult> : ISpecification<T>
+{
+	/// <summary>
+	/// The transform function to apply to the result of the query encapsulated by the <see
+	/// cref="ISpecification{T, TResult}" />.
+	/// </summary>
+	new Func<IEnumerable<TResult>, IEnumerable<TResult>>? PostProcessingAction { get; }
+
+	/// <summary>
+	/// The transform function to apply to the <typeparamref name="T" /> element.
+	/// </summary>
+	Expression<Func<T, TResult>>? Selector { get; }
+
+	/// <summary>
+	/// Evaluates the specified entities.
+	/// </summary>
+	/// <param name="entities">The entities.</param>
+	/// <returns>IEnumerable&lt;TResult&gt;.</returns>
+	new IEnumerable<TResult> Evaluate(IEnumerable<T> entities);
 }

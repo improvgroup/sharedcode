@@ -9,41 +9,6 @@ using SharedCode.Specifications.Evaluators;
 
 using System.Linq.Expressions;
 
-/// <inheritdoc />
-public abstract class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult>
-{
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Specification{T, TResult}" /> class.
-	/// </summary>
-	protected Specification()
-		: this(InMemorySpecificationEvaluator.Default)
-	{
-	}
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Specification{T, TResult}" /> class.
-	/// </summary>
-	/// <param name="inMemorySpecificationEvaluator">The in memory specification evaluator.</param>
-	protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
-		: base(inMemorySpecificationEvaluator) =>
-		this.Query = new SpecificationBuilder<T, TResult>(this);
-
-	/// <inheritdoc />
-	public new Func<IEnumerable<TResult>, IEnumerable<TResult>>? PostProcessingAction { get; internal set; }
-
-	/// <inheritdoc />
-	public Expression<Func<T, TResult>>? Selector { get; internal set; }
-
-	/// <summary>
-	/// Gets the query.
-	/// </summary>
-	/// <value>The query.</value>
-	protected virtual new ISpecificationBuilder<T, TResult> Query { get; }
-
-	/// <inheritdoc />
-	public virtual new IEnumerable<TResult> Evaluate(IEnumerable<T> entities) => this.Evaluator.Evaluate(entities, this);
-}
-
 /// <summary>
 /// The specification class. Implements the <see cref="ISpecification{T}" />.
 /// </summary>
@@ -93,6 +58,7 @@ public abstract class Specification<T> : ISpecification<T>
 	/// <inheritdoc />
 	public bool IsPagingEnabled { get; internal set; }
 
+	/// <inheritdoc />
 	public IEnumerable<(Expression<Func<T, object>> KeySelector, OrderType OrderType)> OrderExpressions { get; } =
 		new List<(Expression<Func<T, object>> KeySelector, OrderType OrderType)>();
 
@@ -126,4 +92,39 @@ public abstract class Specification<T> : ISpecification<T>
 
 	/// <inheritdoc />
 	public virtual IEnumerable<T> Evaluate(IEnumerable<T> entities) => this.Evaluator.Evaluate(entities, this);
+}
+
+/// <inheritdoc />
+public abstract class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult>
+{
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Specification{T, TResult}" /> class.
+	/// </summary>
+	protected Specification()
+		: this(InMemorySpecificationEvaluator.Default)
+	{
+	}
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Specification{T, TResult}" /> class.
+	/// </summary>
+	/// <param name="inMemorySpecificationEvaluator">The in memory specification evaluator.</param>
+	protected Specification(IInMemorySpecificationEvaluator inMemorySpecificationEvaluator)
+		: base(inMemorySpecificationEvaluator) =>
+		this.Query = new SpecificationBuilder<T, TResult>(this);
+
+	/// <inheritdoc />
+	public new Func<IEnumerable<TResult>, IEnumerable<TResult>>? PostProcessingAction { get; internal set; }
+
+	/// <inheritdoc />
+	public Expression<Func<T, TResult>>? Selector { get; internal set; }
+
+	/// <summary>
+	/// Gets the query.
+	/// </summary>
+	/// <value>The query.</value>
+	protected new virtual ISpecificationBuilder<T, TResult> Query { get; }
+
+	/// <inheritdoc />
+	public new virtual IEnumerable<TResult> Evaluate(IEnumerable<T> entities) => this.Evaluator.Evaluate(entities, this);
 }

@@ -1,4 +1,8 @@
-namespace SharedCode.Data
+// <copyright file="DataService.cs" company="improvGroup, LLC">
+//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
+// </copyright>
+
+namespace SharedCode.Data.EntityFramework
 {
 	using Microsoft.EntityFrameworkCore;
 
@@ -42,9 +46,7 @@ namespace SharedCode.Data
 
 			var entity = await context.Set<T>().FindAsync(new object?[] { key }, cancellationToken: cancellationToken).ConfigureAwait(false);
 			if (entity is null)
-			{
 				return false;
-			}
 
 			_ = context.Set<T>().Remove(entity);
 			var result = await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);

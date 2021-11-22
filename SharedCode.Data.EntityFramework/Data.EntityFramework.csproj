@@ -93,4 +93,8 @@
 		</None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\SharedCode.Core\Core.csproj" />
+	</ItemGroup>
+
 </Project>

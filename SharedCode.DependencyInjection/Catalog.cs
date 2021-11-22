@@ -21,5 +21,5 @@ public abstract class Catalog
 	/// Initializes a new instance of the <see cref="Catalog"/> class.
 	/// </summary>
 	/// <param name="services">The services.</param>
-	protected Catalog(IServiceCollection services) => Services = services;
+	protected Catalog(IServiceCollection services) => this.Services = services;
 }

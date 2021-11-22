@@ -51,8 +51,8 @@ public static partial class CollectionExtensions
 	}
 
 	/// <summary>
-	/// Adds all of the given items to this collection if and only if the values object is not
-	/// null. See <see cref="AddRange{T, TCollection}(TCollection, IEnumerable{T})" /> for more details.
+	/// Adds all of the given items to this collection if and only if the values object is not null.
+	/// See <see cref="AddRange{T, TCollection}(TCollection, IEnumerable{T})" /> for more details.
 	/// </summary>
 	/// <typeparam name="T">The type of the items in the collection.</typeparam>
 	/// <typeparam name="TCollection">The type of the collection.</typeparam>
@@ -426,9 +426,7 @@ public static partial class CollectionExtensions
 	/// </summary>
 	/// <typeparam name="T">The type of items in the collection.</typeparam>
 	/// <param name="collection">The collection.</param>
-	/// <returns>
-	/// <c>true</c> if the specified collection is null original empty; otherwise, <c>false</c>.
-	/// </returns>
+	/// <returns><c>true</c> if the specified collection is null original empty; otherwise, <c>false</c>.</returns>
 	public static bool IsNullOrEmpty<T>(this ICollection<T>? collection) => collection is null || collection.Count == 0;
 
 	/// <summary>
@@ -531,8 +529,7 @@ public static partial class CollectionExtensions
 	/// <param name="getKey">The function used to get the attribute keys.</param>
 	/// <returns>A <c>SyncChanges{T}</c> object containing the changes.</returns>
 	/// <remarks>
-	/// This preserves existing items in the collection, so selections are not lost when used on
-	/// an ObservableCollection.
+	/// This preserves existing items in the collection, so selections are not lost when used on an ObservableCollection.
 	/// </remarks>
 	/// <exception cref="ArgumentNullException">collection or source or getKey</exception>
 	/// <exception cref="ArgumentException">source cannot be empty.</exception>
@@ -577,8 +574,7 @@ public static partial class CollectionExtensions
 				{
 					var handler = getKey;
 					return handler is not null && !keep.Contains(handler(x));
-				})
-			.ToArray())
+				}))
 		{
 			_ = collection.Remove(item);
 			returnValue.Removed.Add(item);
@@ -610,8 +606,7 @@ public static partial class CollectionExtensions
 	/// <param name="getObject">The function used to get the objects.</param>
 	/// <returns>A <c>SyncChanges{T}</c> object containing the changes.</returns>
 	/// <remarks>
-	/// This preserves existing items in the collection, so selections are not lost when used on
-	/// an ObservableCollection.
+	/// This preserves existing items in the collection, so selections are not lost when used on an ObservableCollection.
 	/// </remarks>
 	/// <exception cref="ArgumentNullException">collection or newKeys or getKey or getObject</exception>
 	public static SyncChanges<T> SyncFrom<T, TKey>(

@@ -33,7 +33,7 @@ public interface IRepositoryBase<T> : IReadRepositoryBase<T> where T : class
 	/// <param name="entity">The entity to delete.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A task that represents the asynchronous operation.</returns>
-	Task DeleteAsync(T entity, CancellationToken? cancellationToken = default);
+	Task RemoveAsync(T entity, CancellationToken? cancellationToken = default);
 
 	/// <summary>
 	/// Removes the given entities in the database
@@ -41,7 +41,7 @@ public interface IRepositoryBase<T> : IReadRepositoryBase<T> where T : class
 	/// <param name="entities">The entities to remove.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	/// <returns>A task that represents the asynchronous operation.</returns>
-	Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken? cancellationToken = default);
+	Task RemoveAsync(IEnumerable<T> entities, CancellationToken? cancellationToken = default);
 
 	/// <summary>
 	/// Persists changes to the database.

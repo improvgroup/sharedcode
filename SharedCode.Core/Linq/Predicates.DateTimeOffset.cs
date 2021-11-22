@@ -5,6 +5,7 @@
 namespace SharedCode.Linq;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 /// <summary>
@@ -36,6 +37,7 @@ public static partial class Predicates
 	public static Expression<Func<DateTimeOffset, bool>> Before(DateTimeOffset before) =>
 		dateTime => dateTime < before;
 
+
 	/// <summary>
 	/// Returns a LINQ friendly expression that takes a date and time and returns whether it
 	/// falls between the start and end date times inclusive or exclusive of the end date time.
@@ -49,23 +51,18 @@ public static partial class Predicates
 	/// A LINQ friendly expression that takes a date and time and returns whether it falls
 	/// between the start and end date times inclusive or exclusive of the end date time.
 	/// </returns>
+	[SuppressMessage("Readability", "RCS1238:Avoid nested ?: operators.", Justification = "<Pending>")]
 	public static Expression<Func<DateTimeOffset, bool>> Between(
 		DateTimeOffset start,
 		DateTimeOffset end,
 		bool inclusive = false)
 	{
-		if (start == end)
-		{
-			return dateTime => dateTime == start && inclusive;
-		}
-
-		if (start < end)
-		{
-			return inclusive
-				? (dateTime => dateTime >= start && dateTime <= end)
-				: (dateTime => dateTime >= start && dateTime < end);
-		}
-
-		return Between(end, start, inclusive);
+		return start == end
+			? (dateTime => dateTime == start && inclusive)
+			: start < end
+				? inclusive
+					? (dateTime => dateTime >= start && dateTime <= end)
+					: (dateTime => dateTime >= start && dateTime < end)
+				: Between(end, start, inclusive);
 	}
 }

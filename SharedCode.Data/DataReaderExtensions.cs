@@ -8,7 +8,6 @@ namespace SharedCode.Data
 	using System.Collections.Generic;
 	using System.Data;
 	using System.Data.Common;
-	using System.Diagnostics.CodeAnalysis;
 
 	/// <summary>
 	/// The data reader extensions class.
@@ -24,12 +23,9 @@ namespace SharedCode.Data
 		/// <exception cref="ArgumentNullException">dbDataReader</exception>
 		public static IEnumerable<T> Enumerate<T>(this IDataReader dbDataReader) where T : new()
 		{
-			if (dbDataReader is null)
-			{
-				throw new ArgumentNullException(nameof(dbDataReader));
-			}
-
-			return EnumerateImpl();
+			return dbDataReader is null
+				? throw new ArgumentNullException(nameof(dbDataReader))
+				: EnumerateImpl();
 
 			IEnumerable<T> EnumerateImpl()
 			{
@@ -48,18 +44,11 @@ namespace SharedCode.Data
 		/// <param name="dbDataReader">The database data reader.</param>
 		/// <returns>The asynchronous enumerable sequence.</returns>
 		/// <exception cref="ArgumentNullException">dbDataReader</exception>
-		[SuppressMessage(
-			"Style",
-			"CC0072:Remove Async termination when method is not asynchronous.",
-			Justification = "We cannot do this as it would conflict with the synchronous method name above.")]
 		public static IAsyncEnumerable<T> EnumerateAsync<T>(this DbDataReader dbDataReader) where T : new()
 		{
-			if (dbDataReader is null)
-			{
-				throw new ArgumentNullException(nameof(dbDataReader));
-			}
-
-			return EnumerateAsyncImpl();
+			return dbDataReader is null
+				? throw new ArgumentNullException(nameof(dbDataReader))
+				: EnumerateAsyncImpl();
 
 			async IAsyncEnumerable<T> EnumerateAsyncImpl()
 			{
