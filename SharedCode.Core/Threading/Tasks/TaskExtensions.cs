@@ -24,6 +24,7 @@ namespace SharedCode.Threading.Tasks
 		/// If onException is null, the exception will be re-thrown.
 		/// </param>
 		/// <remarks>Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.</remarks>
+		/// <exception cref="ArgumentNullException">task</exception>
 		public static async void SafeFireAndForgetAsync<TException>(
 			this Task task,
 			bool continueOnCapturedContext = true,

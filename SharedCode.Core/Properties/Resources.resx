@@ -132,4 +132,7 @@
   <data name="TheTypeOfTMustBeOfTypeSystemEnum" xml:space="preserve">
     <value>The type of T must be of type System.Enum.</value>
   </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 </root>

@@ -430,4 +430,16 @@ public struct FluentTimeSpan : IEquatable<FluentTimeSpan>, IComparable<TimeSpan>
 			Months = left.Months - right.Months,
 			TimeSpan = left.TimeSpan - right.TimeSpan
 		};
+
+	/// <summary>
+	/// Converts to timespan.
+	/// </summary>
+	/// <returns>TimeSpan.</returns>
+	public TimeSpan ToTimeSpan() => this;
+
+	/// <summary>
+	/// Converts to fluenttimespan.
+	/// </summary>
+	/// <returns>FluentTimeSpan.</returns>
+	public FluentTimeSpan ToFluentTimeSpan() => this;
 }

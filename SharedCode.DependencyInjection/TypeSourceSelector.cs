@@ -34,7 +34,6 @@ internal class TypeSourceSelector : ITypeSourceSelector
 	/// <returns>ICatalogSelector.</returns>
 	public ICatalogSelector FromApplicationDependencies() => this.FromApplicationDependencies(_ => true);
 
-
 	/// <summary>
 	/// Froms the application dependencies.
 	/// </summary>
@@ -50,7 +49,7 @@ internal class TypeSourceSelector : ITypeSourceSelector
 		catch
 		{
 			// Something went wrong when loading the DependencyContext, fall back to loading all
-			// referenced assemblies of the entry assembly...
+			// referenced assemblies of the entry assembly…
 #pragma warning disable CS8604 // Possible null reference argument.
 			return this.FromAssemblyDependencies(Assembly.GetEntryAssembly());
 #pragma warning restore CS8604 // Possible null reference argument.
@@ -108,7 +107,6 @@ internal class TypeSourceSelector : ITypeSourceSelector
 
 		return this.InternalFromAssembliesOf(types.Select(t => t.GetTypeInfo()));
 	}
-
 
 	/// <summary>
 	/// Froms the assembly dependencies.

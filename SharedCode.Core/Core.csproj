@@ -8,7 +8,7 @@
 		<Authors>William Forney</Authors>
 		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
 		<Company>improvGroup, LLC</Company>
-		<Copyright>Copyright © 2021 improvGroup, LLC. All Rights Reserved.</Copyright>
+		<Copyright>Copyright © 2022 improvGroup, LLC. All Rights Reserved.</Copyright>
 		<Description>A library of code shared for free use to help with common scenarios.</Description>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -68,6 +68,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+		<PackageReference Include="System.Reactive" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

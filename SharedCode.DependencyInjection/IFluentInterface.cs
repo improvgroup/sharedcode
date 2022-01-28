@@ -5,6 +5,7 @@
 namespace SharedCode.DependencyInjection;
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// The fluent interface.
@@ -37,6 +38,8 @@ public interface IFluentInterface
 	/// </summary>
 	/// <returns>Type.</returns>
 	[EditorBrowsable(EditorBrowsableState.Never)]
+	[SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "It is not appropriate.")]
+	[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Not applicable.")]
 	Type GetType();
 
 	/// <summary>

@@ -1,4 +1,4 @@
-namespace SharedCode.Core.Tests.Linq
+namespace SharedCode.Tests.Linq
 {
 	using FluentAssertions;
 
