@@ -1,6 +1,7 @@
 namespace SharedCode.Windows.WPF.ViewModels
 {
 	using SharedCode;
+	using SharedCode.Threading.Tasks;
 	using SharedCode.Windows.WPF.Commands;
 
 	using System;
@@ -423,26 +424,46 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// <summary>
 		/// Closes all pages.
 		/// </summary>
-		private async Task CloseAllPages() => this.OnCloseAllPages();
+		private Task CloseAllPages()
+		{
+			Task.Run(() => this.OnCloseAllPages()).SafeFireAndForgetAsync();
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		/// Closes all pages but this.
 		/// </summary>
-		private async Task CloseAllPagesButThis() => this.OnCloseAllButThis();
+		private Task CloseAllPagesButThis()
+		{
+			Task.Run(() => this.OnCloseAllButThis()).SafeFireAndForgetAsync();
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		/// Closes the page.
 		/// </summary>
-		private async Task ClosePage() => this.OnClosePage();
+		private Task ClosePage()
+		{
+			Task.Run(() => this.OnClosePage()).SafeFireAndForgetAsync();
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		/// Edits the title.
 		/// </summary>
-		private async Task EditTitle() => this.IsEditingTitle = true;
+		private Task EditTitle()
+		{
+			this.IsEditingTitle = true;
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		/// Finishes the tab text.
 		/// </summary>
-		private async Task FinishTabText() => this.IsEditingTitle = false;
+		private Task FinishTabText()
+		{
+			this.IsEditingTitle = false;
+			return Task.CompletedTask;
+		}
 	}
 }
