@@ -62,12 +62,12 @@ namespace SharedCode.Windows.WPF.Commands
 		/// Initializes a new instance of the <see cref="InvalidCommandParameterException" /> class.
 		/// </summary>
 		/// <param name="info">
-		/// The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the
-		/// serialized object data about the exception being thrown.
+		/// The <see cref="SerializationInfo" /> that holds the serialized object data about the
+		/// exception being thrown.
 		/// </param>
 		/// <param name="context">
-		/// The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains
-		/// contextual information about the source or destination.
+		/// The <see cref="StreamingContext" /> that contains contextual information about the
+		/// source or destination.
 		/// </param>
 		protected InvalidCommandParameterException(SerializationInfo info, StreamingContext context) : base(info, context)
 		{

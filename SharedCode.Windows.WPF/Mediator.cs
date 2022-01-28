@@ -1,12 +1,43 @@
+// <copyright file="Mediator.cs" company="improvGroup, LLC">
+//     Copyright © 2022 improvGroup, LLC. All Rights Reserved.
+// </copyright>
+
 namespace SharedCode.Windows.WPF
 {
 	using System;
 	using System.Collections.Generic;
 
+	/// <summary>
+	/// Class Mediator.
+	/// </summary>
 	public static class Mediator
 	{
+		/// <summary>
+		/// The page list dictionary
+		/// </summary>
 		private static readonly IDictionary<string, List<Action<object?>>> pageListDictionary = new Dictionary<string, List<Action<object?>>>();
 
+		/// <summary>
+		/// Notifies the specified token.
+		/// </summary>
+		/// <param name="token">The token.</param>
+		/// <param name="args">The arguments.</param>
+		public static void Notify(string token, object? args = null)
+		{
+			if (pageListDictionary.ContainsKey(token))
+			{
+				foreach (var callback in pageListDictionary[token])
+				{
+					callback(args);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Subscribes the specified token.
+		/// </summary>
+		/// <param name="token">The token.</param>
+		/// <param name="callback">The callback.</param>
 		public static void Subscribe(string token, Action<object?> callback)
 		{
 			if (!pageListDictionary.ContainsKey(token))
@@ -32,22 +63,16 @@ namespace SharedCode.Windows.WPF
 			}
 		}
 
+		/// <summary>
+		/// Unsubscribes the specified token.
+		/// </summary>
+		/// <param name="token">The token.</param>
+		/// <param name="callback">The callback.</param>
 		public static void Unsubscribe(string token, Action<object?> callback)
 		{
 			if (pageListDictionary.ContainsKey(token))
 			{
 				_ = pageListDictionary[token].Remove(callback);
-			}
-		}
-
-		public static void Notify(string token, object? args = null)
-		{
-			if (pageListDictionary.ContainsKey(token))
-			{
-				foreach (var callback in pageListDictionary[token])
-				{
-					callback(args);
-				}
 			}
 		}
 	}

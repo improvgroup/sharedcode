@@ -60,7 +60,7 @@ namespace SharedCode.Windows.WPF.AttachedProperties
 		/// The callback event when the <see cref="ValueProperty"/> is changed, even if it is the same value
 		/// </summary>
 		/// <param name="d">The UI element that had it's property changed</param>
-		/// <param name="e">The arguments for the event</param>
+		/// <param name="value">The arguments for the event</param>
 		private static object OnValuePropertyUpdated(DependencyObject d, object value)
 		{
 			// Call the parent function

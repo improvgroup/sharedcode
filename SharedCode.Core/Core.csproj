@@ -33,10 +33,11 @@
 		<RootNamespace>SharedCode</RootNamespace>
 		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
 		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+		<SourceControlInformationFeatureSupported>true</SourceControlInformationFeatureSupported>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<TargetFramework>net6.0</TargetFramework>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<Version>6.0.0.0</Version>
+		<Version>6.0.0.1</Version>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
 	</PropertyGroup>
 
@@ -93,5 +94,14 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
+
+	<Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
+		<Exec
+		  Command="git describe --long --always --dirty --exclude=* --abbrev=8"
+		  ConsoleToMSBuild="True"
+		  IgnoreExitCode="False">
+			<!--<Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput"/>-->
+		</Exec>
+	</Target>
 
 </Project>

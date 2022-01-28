@@ -8,7 +8,7 @@
 		<Authors>William Forney</Authors>
 		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
 		<Company>improvGroup, LLC</Company>
-		<Copyright>Copyright © 2021 improvGroup, LLC. All Rights Reserved.</Copyright>
+		<Copyright>Copyright © 2022 improvGroup, LLC. All Rights Reserved.</Copyright>
 		<Description>A library of code shared for free use to help with common scenarios.</Description>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
