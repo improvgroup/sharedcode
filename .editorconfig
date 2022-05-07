@@ -112,6 +112,7 @@ dotnet_diagnostic.CC0088.severity = none
 dotnet_diagnostic.CC0092.severity = none
 dotnet_diagnostic.GCop160.severity = none
 dotnet_diagnostic.GCop204.severity = none
+dotnet_diagnostic.GCop209.severity = none
 dotnet_diagnostic.GCop302.severity = none
 dotnet_diagnostic.IDE0160.severity = none
 dotnet_diagnostic.PullThroughDoc03.severity = none

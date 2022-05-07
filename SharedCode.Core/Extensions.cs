@@ -4,6 +4,8 @@
 
 namespace SharedCode
 {
+	using ProtoBuf;
+
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
@@ -91,22 +93,16 @@ namespace SharedCode
 		}
 
 		/// <summary>
-		/// Makes a copy from the object. Doesn't copy the reference memory, only data.
+		/// Makes a copy of the object using Protobuf serialization.
 		/// </summary>
-		/// <typeparam name="T">Type of the return object.</typeparam>
-		/// <param name="item">Object to be copied.</param>
-		/// <returns>Returns the copied object.</returns>
-		public static T? Clone<T>(this object item)
+		/// <typeparam name="T">Type of the object.</typeparam>
+		/// <param name="this">Object to be copied.</param>
+		/// <returns>The copied object.</returns>
+		/// <remarks>The <see cref="BinaryFormatter" /> method was removed due to security issues.</remarks>
+		public static T? Clone<T>(this object @this)
 		{
-			if (item is null)
-			{
-				return default;
-			}
-
-			using var stream = new MemoryStream();
-			new BinaryFormatter().Serialize(stream, item);
-			_ = stream.Seek(0, SeekOrigin.Begin);
-			return (T?)new BinaryFormatter().Deserialize(stream);
+			var bytes = @this.ToByteArray();
+			return bytes is null ? default : bytes.ToObject<T>();
 		}
 
 		/// <summary>
@@ -131,19 +127,11 @@ namespace SharedCode
 		/// <typeparam name="T">The type of the input object.</typeparam>
 		/// <param name="input">The input object.</param>
 		/// <returns>The output.</returns>
-		/// <exception cref="ArgumentNullException">input</exception>
-		public static T DeepClone<T>(this T input) where T : ISerializable
+		/// <remarks>The <see cref="BinaryFormatter" /> method was removed due to security issues.</remarks>
+		public static T? DeepClone<T>(this T input) where T : ISerializable
 		{
-			_ = input ?? throw new ArgumentNullException(nameof(input));
-			Contract.Ensures(!EqualityComparer<T>.Default.Equals(Contract.Result<T>(), default));
-
-			using (var stream = new MemoryStream())
-			{
-				var formatter = new BinaryFormatter();
-				formatter.Serialize(stream, input);
-				stream.Position = 0;
-				return (T)formatter.Deserialize(stream);
-			}
+			var bytes = input.ToByteArray();
+			return bytes is null ? default : bytes.ToObject<T>();
 		}
 
 		/// <summary>
@@ -321,6 +309,22 @@ namespace SharedCode
 		public static bool IsNull<T>(this T? value) where T : struct => !value.HasValue;
 
 		/// <summary>
+		/// Convert an <see cref="object" /> to a <see cref="byte" /> array, using Protobuf.
+		/// </summary>
+		/// <param name="this">The <see cref="object" />.</param>
+		public static byte[]? ToByteArray(this object @this)
+		{
+			if (@this is null)
+			{
+				return null;
+			}
+
+			using var stream = new MemoryStream();
+			Serializer.Serialize(stream, @this);
+			return stream.ToArray();
+		}
+
+		/// <summary>
 		/// Turns any object into an exception.
 		/// </summary>
 		/// <param name="obj">The object.</param>
@@ -358,6 +362,29 @@ namespace SharedCode
 			using var stream = new MemoryStream();
 			serializer.WriteObject(stream, item);
 			return encoding.GetString(stream.ToArray());
+		}
+
+		/// <summary>
+		/// Convert a <see cref="byte" /> array to an <see cref="object" /> of <typeparamref
+		/// name="T" />, using Protobuf.
+		/// </summary>
+		/// <typeparam name="T">The type of the resulting object.</typeparam>
+		/// <param name="this">The <see cref="byte" /> array.</param>
+		public static T? ToObject<T>(this byte[] @this)
+		{
+			if (@this is null || @this.Length == 0)
+			{
+				return default;
+			}
+
+			using var stream = new MemoryStream();
+
+			stream.Write(@this, 0, @this.Length);
+
+			// Ensure that our stream is at the beginning.
+			_ = stream.Seek(0, SeekOrigin.Begin);
+
+			return Serializer.Deserialize<T>(stream);
 		}
 
 		/// <summary>

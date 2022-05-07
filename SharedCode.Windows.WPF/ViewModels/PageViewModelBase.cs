@@ -1,3 +1,7 @@
+// <copyright file="PageViewModelBase.cs" company="improvGroup, LLC">
+//     Copyright © 2022 improvGroup, LLC. All Rights Reserved.
+// </copyright>
+
 namespace SharedCode.Windows.WPF.ViewModels
 {
 	using SharedCode;
@@ -6,6 +10,7 @@ namespace SharedCode.Windows.WPF.ViewModels
 
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using System.Windows.Input;
@@ -201,23 +206,23 @@ namespace SharedCode.Windows.WPF.ViewModels
 		public virtual IEnumerable<string?> UnsavedItems => Enumerable.Empty<string?>();
 
 		/// <summary>
-		/// Childrens the specified prefix.
+		/// Gets the children with the specified prefix.
 		/// </summary>
-		/// <param name="prefix">The prefix.</param>
+		/// <param name="prefix">The filter prefix.</param>
 		/// <returns>IEnumerable&lt;INavigable&gt;.</returns>
 		public abstract IEnumerable<INavigable> Children(string prefix);
 
 		/// <summary>
-		/// Childs the routes.
+		/// Gets the child the routes.
 		/// </summary>
-		/// <param name="prefix">The prefix.</param>
+		/// <param name="prefix">The filter prefix.</param>
 		/// <returns>IEnumerable&lt;System.String&gt;.</returns>
 		public abstract IEnumerable<string> ChildRoutes(string prefix);
 
 		/// <summary>
 		/// Navigates the specified route.
 		/// </summary>
-		/// <param name="route">The route.</param>
+		/// <param name="route">The route to navigate to.</param>
 		public abstract void Navigate(params string[] route);
 
 		/// <inheritdoc />
@@ -244,7 +249,7 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// <summary>
 		/// Uniques the prefixes.
 		/// </summary>
-		/// <param name="prefix">The prefix.</param>
+		/// <param name="prefix">The string prefix.</param>
 		/// <returns>IEnumerable&lt;System.String&gt;.</returns>
 		public abstract IEnumerable<string> UniquePrefixes(string prefix);
 
@@ -313,11 +318,20 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected virtual bool CanSelectPage(object? arg) => true;
 
 		/// <summary>
-		/// Handles the <see cref="CloseAll" /> event.
+		/// Handles the CloseAll event.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The page.</param>
 		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
 		protected virtual void OnCloseAll(object sender, EventArgs e) => AllClosed?.Invoke(sender, e);
+
+		/// <summary>
+		/// Handles the CloseAllButThis event.
+		/// </summary>
+		/// <param name="sender">The page.</param>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnCloseAllButThis(object sender, EventArgs e) => AllButThisClosed?.Invoke(sender, e);
 
 		/// <summary>
 		/// Called when [close all but this].
@@ -325,16 +339,17 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected void OnCloseAllButThis() => this.OnCloseAllButThis(this, EventArgs.Empty);
 
 		/// <summary>
-		/// Handles the <see cref="CloseAllButThis" /> event.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-		protected virtual void OnCloseAllButThis(object sender, EventArgs e) => AllButThisClosed?.Invoke(sender, e);
-
-		/// <summary>
 		/// Called when [close all pages].
 		/// </summary>
 		protected void OnCloseAllPages() => this.OnCloseAll(this, EventArgs.Empty);
+
+		/// <summary>
+		/// Handles the <see cref="ClosePage" /> event.
+		/// </summary>
+		/// <param name="sender">The page.</param>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnClosePage(object sender, EventArgs e) => this.Closed?.Invoke(this, e);
 
 		/// <summary>
 		/// Called when [close page].
@@ -342,11 +357,12 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected void OnClosePage() => this.OnClosePage(this, EventArgs.Empty);
 
 		/// <summary>
-		/// Handles the <see cref="ClosePage" /> event.
+		/// Called when [order swapped].
 		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-		protected virtual void OnClosePage(object sender, EventArgs e) => this.Closed?.Invoke(this, e);
+		/// <param name="sender">The page.</param>
+		/// <param name="e">The arguments.</param>
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnOrderSwapped(object sender, EventArgs<PageViewModelBase> e) => this.OrderSwapped?.Invoke(sender, e);
 
 		/// <summary>
 		/// Called when [order swapped].
@@ -355,11 +371,12 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected void OnOrderSwapped(PageViewModelBase pageBase) => this.OnOrderSwapped(this, new EventArgs<PageViewModelBase>(pageBase));
 
 		/// <summary>
-		/// Called when [order swapped].
+		/// Handles the Reverted event.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The e.</param>
-		protected virtual void OnOrderSwapped(object sender, EventArgs<PageViewModelBase> e) => this.OrderSwapped?.Invoke(sender, e);
+		/// <param name="sender">The page.</param>
+		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnReverted(object sender, EventArgs e) => this.Reverted?.Invoke(sender, e);
 
 		/// <summary>
 		/// Called when [reverted].
@@ -367,11 +384,12 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected void OnReverted() => this.OnReverted(this, EventArgs.Empty);
 
 		/// <summary>
-		/// Handles the <see cref="E:Reverted" /> event.
+		/// Handles the Reverting event.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The page.</param>
 		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-		protected virtual void OnReverted(object sender, EventArgs e) => this.Reverted?.Invoke(sender, e);
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnReverting(object sender, EventArgs e) => this.Reverting?.Invoke(sender, e);
 
 		/// <summary>
 		/// Called when [reverting].
@@ -379,11 +397,12 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected void OnReverting() => this.OnReverting(this, EventArgs.Empty);
 
 		/// <summary>
-		/// Handles the <see cref="E:Reverting" /> event.
+		/// Handles the <see cref="Saved" /> event.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The page.</param>
 		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-		protected virtual void OnReverting(object sender, EventArgs e) => this.Reverting?.Invoke(sender, e);
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnSaved(object sender, EventArgs e) => this.Saved?.Invoke(sender, e);
 
 		/// <summary>
 		/// Called when [saved].
@@ -391,11 +410,12 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected void OnSaved() => this.OnSaved(this, EventArgs.Empty);
 
 		/// <summary>
-		/// Handles the <see cref="Saved" /> event.
+		/// Handles the <see cref="Saving" /> event.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The page.</param>
 		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-		protected virtual void OnSaved(object sender, EventArgs e) => this.Saved?.Invoke(sender, e);
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnSaving(object sender, EventArgs e) => this.Saving?.Invoke(sender, e);
 
 		/// <summary>
 		/// Called when [saving].
@@ -403,23 +423,17 @@ namespace SharedCode.Windows.WPF.ViewModels
 		protected void OnSaving() => this.OnSaving(this, EventArgs.Empty);
 
 		/// <summary>
-		/// Handles the <see cref="Saving" /> event.
+		/// Handles the <see cref="Selected" /> event.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The page.</param>
 		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-		protected virtual void OnSaving(object sender, EventArgs e) => this.Saving?.Invoke(sender, e);
+		[SuppressMessage("Security", "CA2109:Review visible event handlers", Justification = "Considered. Rejected.")]
+		protected virtual void OnSelected(object sender, EventArgs e) => Selected?.Invoke(sender, e);
 
 		/// <summary>
 		/// Called when [selected].
 		/// </summary>
 		protected void OnSelected() => this.OnSelected(this, EventArgs.Empty);
-
-		/// <summary>
-		/// Handles the <see cref="Selected" /> event.
-		/// </summary>
-		/// <param name="sender">The sender.</param>
-		/// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-		protected virtual void OnSelected(object sender, EventArgs e) => Selected?.Invoke(sender, e);
 
 		/// <summary>
 		/// Closes all pages.

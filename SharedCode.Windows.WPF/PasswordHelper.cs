@@ -35,35 +35,35 @@ namespace SharedCode.Windows.WPF
 		/// <summary>
 		/// Gets the attach.
 		/// </summary>
-		/// <param name="dp">The dp.</param>
-		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		public static bool GetAttach(DependencyObject dp) => (bool)dp.GetValue(AttachProperty);
+		/// <param name="dependencyObject">The dependency object.</param>
+		/// <returns><c>true</c> if attached, <c>false</c> otherwise.</returns>
+		public static bool GetAttach(DependencyObject dependencyObject) => (bool)(dependencyObject?.GetValue(AttachProperty) ?? false);
 
 		/// <summary>
 		/// Gets the password.
 		/// </summary>
-		/// <param name="dp">The dp.</param>
+		/// <param name="dependencyObject">The dependency object.</param>
 		/// <returns>System.String.</returns>
-		public static string GetPassword(DependencyObject dp) => (string)dp.GetValue(PasswordProperty);
+		public static string GetPassword(DependencyObject dependencyObject) => (string)(dependencyObject?.GetValue(PasswordProperty) ?? string.Empty);
 
 		/// <summary>
 		/// Sets the attach.
 		/// </summary>
-		/// <param name="dp">The dp.</param>
+		/// <param name="dependencyObject">The dependency object.</param>
 		/// <param name="value">if set to <c>true</c> [value].</param>
-		public static void SetAttach(DependencyObject dp, bool value) => dp.SetValue(AttachProperty, value);
+		public static void SetAttach(DependencyObject dependencyObject, bool value) => dependencyObject?.SetValue(AttachProperty, value);
 
 		/// <summary>
 		/// Sets the password.
 		/// </summary>
-		/// <param name="dp">The dp.</param>
-		/// <param name="value">The value.</param>
-		public static void SetPassword(DependencyObject dp, string value) => dp.SetValue(PasswordProperty, value);
+		/// <param name="dependencyObject">The dependency object.</param>
+		/// <param name="value">The password.</param>
+		public static void SetPassword(DependencyObject dependencyObject, string value) => dependencyObject?.SetValue(PasswordProperty, value);
 
 		/// <summary>
 		/// Attaches the specified sender.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The dependency object.</param>
 		/// <param name="e">
 		/// The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.
 		/// </param>
@@ -82,52 +82,56 @@ namespace SharedCode.Windows.WPF
 		/// <summary>
 		/// Gets the is updating.
 		/// </summary>
-		/// <param name="dp">The dp.</param>
+		/// <param name="dependencyObject">The password box.</param>
 		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-		private static bool GetIsUpdating(DependencyObject dp) => (bool)dp.GetValue(IsUpdatingProperty);
+		private static bool GetIsUpdating(DependencyObject dependencyObject) => (bool)dependencyObject.GetValue(IsUpdatingProperty);
 
 		/// <summary>
-		/// Handles the <see cref="E:PasswordPropertyChanged" /> event.
+		/// Handles the PasswordPropertyChanged event.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The password box.</param>
 		/// <param name="e">
 		/// The <see cref="DependencyPropertyChangedEventArgs" /> instance containing the event data.
 		/// </param>
 		private static void OnPasswordPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{
-			var passwordBox = sender as PasswordBox;
-			if (passwordBox is not null)
+			if (sender is not PasswordBox passwordBox)
 			{
-				passwordBox.PasswordChanged -= PasswordChanged;
-
-				if (!GetIsUpdating(passwordBox))
-					passwordBox.Password = (string)e.NewValue;
-
-				passwordBox.PasswordChanged += PasswordChanged;
+				return;
 			}
+
+			passwordBox.PasswordChanged -= PasswordChanged;
+
+			if (!GetIsUpdating(passwordBox))
+			{
+				passwordBox.Password = (string)e.NewValue;
+			}
+
+			passwordBox.PasswordChanged += PasswordChanged;
 		}
 
 		/// <summary>
 		/// Passwords the changed.
 		/// </summary>
-		/// <param name="sender">The sender.</param>
+		/// <param name="sender">The password box.</param>
 		/// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
 		private static void PasswordChanged(object sender, RoutedEventArgs e)
 		{
-			var passwordBox = sender as PasswordBox;
-			if (passwordBox is not null)
+			if (sender is not PasswordBox passwordBox)
 			{
-				SetIsUpdating(passwordBox, true);
-				SetPassword(passwordBox, passwordBox.Password);
-				SetIsUpdating(passwordBox, false);
+				return;
 			}
+
+			SetIsUpdating(passwordBox, true);
+			SetPassword(passwordBox, passwordBox.Password);
+			SetIsUpdating(passwordBox, false);
 		}
 
 		/// <summary>
 		/// Sets the is updating.
 		/// </summary>
-		/// <param name="dp">The dp.</param>
+		/// <param name="dependencyObject">The dependency object.</param>
 		/// <param name="value">if set to <c>true</c> [value].</param>
-		private static void SetIsUpdating(DependencyObject dp, bool value) => dp.SetValue(IsUpdatingProperty, value);
+		private static void SetIsUpdating(DependencyObject dependencyObject, bool value) => dependencyObject.SetValue(IsUpdatingProperty, value);
 	}
 }

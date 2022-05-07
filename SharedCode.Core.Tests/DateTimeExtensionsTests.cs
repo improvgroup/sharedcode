@@ -1,14 +1,15 @@
-﻿// <copyright file="DateTimeExtensionsTests.cs" company="improvGroup, LLC">
+// <copyright file="DateTimeExtensionsTests.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
 namespace SharedCode.Tests
 {
-	using System;
-
 	using Calendar;
 
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+	using System;
+	using System.Diagnostics.CodeAnalysis;
 
 	/// <summary>
 	/// The date time extensions tests class
@@ -16,6 +17,13 @@ namespace SharedCode.Tests
 	[TestClass]
 	public class DateTimeExtensionsTests
 	{
+		private const int Day = 11;
+		private const int Hour = 2;
+		private const int Minute = 30;
+		private const int Month = 3;
+		private const int Second = 58;
+		private const int Year = 1984;
+
 		/// <summary>
 		/// The original date time
 		/// </summary>
@@ -185,16 +193,19 @@ namespace SharedCode.Tests
 		/// Initializes the test case.
 		/// </summary>
 		[TestInitialize]
-		public void InitTestCase() => this.originalDateTime = new DateTime(1984, 3, 11, 2, 30, 58);
+		public void InitTestCase() => this.originalDateTime = new DateTime(Year, Month, Day, Hour, Minute, Second);
 
 		/// <summary>
 		/// Teardowns the test case.
 		/// </summary>
+		[SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize", Justification = "This is a special case.")]
 		[TestCleanup]
 		public void TeardownTestCase()
 		{
 			if (this.originalDateTime != default)
+			{
 				GC.SuppressFinalize(this.originalDateTime);
+			}
 		}
 	}
 }

@@ -10,10 +10,10 @@ using System;
 using System.Diagnostics;
 
 /// <summary>
-/// The item class. Implements the <see cref="IEquatable{Entity{TKey}}" />.
+/// The item class. Implements the <see cref="IEquatable{T}" /> where T is <see cref="Entity{TKey}" />.
 /// </summary>
 /// <typeparam name="TKey">The type of the key.</typeparam>
-/// <seealso cref="IEquatable{Entity{TKey}}" />
+/// <seealso cref="IEquatable{T}" />
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public class Entity<TKey> : IEquatable<Entity<TKey>?>
 {
@@ -38,8 +38,8 @@ public class Entity<TKey> : IEquatable<Entity<TKey>?>
 	/// <summary>
 	/// Implements the != operator.
 	/// </summary>
-	/// <param name="left">The left.</param>
-	/// <param name="right">The right.</param>
+	/// <param name="left">The left value.</param>
+	/// <param name="right">The right value.</param>
 	/// <returns>The result of the operator.</returns>
 	public static bool operator !=(Entity<TKey>? left, Entity<TKey>? right) =>
 		!(left == right);
@@ -47,8 +47,8 @@ public class Entity<TKey> : IEquatable<Entity<TKey>?>
 	/// <summary>
 	/// Implements the == operator.
 	/// </summary>
-	/// <param name="left">The left.</param>
-	/// <param name="right">The right.</param>
+	/// <param name="left">The left value.</param>
+	/// <param name="right">The right value.</param>
 	/// <returns>The result of the operator.</returns>
 	public static bool operator ==(Entity<TKey>? left, Entity<TKey>? right) =>
 		EqualityComparer<Entity<TKey>>.Default.Equals(left, right);

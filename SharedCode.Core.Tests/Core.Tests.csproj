@@ -1,58 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AnalysisLevel>latest</AnalysisLevel>
-		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-		<ApplicationIcon>share.ico</ApplicationIcon>
 		<AssemblyName>SharedCode.Core.Tests</AssemblyName>
-		<Authors>William Forney</Authors>
-		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-		<Company>improvGroup, LLC</Company>
-		<Copyright>Copyright © 2021 improvGroup, LLC. All Rights Reserved.</Copyright>
 		<Description>A library of tests for the code shared for free use to help with common scenarios.</Description>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<IncludeSymbols>true</IncludeSymbols>
 		<IsPackable>false</IsPackable>
-		<LangVersion>latest</LangVersion>
-		<NoWarn>$(NoWarn);CA1014</NoWarn>
-		<NeutralLanguage>en-US</NeutralLanguage>
-		<Nullable>enable</Nullable>
-		<PackageIcon>share.png</PackageIcon>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/improvgroup/sharedcode</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageTags>shared code, c#, utilities</PackageTags>
-		<Product>Shared Code Library</Product>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>https://github.com/improvgroup/sharedcode.git</RepositoryUrl>
 		<RootNamespace>SharedCode.Tests</RootNamespace>
-		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-		<RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<TargetFramework>net6.0</TargetFramework>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<Version>6.0.0.1</Version>
-		<WarningsAsErrors>nullable</WarningsAsErrors>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DefineConstants>$(DefineConstants)</DefineConstants>
-		<DocumentationFile></DocumentationFile>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DefineConstants>$(DefineConstants)</DefineConstants>
-		<DocumentationFile></DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentAssertions" Version="6.6.0" />
-		<PackageReference Include="GCop.All.Common" Version="2.8.0" />
+		<PackageReference Include="GCop.All.Common" Version="2.8.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
