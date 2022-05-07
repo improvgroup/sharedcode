@@ -47,7 +47,9 @@
 		<VersionSuffix Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">alpha.$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))</VersionSuffix>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<VersionPrefix Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">6.0.$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))</VersionPrefix>
+		<Build Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
+		<Revision Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
+		<Version Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">6.0.$(Build).$(Revision)</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="System.CLSCompliantAttribute">
