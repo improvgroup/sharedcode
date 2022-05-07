@@ -1,11 +1,10 @@
 // <copyright file="BufferedWriter.cs" company="improvGroup, LLC">
-//     Copyright © 2013-2021 improvGroup, LLC. All Rights Reserved.
+//     Copyright © 2013-2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
 namespace SharedCode.IO;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -22,11 +21,6 @@ public class BufferedWriter : IDisposable
 	private const int BufferLength = 512;
 
 	/// <summary>
-	/// The finished task
-	/// </summary>
-	private static readonly Task FinishedTask = Task.FromResult(true);
-
-	/// <summary>
 	/// The writer
 	/// </summary>
 	private readonly TextWriter writer;
@@ -40,7 +34,7 @@ public class BufferedWriter : IDisposable
 	/// Initializes a new instance of the <see cref="BufferedWriter" /> class.
 	/// </summary>
 	/// <param name="writer">The writer.</param>
-	public BufferedWriter([NotNull] TextWriter writer) =>
+	public BufferedWriter(TextWriter writer) =>
 		this.writer = writer ?? throw new ArgumentNullException(nameof(writer));
 
 	/// <summary>
@@ -55,7 +49,6 @@ public class BufferedWriter : IDisposable
 	/// Gets the string builder.
 	/// </summary>
 	/// <value>The string builder.</value>
-	[NotNull]
 	public StringBuilder StringBuilder { get; } = new StringBuilder(BufferLength * 3 / 2);
 
 	/// <inheritdoc />

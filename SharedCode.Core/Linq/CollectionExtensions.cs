@@ -9,7 +9,6 @@ using SharedCode.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
@@ -25,22 +24,15 @@ public static partial class CollectionExtensions
 	/// </summary>
 	/// <typeparam name="T">The type of items in the collection.</typeparam>
 	/// <typeparam name="TCollection">The type of the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="collection">The generic collection.</param>
 	/// <param name="items">The items to be added.</param>
 	/// <returns>The collection.</returns>
 	/// <exception cref="ArgumentNullException">collection or items</exception>
-	public static TCollection AddRange<T, TCollection>([NotNull] this TCollection collection, [NotNull] IEnumerable<T> items)
+	public static TCollection AddRange<T, TCollection>(this TCollection collection, IEnumerable<T> items)
 		where TCollection : ICollection<T>
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
-
-		if (items is null)
-		{
-			throw new ArgumentNullException(nameof(items));
-		}
+		_ = collection ?? throw new ArgumentNullException(nameof(collection));
+		_ = items ?? throw new ArgumentNullException(nameof(items));
 
 		foreach (var value in items)
 		{
@@ -56,17 +48,14 @@ public static partial class CollectionExtensions
 	/// </summary>
 	/// <typeparam name="T">The type of the items in the collection.</typeparam>
 	/// <typeparam name="TCollection">The type of the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="collection">The generic collection.</param>
 	/// <param name="items">The items to be added.</param>
 	/// <returns>The collection.</returns>
 	/// <exception cref="ArgumentNullException">collection or items</exception>
 	public static TCollection AddRangeIfRangeNotNull<T, TCollection>(this TCollection collection, IEnumerable<T> items)
 		where TCollection : ICollection<T>
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = collection ?? throw new ArgumentNullException(nameof(collection));
 
 		if (items is not null)
 		{
@@ -80,56 +69,38 @@ public static partial class CollectionExtensions
 	/// Finds the specified collection.
 	/// </summary>
 	/// <typeparam name="T">Type of object to find.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The object or a new object of type T.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
-	public static T Find<T>([NotNull] this ICollection<T> collection, [NotNull] Predicate<T> predicate)
+	public static T? Find<T>(this ICollection<T> @this, Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
-
-		foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default))
+		foreach (var item in @this.Where(item => predicate?.Invoke(item) ?? default))
 		{
 			return item;
 		}
 
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
-#pragma warning disable CS8603 // Possible null reference return.
 		return default;
-#pragma warning restore CS8603 // Possible null reference return.
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
 	}
 
 	/// <summary>
 	/// Finds all.
 	/// </summary>
 	/// <typeparam name="T">Type of object to look for.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="this">The generic collection.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>A new collection of T.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
-	public static Collection<T> FindAll<T>([NotNull] this ICollection<T> collection, [NotNull] Predicate<T> predicate)
+	public static Collection<T> FindAll<T>(this ICollection<T> @this, Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
-
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
 		var all = new Collection<T>();
-		foreach (var item in collection.Where(item => predicate?.Invoke(item) ?? default))
+		foreach (var item in @this.Where(item => predicate?.Invoke(item) ?? default))
 		{
 			all.Add(item);
 		}
@@ -141,91 +112,64 @@ public static partial class CollectionExtensions
 	/// Finds the index.
 	/// </summary>
 	/// <typeparam name="T">The type of elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="this">The generic collection.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The find index.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
 	/// <exception cref="ArgumentException">The collection cannot be empty.</exception>
-	public static int FindIndex<T>([NotNull] this ICollection<T> collection, [NotNull] Predicate<T> predicate)
+	public static int FindIndex<T>(this ICollection<T> @this, Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
-
-		if (collection.Count == 0)
-		{
-			throw new ArgumentException(Resources.TheCollectionIsEmpty, nameof(collection));
-		}
-
-		return FindIndex(collection, 0, predicate);
+		return @this.Count == 0
+			? throw new ArgumentException(Resources.TheCollectionIsEmpty, nameof(@this))
+			: FindIndex(@this, 0, predicate);
 	}
 
 	/// <summary>
 	/// Finds the index.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="this">The collection.</param>
 	/// <param name="startIndex">The start index.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The find index.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// The startIndex is out of range of the collection.
 	/// </exception>
-	public static int FindIndex<T>([NotNull] this ICollection<T> collection, int startIndex, [NotNull] Predicate<T> predicate)
+	public static int FindIndex<T>(this ICollection<T> @this, int startIndex, Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
-
-		if (startIndex > 0 || startIndex >= collection.Count)
-		{
-			throw new ArgumentOutOfRangeException(nameof(startIndex));
-		}
-
-		return FindIndex(collection, startIndex, collection.Count, predicate);
+		return startIndex > 0 || startIndex >= @this.Count
+			? throw new ArgumentOutOfRangeException(nameof(startIndex))
+			: FindIndex(@this, startIndex, @this.Count, predicate);
 	}
 
 	/// <summary>
 	/// Finds the index.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="this">The collection.</param>
 	/// <param name="startIndex">The start index.</param>
-	/// <param name="count">The count.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="count">The total count.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The find index.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// The startIndex is out of range of the collection.
 	/// </exception>
 	public static int FindIndex<T>(
-		this ICollection<T> collection,
+		this ICollection<T> @this,
 		int startIndex,
 		int count,
 		Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
-
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
 		if (startIndex < 0 || startIndex >= count)
 		{
@@ -234,12 +178,12 @@ public static partial class CollectionExtensions
 
 		for (var i = startIndex; i < count; i++)
 		{
-			if (i < 0 || i >= collection.Count)
+			if (i < 0 || i >= @this.Count)
 			{
-				throw new ArgumentOutOfRangeException(nameof(collection));
+				throw new ArgumentOutOfRangeException(nameof(@this));
 			}
 
-			if (predicate?.Invoke(collection.ElementAt(i)) ?? default)
+			if (predicate?.Invoke(@this.ElementAt(i)) ?? default)
 			{
 				return i;
 			}
@@ -252,128 +196,90 @@ public static partial class CollectionExtensions
 	/// Finds the last.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The element or a default instance of the type searched for.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
-	public static T FindLast<T>(this ICollection<T> collection, Predicate<T> predicate)
+	public static T? FindLast<T>(this ICollection<T> @this, Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-		if (predicate is null)
+		for (var i = @this.Count - 1; i >= 0; i--)
 		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
-
-		for (var i = collection.Count - 1; i >= 0; i--)
-		{
-			if (predicate?.Invoke(collection.ElementAt(i)) ?? default)
+			if (predicate?.Invoke(@this.ElementAt(i)) ?? default)
 			{
-				return collection.ElementAt(i);
+				return @this.ElementAt(i);
 			}
 		}
 
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
-#pragma warning disable CS8603 // Possible null reference return.
 		return default;
-#pragma warning restore CS8603 // Possible null reference return.
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
 	}
 
 	/// <summary>
 	/// Finds the last index.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The find last index.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// The startIndex is out of range of the collection.
 	/// </exception>
-	public static int FindLastIndex<T>([NotNull] this ICollection<T> collection, [NotNull] Predicate<T> predicate)
+	public static int FindLastIndex<T>(this ICollection<T> @this, Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
-
-		if (collection.Count - 1 < 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(collection));
-		}
-
-		return FindLastIndex(collection, collection.Count - 1, predicate);
+		return @this.Count - 1 < 0
+			? throw new ArgumentOutOfRangeException(nameof(@this))
+			: FindLastIndex(@this, @this.Count - 1, predicate);
 	}
 
 	/// <summary>
 	/// Finds the last index.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="this">The collection.</param>
 	/// <param name="startIndex">The start index.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The find last index.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// The startIndex is out of range of the collection.
 	/// </exception>
-	public static int FindLastIndex<T>([NotNull] this ICollection<T> collection, int startIndex, [NotNull] Predicate<T> predicate)
+	public static int FindLastIndex<T>(this ICollection<T> @this, int startIndex, Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
-
-		if (startIndex < 0)
-		{
-			throw new ArgumentOutOfRangeException(nameof(startIndex));
-		}
-
-		return FindLastIndex(collection, startIndex, startIndex + 1, predicate);
+		return startIndex < 0
+			? throw new ArgumentOutOfRangeException(nameof(startIndex))
+			: FindLastIndex(@this, startIndex, startIndex + 1, predicate);
 	}
 
 	/// <summary>
 	/// Finds the last index.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="this">The collection.</param>
 	/// <param name="startIndex">The start index.</param>
-	/// <param name="count">The count.</param>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="count">The total count.</param>
+	/// <param name="predicate">The predicate method.</param>
 	/// <returns>The find last index.</returns>
 	/// <exception cref="ArgumentNullException">collection or predicate</exception>
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// The startIndex is out of range of the collection.
 	/// </exception>
 	public static int FindLastIndex<T>(
-		this ICollection<T> collection,
+		this ICollection<T> @this,
 		int startIndex,
 		int count,
 		Predicate<T> predicate)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
-
-		if (predicate is null)
-		{
-			throw new ArgumentNullException(nameof(predicate));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
 		if (startIndex < 0 || startIndex >= count)
 		{
@@ -382,12 +288,12 @@ public static partial class CollectionExtensions
 
 		for (var i = startIndex; i >= startIndex - count; i--)
 		{
-			if (i < 0 || i >= collection.Count)
+			if (i < 0 || i >= @this.Count)
 			{
-				throw new ArgumentOutOfRangeException(nameof(collection));
+				throw new ArgumentOutOfRangeException(nameof(@this));
 			}
 
-			if (predicate?.Invoke(collection.ElementAt(i)) ?? default)
+			if (predicate?.Invoke(@this.ElementAt(i)) ?? default)
 			{
 				return i;
 			}
@@ -400,14 +306,14 @@ public static partial class CollectionExtensions
 	/// Loops over the collection performing action on each element.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="action">The action.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="action">The action method.</param>
 	/// <exception cref="ArgumentNullException">collection or action</exception>
-	public static void ForEach<T>([NotNull] this ICollection<T> collection, [NotNull] Action<T> action)
+	public static void ForEach<T>(this ICollection<T> @this, Action<T> action)
 	{
-		if (collection is null)
+		if (@this is null)
 		{
-			throw new ArgumentNullException(nameof(collection));
+			throw new ArgumentNullException(nameof(@this));
 		}
 
 		if (action is null)
@@ -415,7 +321,7 @@ public static partial class CollectionExtensions
 			throw new ArgumentNullException(nameof(action));
 		}
 
-		foreach (var item in collection)
+		foreach (var item in @this)
 		{
 			action?.Invoke(item);
 		}
@@ -425,23 +331,23 @@ public static partial class CollectionExtensions
 	/// Determines whether the specified collection is null original empty.
 	/// </summary>
 	/// <typeparam name="T">The type of items in the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="this">The collection.</param>
 	/// <returns><c>true</c> if the specified collection is null original empty; otherwise, <c>false</c>.</returns>
-	public static bool IsNullOrEmpty<T>(this ICollection<T>? collection) => collection is null || collection.Count == 0;
+	public static bool IsNullOrEmpty<T>(this ICollection<T>? @this) => @this is null || @this.Count == 0;
 
 	/// <summary>
 	/// Removes all.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="match">The match.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="match">The matching predicate method.</param>
 	/// <returns>The remove all.</returns>
 	/// <exception cref="ArgumentNullException">collection or match</exception>
-	public static int RemoveAll<T>(this ICollection<T> collection, Predicate<T> match)
+	public static int RemoveAll<T>(this ICollection<T> @this, Predicate<T> match)
 	{
-		if (collection is null)
+		if (@this is null)
 		{
-			throw new ArgumentNullException(nameof(collection));
+			throw new ArgumentNullException(nameof(@this));
 		}
 
 		if (match is null)
@@ -450,14 +356,14 @@ public static partial class CollectionExtensions
 		}
 
 		var count = 0;
-		for (var i = 0; i < collection.Count; i++)
+		for (var i = 0; i < @this.Count; i++)
 		{
-			if (!match?.Invoke(collection.ElementAt(i)) ?? default)
+			if (!match?.Invoke(@this.ElementAt(i)) ?? default)
 			{
 				continue;
 			}
 
-			_ = collection.Remove(collection.ElementAt(i));
+			_ = @this.Remove(@this.ElementAt(i));
 			count++;
 			i--;
 		}
@@ -469,17 +375,17 @@ public static partial class CollectionExtensions
 	/// Removes the specified range of items from the collection.
 	/// </summary>
 	/// <typeparam name="T">The type of items in the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="items">The items.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="items">The items to remove.</param>
 	/// <returns>
 	/// An <c>IEnumerable{System.Boolean}</c> indicating whether the items were found and removed.
 	/// </returns>
 	/// <exception cref="ArgumentNullException">collection or items</exception>
-	public static IEnumerable<bool> RemoveRange<T>([NotNull] this ICollection<T> collection, [NotNull] IEnumerable<T> items)
+	public static IEnumerable<bool> RemoveRange<T>(this ICollection<T> @this, IEnumerable<T> items)
 	{
-		if (collection is null)
+		if (@this is null)
 		{
-			throw new ArgumentNullException(nameof(collection));
+			throw new ArgumentNullException(nameof(@this));
 		}
 
 		if (items is null)
@@ -489,24 +395,24 @@ public static partial class CollectionExtensions
 
 		Contract.Ensures(Contract.Result<IEnumerable<bool>>() != null);
 
-		return items.Select(collection.Remove);
+		return items.Select(@this.Remove);
 	}
 
 	/// <summary>
 	/// Removes the specified range of items from the collection.
 	/// </summary>
 	/// <typeparam name="T">The type of items in the collection.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="items">The items.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="items">The items to remove.</param>
 	/// <returns>
 	/// An <c>IEnumerable{System.Boolean}</c> indicating whether the items were found and removed.
 	/// </returns>
 	/// <exception cref="ArgumentNullException">collection or items</exception>
-	public static IEnumerable<bool> RemoveRange<T>([NotNull] this ICollection<T> collection, [NotNull] params T[] items)
+	public static IEnumerable<bool> RemoveRange<T>(this ICollection<T> @this, params T[] items)
 	{
-		if (collection is null)
+		if (@this is null)
 		{
-			throw new ArgumentNullException(nameof(collection));
+			throw new ArgumentNullException(nameof(@this));
 		}
 
 		if (items is null)
@@ -516,7 +422,7 @@ public static partial class CollectionExtensions
 
 		Contract.Ensures(Contract.Result<IEnumerable<bool>>() != null);
 
-		return RemoveRange(collection, items.AsEnumerable());
+		return RemoveRange(@this, items.AsEnumerable());
 	}
 
 	/// <summary>
@@ -524,7 +430,7 @@ public static partial class CollectionExtensions
 	/// </summary>
 	/// <typeparam name="T">The type of items in the collection</typeparam>
 	/// <typeparam name="TKey">The type of the attribute key.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="this">The collection.</param>
 	/// <param name="source">The source collection.</param>
 	/// <param name="getKey">The function used to get the attribute keys.</param>
 	/// <returns>A <c>SyncChanges{T}</c> object containing the changes.</returns>
@@ -534,13 +440,13 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or source or getKey</exception>
 	/// <exception cref="ArgumentException">source cannot be empty.</exception>
 	public static SyncChanges<T> SyncFrom<T, TKey>(
-		[NotNull] this ICollection<T> collection,
-		[NotNull] IEnumerable<T> source,
-		[NotNull] Func<T, TKey> getKey)
+		 this ICollection<T> @this,
+		 IEnumerable<T> source,
+		 Func<T, TKey> getKey)
 	{
-		if (collection is null)
+		if (@this is null)
 		{
-			throw new ArgumentNullException(nameof(collection));
+			throw new ArgumentNullException(nameof(@this));
 		}
 
 		if (source is null)
@@ -562,13 +468,13 @@ public static partial class CollectionExtensions
 
 		var returnValue = new SyncChanges<T>();
 
-		var keep = new HashSet<TKey>(collection.Select(getKey));
+		var keep = new HashSet<TKey>(@this.Select(getKey));
 
 		var sourceArray = source as T[] ?? source.ToArray();
 
 		keep.IntersectWith(sourceArray.Select(getKey));
 
-		foreach (var item in collection
+		foreach (var item in @this
 			.Where(
 				x =>
 				{
@@ -576,7 +482,7 @@ public static partial class CollectionExtensions
 					return handler is not null && !keep.Contains(handler(x));
 				}))
 		{
-			_ = collection.Remove(item);
+			_ = @this.Remove(item);
 			returnValue.Removed.Add(item);
 		}
 
@@ -588,7 +494,7 @@ public static partial class CollectionExtensions
 					return handler is not null && !keep.Contains(handler(x));
 				}))
 		{
-			collection.Add(item);
+			@this.Add(item);
 			returnValue.Added.Add(item);
 		}
 
@@ -600,7 +506,7 @@ public static partial class CollectionExtensions
 	/// </summary>
 	/// <typeparam name="T">The type of items in the collection</typeparam>
 	/// <typeparam name="TKey">The type of the attribute key.</typeparam>
-	/// <param name="collection">The collection.</param>
+	/// <param name="this">The collection.</param>
 	/// <param name="newKeys">The new attribute keys.</param>
 	/// <param name="getKey">The function used to get the attribute keys.</param>
 	/// <param name="getObject">The function used to get the objects.</param>
@@ -610,14 +516,14 @@ public static partial class CollectionExtensions
 	/// </remarks>
 	/// <exception cref="ArgumentNullException">collection or newKeys or getKey or getObject</exception>
 	public static SyncChanges<T> SyncFrom<T, TKey>(
-		[NotNull] this ICollection<T> collection,
-		[NotNull] IEnumerable<TKey> newKeys,
-		[NotNull] Func<T, TKey> getKey,
-		[NotNull] Func<TKey, T> getObject)
+		 this ICollection<T> @this,
+		 IEnumerable<TKey> newKeys,
+		 Func<T, TKey> getKey,
+		 Func<TKey, T> getObject)
 	{
-		if (collection is null)
+		if (@this is null)
 		{
-			throw new ArgumentNullException(nameof(collection));
+			throw new ArgumentNullException(nameof(@this));
 		}
 
 		if (newKeys is null)
@@ -638,12 +544,12 @@ public static partial class CollectionExtensions
 		Contract.Ensures(Contract.Result<SyncChanges<T>>() != null);
 
 		var returnValue = new SyncChanges<T>();
-		var keep = new HashSet<TKey>(collection.Select(getKey));
+		var keep = new HashSet<TKey>(@this.Select(getKey));
 		var newKeysArray = newKeys as TKey[] ?? newKeys.ToArray();
 
 		keep.IntersectWith(newKeysArray);
 
-		foreach (var item in collection
+		foreach (var item in @this
 			.Where(
 				x =>
 				{
@@ -652,13 +558,13 @@ public static partial class CollectionExtensions
 				})
 			.ToArray())
 		{
-			_ = collection.Remove(item);
+			_ = @this.Remove(item);
 			returnValue.Removed.Add(item);
 		}
 
 		foreach (var item in newKeysArray.Except(keep).Select(getObject))
 		{
-			collection.Add(item);
+			@this.Add(item);
 			returnValue.Added.Add(item);
 		}
 
@@ -669,22 +575,15 @@ public static partial class CollectionExtensions
 	/// Trues for all.
 	/// </summary>
 	/// <typeparam name="T">The type of the elements to find.</typeparam>
-	/// <param name="collection">The collection.</param>
-	/// <param name="match">The match.</param>
+	/// <param name="this">The collection.</param>
+	/// <param name="match">The matching predicate.</param>
 	/// <returns>The true for all.</returns>
 	/// <exception cref="ArgumentNullException">collection or match</exception>
-	public static bool TrueForAll<T>([NotNull] this ICollection<T> collection, [NotNull] Predicate<T> match)
+	public static bool TrueForAll<T>(this ICollection<T> @this, Predicate<T> match)
 	{
-		if (collection is null)
-		{
-			throw new ArgumentNullException(nameof(collection));
-		}
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = match ?? throw new ArgumentNullException(nameof(match));
 
-		if (match is null)
-		{
-			throw new ArgumentNullException(nameof(match));
-		}
-
-		return collection.All(item => match?.Invoke(item) ?? default);
+		return @this.All(item => match?.Invoke(item) ?? default);
 	}
 }

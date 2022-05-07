@@ -31,12 +31,11 @@ public static partial class CollectionExtensions
 		/// Gets the items added during the sync.
 		/// </summary>
 		/// <value>The added items.</value>
-		[NotNull]
 		public IList<T> Added
 		{
 			get
 			{
-				Contract.Ensures(Contract.Result<IList<T>>() != null);
+				Contract.Ensures(Contract.Result<IList<T>>() is not null);
 
 				return this.added;
 			}
@@ -46,12 +45,11 @@ public static partial class CollectionExtensions
 		/// Gets the items removed during the sync.
 		/// </summary>
 		/// <value>The removed items.</value>
-		[NotNull]
 		public IList<T> Removed
 		{
 			get
 			{
-				Contract.Ensures(Contract.Result<IList<T>>() != null);
+				Contract.Ensures(Contract.Result<IList<T>>() is not null);
 
 				return this.removed;
 			}

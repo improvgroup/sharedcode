@@ -37,7 +37,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<TargetFramework>net6.0</TargetFramework>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<Version>6.0.0.1</Version>
+		<Version>6.0.0.2</Version>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
 	</PropertyGroup>
 
@@ -52,6 +52,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="GCop.All.Common" Version="2.8.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -96,10 +97,7 @@
 	</ItemGroup>
 
 	<Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
-		<Exec
-		  Command="git describe --long --always --dirty --exclude=* --abbrev=8"
-		  ConsoleToMSBuild="True"
-		  IgnoreExitCode="False">
+		<Exec Command="git describe --long --always --dirty --exclude=* --abbrev=8" ConsoleToMSBuild="True" IgnoreExitCode="False">
 			<!--<Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput"/>-->
 		</Exec>
 	</Target>

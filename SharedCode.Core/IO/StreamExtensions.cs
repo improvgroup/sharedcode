@@ -1,10 +1,11 @@
 // <copyright file="StreamExtensions.cs" company="improvGroup, LLC">
-//     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
+//     Copyright © 2009-2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
 namespace SharedCode.IO;
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -26,8 +27,11 @@ public static class StreamExtensions
 	/// <param name="quality">The encoder quality in percent (90% recommended, the default).</param>
 	/// <returns>The thumbnail image.</returns>
 	/// <exception cref="ArgumentNullException">The input stream cannot be null.</exception>
-	/// <exception cref="PlatformNotSupportedException">The Image.FromStream() method is not available on non-Windows platforms.</exception>
+	/// <exception cref="PlatformNotSupportedException">
+	/// The Image.FromStream() method is not available on non-Windows platforms.
+	/// </exception>
 	[SupportedOSPlatform("windows")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>")]
 	public static MemoryStream FitImage(this Stream stream, int maxWidth = 0, int maxHeight = 0, bool makeSquare = false, long quality = 90L)
 	{
 		if (stream is null)
@@ -103,19 +107,112 @@ public static class StreamExtensions
 		var info = Array.Find(
 			ImageCodecInfo.GetImageEncoders(),
 			ici => ici.MimeType?.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) ?? false);
+		if (info is null)
+		{
+			throw new Exception("No encoder found.");
+		}
 
 		using var ep = new EncoderParameters();
 		ep.Param[0] = new EncoderParameter(Encoder.Quality, quality);
 
 		var memoryStream = new MemoryStream();
 
-#pragma warning disable CS8604 // Possible null reference argument.
 		targetImage.Save(memoryStream, info, ep);
-#pragma warning restore CS8604 // Possible null reference argument.
 
 		// Rewind the stream to the beginning so consumers don't have to do it.
 		_ = memoryStream.Seek(0, SeekOrigin.Begin);
 
 		return memoryStream;
+	}
+
+	/// <summary>
+	/// Reads the content of the stream.
+	/// </summary>
+	/// <param name="stream">The input stream.</param>
+	/// <returns>Returns a string with the content of the input stream.</returns>
+	/// <exception cref="ArgumentNullException">stream</exception>
+	public static string ReadToEnd(this Stream stream)
+	{
+		_ = stream ?? throw new ArgumentNullException(nameof(stream));
+
+		if (stream.CanSeek)
+		{
+			_ = stream.Seek(0, SeekOrigin.Begin);
+		}
+
+		using var sr = new StreamReader(stream);
+		return sr.ReadToEnd();
+	}
+
+	/// <summary>
+	/// Reads the content of the stream.
+	/// </summary>
+	/// <param name="stream">The input stream.</param>
+	/// <returns>Returns a string with the content of the input stream.</returns>
+	/// <exception cref="ArgumentNullException">stream</exception>
+	public static async Task<string> ReadToEndAsync(this Stream stream)
+	{
+		_ = stream ?? throw new ArgumentNullException(nameof(stream));
+		Contract.Ensures(Contract.Result<Task<string>>() is not null);
+
+		if (stream.CanSeek)
+		{
+			_ = stream.Seek(0, SeekOrigin.Begin);
+		}
+
+		using var sr = new StreamReader(stream);
+		return await sr.ReadToEndAsync().ConfigureAwait(continueOnCapturedContext: false);
+	}
+
+	/// <summary>
+	/// Converts the input stream to a byte array.
+	/// </summary>
+	/// <param name="input">This input stream.</param>
+	/// <returns>The byte array.</returns>
+	/// <exception cref="ArgumentNullException">input</exception>
+	public static byte[] ToByteArray(this Stream input)
+	{
+		_ = input ?? throw new ArgumentNullException(nameof(input));
+		Contract.Ensures(Contract.Result<byte[]>() is not null);
+
+		if (input is MemoryStream stream)
+		{
+			return stream.ToArray();
+		}
+
+		using var ms = new MemoryStream();
+		if (input.CanSeek)
+		{
+			_ = input.Seek(0, SeekOrigin.Begin);
+		}
+
+		input.CopyTo(ms);
+		return ms.ToArray();
+	}
+
+	/// <summary>
+	/// Converts the input stream to a byte array.
+	/// </summary>
+	/// <param name="input">This input stream.</param>
+	/// <returns>The byte array.</returns>
+	/// <exception cref="ArgumentNullException">input</exception>
+	public static async Task<byte[]> ToByteArrayAsync(this Stream input)
+	{
+		_ = input ?? throw new ArgumentNullException(nameof(input));
+		Contract.Ensures(Contract.Result<Task<byte[]>>() is not null);
+
+		if (input is MemoryStream stream)
+		{
+			return stream.ToArray();
+		}
+
+		using var ms = new MemoryStream();
+		if (input.CanSeek)
+		{
+			_ = input.Seek(0, SeekOrigin.Begin);
+		}
+
+		await input.CopyToAsync(ms).ConfigureAwait(continueOnCapturedContext: false);
+		return ms.ToArray();
 	}
 }
