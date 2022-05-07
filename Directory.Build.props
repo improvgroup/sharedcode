@@ -47,8 +47,7 @@
 		<VersionSuffix Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">alpha.$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))</VersionSuffix>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<Version>6.0</Version>
-		<VersionSuffix Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">.$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))</VersionSuffix>
+		<VersionPrefix Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">6.0.$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))</VersionPrefix>
 	</PropertyGroup>
 	<ItemGroup>
 		<AssemblyAttribute Include="System.CLSCompliantAttribute">
