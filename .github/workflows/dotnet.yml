@@ -1,36 +1,22 @@
-name: .NET
+name: .NET Continuous Integration
 
 on:
-  push:
-    branches: [ main ]
-    tags:
-    - "**"
   pull_request:
+    branches: [ main ]
+  push:
     branches: [ main ]
 
 jobs:
-  build:
-
+  test:
+    name: Run Tests
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
-
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --configuration Release
-
-    - name: Push to NuGet
-      uses: dansiegel/publish-nuget@v1.01
-      with:
-        apiKey: ${{secrets.NUGET_API_KEY}}
+    - name: Run tests
+      run: dotnet test --logger GitHubActions SharedCode.sln

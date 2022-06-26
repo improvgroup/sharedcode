@@ -6,11 +6,12 @@ end_of_line = crlf
 indent_size = tab
 indent_style = tab
 insert_final_newline = true
-max_line_length = 80
+max_line_length = 100
 tab_width = 4
 trim_trailing_whitespace = true
 
 [*.cs]
+charset = utf-8-bom
 csharp_indent_case_contents = true
 csharp_indent_case_contents_when_block = true
 csharp_indent_labels = flush_left
@@ -125,3 +126,7 @@ indent_style = space
 
 [*.xml]
 indent_style = space
+
+[*.yml]
+indent_style = space
+tab_width = 2

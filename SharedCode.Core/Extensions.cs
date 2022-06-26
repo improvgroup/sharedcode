@@ -6,23 +6,12 @@ namespace SharedCode
 {
 	using ProtoBuf;
 
-	using System;
-	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Data.SqlTypes;
-	using System.Diagnostics;
-	using System.Diagnostics.CodeAnalysis;
-	using System.Diagnostics.Contracts;
-	using System.Globalization;
-	using System.IO;
-	using System.Linq;
-	using System.Linq.Expressions;
 	using System.Reflection;
 	using System.Runtime.Serialization;
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.Runtime.Serialization.Json;
-	using System.Text;
-	using System.Text.Json;
 	using System.Xml;
 	using System.Xml.Serialization;
 

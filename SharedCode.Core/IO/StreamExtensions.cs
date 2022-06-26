@@ -1,4 +1,4 @@
-// <copyright file="StreamExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="StreamExtensions.cs" company="improvGroup, LLC">
 //     Copyright © 2009-2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -31,7 +31,7 @@ public static class StreamExtensions
 	/// The Image.FromStream() method is not available on non-Windows platforms.
 	/// </exception>
 	[SupportedOSPlatform("windows")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>")]
+	[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>")]
 	public static MemoryStream FitImage(this Stream stream, int maxWidth = 0, int maxHeight = 0, bool makeSquare = false, long quality = 90L)
 	{
 		if (stream is null)
