@@ -21,25 +21,25 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// <param name="updatingFlag">The boolean value indicating whether the function is running.</param>
 		/// <param name="action">The action to run, if it is not already running.</param>
 		/// <returns>A <see cref="Task"/>.</returns>
+		/// <exception cref="ArgumentNullException">action</exception>
 		protected static async Task RunCommandAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
 		{
 			_ = action ?? throw new ArgumentNullException(nameof(action));
 
-			if (updatingFlag is not null)
+			if (updatingFlag is null || updatingFlag.GetPropertyValue())
 			{
-				if (updatingFlag.GetPropertyValue())
-					return;
+				return;
+			}
 
-				updatingFlag.SetPropertyValue(true);
+			updatingFlag.SetPropertyValue(true);
 
-				try
-				{
-					await action().ConfigureAwait(true);
-				}
-				finally
-				{
-					updatingFlag.SetPropertyValue(false);
-				}
+			try
+			{
+				await action().ConfigureAwait(true);
+			}
+			finally
+			{
+				updatingFlag.SetPropertyValue(false);
 			}
 		}
 	}

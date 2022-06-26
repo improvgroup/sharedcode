@@ -154,6 +154,8 @@ namespace SharedCode
 		/// <exception cref="ArgumentException">
 		/// Expression propertyLambda refers to a method or field, not a property.
 		/// </exception>
+		[SuppressMessage("Roslynator", "RCS1175:Unused 'this' parameter.", Justification = "We use the type but the argument is just here for extension method purposes.")]
+		[SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Avoiding nested conditionals.")]
 		public static PropertyInfo GetPropertyInfo<TSource, TProperty>(this TSource source, Expression<Func<TSource, TProperty>> propertyLambda)
 		{
 			_ = propertyLambda ?? throw new ArgumentNullException(nameof(propertyLambda));

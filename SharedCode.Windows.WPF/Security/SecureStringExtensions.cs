@@ -9,18 +9,18 @@ namespace SharedCode.Windows.WPF.Security
 	using System.Security;
 
 	/// <summary>
-	/// Class SecureStringExtensions.
+	/// The secure string extension method holder class.
 	/// </summary>
 	public static class SecureStringExtensions
 	{
 		/// <summary>
 		/// Unsecures the specified secure string.
 		/// </summary>
-		/// <param name="secureString">The secure string.</param>
+		/// <param name="this">The secure string.</param>
 		/// <returns>System.Nullable&lt;System.String&gt;.</returns>
-		public static string? Unsecure(this SecureString secureString)
+		public static string? Unsecure(this SecureString @this)
 		{
-			if (secureString is null)
+			if (@this is null)
 			{
 				return string.Empty;
 			}
@@ -28,7 +28,7 @@ namespace SharedCode.Windows.WPF.Security
 			var unmanagedString = IntPtr.Zero;
 			try
 			{
-				unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(secureString);
+				unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(@this);
 				return Marshal.PtrToStringUni(unmanagedString);
 			}
 			finally

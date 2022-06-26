@@ -1,10 +1,11 @@
 // <copyright file="DateTimeOffsetExtensions.cs" company="improvGroup, LLC">
-//     Copyright © 2013-2021 improvGroup, LLC. All Rights Reserved.
+//     Copyright © 2013-2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
 namespace SharedCode;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Threading;
@@ -30,7 +31,7 @@ public static class DateTimeOffsetExtensions
 			{
 				current = current.AddDays(sign);
 			}
-			while (current.DayOfWeek == DayOfWeek.Saturday || current.DayOfWeek == DayOfWeek.Sunday);
+			while (current.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday);
 		}
 
 		return current;
@@ -50,7 +51,7 @@ public static class DateTimeOffsetExtensions
 		while (weekdaysAdded < unsignedDays)
 		{
 			date = date.AddDays(sign);
-			if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
+			if (date.DayOfWeek is not DayOfWeek.Saturday and not DayOfWeek.Sunday)
 			{
 				weekdaysAdded++;
 			}
@@ -124,6 +125,7 @@ public static class DateTimeOffsetExtensions
 	/// <c>true</c> if the date and time fall between the start and end dates, inclusive or not of
 	/// the end date and time, <c>false</c> otherwise.
 	/// </returns>
+	[SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Avoiding nested conditionals.")]
 	public static bool Between(
 		this DateTimeOffset DateTimeOffset,
 		DateTimeOffset startDateTimeOffset,
@@ -137,12 +139,9 @@ public static class DateTimeOffsetExtensions
 
 		if (startDateTimeOffset < endDateTimeOffset)
 		{
-			if (endInclusive)
-			{
-				return DateTimeOffset >= startDateTimeOffset && DateTimeOffset <= endDateTimeOffset;
-			}
-
-			return DateTimeOffset >= startDateTimeOffset && DateTimeOffset < endDateTimeOffset;
+			return endInclusive
+				? DateTimeOffset >= startDateTimeOffset && DateTimeOffset <= endDateTimeOffset
+				: DateTimeOffset >= startDateTimeOffset && DateTimeOffset < endDateTimeOffset;
 		}
 
 		return DateTimeOffset.Between(endDateTimeOffset, startDateTimeOffset, endInclusive);
@@ -890,47 +889,32 @@ public static class DateTimeOffsetExtensions
 	{
 		// ReSharper disable StringLiteralTypo
 		var diff = comparedTo.Subtract(date);
-		if (diff.TotalDays >= 365)
+		switch (diff.TotalDays)
 		{
-			return string.Concat("on ", date.ToString("MMMM d, yyyy", CultureInfo.CurrentCulture));
-		}
+			case >= 365:
+				return string.Concat("on ", date.ToString("MMMM d, yyyy", CultureInfo.CurrentCulture));
+			case >= 7:
+				return string.Concat("on ", date.ToString("MMMM d", CultureInfo.CurrentCulture));
+			case > 1:
+				return $"{diff.TotalDays:N0} days ago";
+			default:
+				if (Math.Abs(diff.TotalDays - 1D) < double.Epsilon)
+				{
+					return "yesterday";
+				}
 
-		if (diff.TotalDays >= 7)
-		{
-			return string.Concat("on ", date.ToString("MMMM d", CultureInfo.CurrentCulture));
-		}
+				if (diff.TotalHours >= 2)
+				{
+					return $"{diff.TotalHours:N0} hours ago";
+				}
 
-		// ReSharper restore StringLiteralTypo
-		if (diff.TotalDays > 1)
-		{
-			return $"{diff.TotalDays:N0} days ago";
+				return diff.TotalMinutes switch
+				{
+					>= 60 => "more than an hour ago",
+					>= 5 => $"{diff.TotalMinutes:N0} minutes ago",
+					>= 1 => "a few minutes ago",
+					_ => "less than a minute ago"
+				};
 		}
-
-		if (Math.Abs(diff.TotalDays - 1D) < double.Epsilon)
-		{
-			return "yesterday";
-		}
-
-		if (diff.TotalHours >= 2)
-		{
-			return $"{diff.TotalHours:N0} hours ago";
-		}
-
-		if (diff.TotalMinutes >= 60)
-		{
-			return "more than an hour ago";
-		}
-
-		if (diff.TotalMinutes >= 5)
-		{
-			return $"{diff.TotalMinutes:N0} minutes ago";
-		}
-
-		if (diff.TotalMinutes >= 1)
-		{
-			return "a few minutes ago";
-		}
-
-		return "less than a minute ago";
 	}
 }

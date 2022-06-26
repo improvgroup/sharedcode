@@ -12,6 +12,7 @@ namespace SharedCode.Threading.Tasks
 		/// Safely execute the <see cref="Task" /> without waiting for it to complete before moving
 		/// to the next line of code; commonly known as "Fire And Forget".
 		/// </summary>
+		/// <typeparam name="TException">The type of exception.</typeparam>
 		/// <param name="task">The <see cref="Task" />.</param>
 		/// <param name="continueOnCapturedContext">
 		/// If set to <c>true</c> continue on captured context; this will ensure that the

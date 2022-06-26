@@ -35,7 +35,6 @@ public static partial class Predicates
 	/// </returns>
 	public static Expression<Func<DateTime, bool>> Before(DateTime before) => dateTime => dateTime < before;
 
-
 	/// <summary>
 	/// Returns a LINQ friendly expression that takes a date and time and returns whether it falls
 	/// between the start and end date times inclusive or exclusive of the end date time.
@@ -47,21 +46,18 @@ public static partial class Predicates
 	/// A LINQ friendly expression that takes a date and time and returns whether it falls between
 	/// the start and end date times inclusive or exclusive of the end date time.
 	/// </returns>
-	[SuppressMessage("Readability", "RCS1238:Avoid nested ?: operators.", Justification = "<Pending>")]
+	[SuppressMessage("Readability", "RCS1238:Avoid nested ?: operators.", Justification = "Competing CA rules. Arbitrarily picked this way.")]
 	public static Expression<Func<DateTime, bool>> Between(
 		DateTime startDateTime,
 		DateTime endDateTime,
 		bool endInclusive = false)
 	{
-		if (startDateTime == endDateTime)
-		{
-			return dateTime => dateTime == startDateTime && endInclusive;
-		}
-
-		return startDateTime < endDateTime
-			? endInclusive
-				? (dateTime => dateTime >= startDateTime && dateTime <= endDateTime)
-				: (dateTime => dateTime >= startDateTime && dateTime < endDateTime)
-			: Between(endDateTime, startDateTime, endInclusive);
+		return startDateTime == endDateTime
+			? (dateTime => dateTime == startDateTime && endInclusive)
+			: startDateTime < endDateTime
+				? endInclusive
+					? (dateTime => dateTime >= startDateTime && dateTime <= endDateTime)
+					: (dateTime => dateTime >= startDateTime && dateTime < endDateTime)
+				: Between(endDateTime, startDateTime, endInclusive);
 	}
 }

@@ -37,7 +37,6 @@ public static partial class Predicates
 	public static Expression<Func<DateTimeOffset, bool>> Before(DateTimeOffset before) =>
 		dateTime => dateTime < before;
 
-
 	/// <summary>
 	/// Returns a LINQ friendly expression that takes a date and time and returns whether it
 	/// falls between the start and end date times inclusive or exclusive of the end date time.

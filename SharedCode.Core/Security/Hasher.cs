@@ -5,6 +5,7 @@
 namespace SharedCode.Security;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
@@ -20,8 +21,9 @@ public static partial class Hasher
 	/// <param name="input">The input string.</param>
 	/// <param name="hash">The hash type.</param>
 	/// <returns>The hash byte array.</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA5351:Do Not Use Broken Cryptographic Algorithms", Justification = "<Pending>")]
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA5350:Do Not Use Weak Cryptographic Algorithms", Justification = "<Pending>")]
+	[SuppressMessage("Security", "CA5351:Do Not Use Broken Cryptographic Algorithms", Justification = "Computing a hash. May not need to be cryptographically safe.")]
+	[SuppressMessage("Security", "CA5350:Do Not Use Weak Cryptographic Algorithms", Justification = "Computing a hash. May not need to be cryptographically safe.")]
+	[SuppressMessage("Roslynator", "RCS1136:Merge switch sections with equivalent content.", Justification = "CA rules overlap here. Have to disable this or that.")]
 	private static byte[] GetHash(string input, EHashType hash)
 	{
 		var inputBytes = Encoding.ASCII.GetBytes(input);
@@ -97,7 +99,9 @@ public static partial class Hasher
 				return outputSha512;
 
 			case EHashType.MACTripleDES:
+				return inputBytes;
 			case EHashType.RIPEMD160:
+				return inputBytes;
 			default:
 				return inputBytes;
 		}
@@ -109,7 +113,7 @@ public static partial class Hasher
 	/// <param name="input">The string to hash</param>
 	/// <param name="hashType">The hash algorithm to use</param>
 	/// <returns>The resulting hash or an empty string on error</returns>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
+	[SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
 	public static string ComputeHash(this string input, EHashType hashType)
 	{
 		try
@@ -119,7 +123,7 @@ public static partial class Hasher
 
 			for (var i = 0; i < hash?.Length; i++)
 			{
-				stringBuilder.Append(hash[i].ToString("x2", CultureInfo.InvariantCulture));
+				_ = stringBuilder.Append(hash[i].ToString("x2", CultureInfo.InvariantCulture));
 			}
 
 			return stringBuilder.ToString();

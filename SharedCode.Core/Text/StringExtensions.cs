@@ -165,7 +165,6 @@ public static class StringExtensions
 	/// if set to <c>true</c> then consider white space as empty.
 	/// </param>
 	/// <returns>The output string.</returns>
-	[SuppressMessage("Style", "GCop436:As the implementation is relatively long, change this into a standard method implementation.", Justification = "Arbitrary rule.")]
 	public static string DefaultIfEmpty(this string @this, string defaultValue, bool considerWhiteSpaceIsEmpty = false) =>
 		(considerWhiteSpaceIsEmpty ? string.IsNullOrWhiteSpace(@this) : string.IsNullOrEmpty(@this)) ? defaultValue : @this;
 
@@ -446,8 +445,6 @@ public static class StringExtensions
 	/// <exception cref="ArgumentOutOfRangeException">
 	/// throws ArgumentOutOfRangeException if length is not a non-negative number.
 	/// </exception>
-	[SuppressMessage("Design", "GCop160:This is not readable. Either refactor into a method, or use If / else statement.", Justification = "Opinion based rule.")]
-	[SuppressMessage("Style", "GCop436:As the implementation is relatively long, change this into a standard method implementation.", Justification = "Opinion based rule.")]
 	public static bool IsLengthAtLeast(this string @this, int length) =>
 		length < 0
 			? throw new ArgumentOutOfRangeException(nameof(length), length, "The length must be a non-negative number.")

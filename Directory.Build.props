@@ -52,6 +52,39 @@
 		<Version Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">6.0.$(Build).$(Revision)</Version>
 	</PropertyGroup>
 	<ItemGroup>
+		<!-- GCop is good but it has too many false positives with newer language constructs so commenting out here. -->
+		<!--
+		<PackageReference Include="GCop.All.Common" Version="2.8.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		-->
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Roslynator.Analyzers" Version="4.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="4.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+		<PackageReference Include="System.Interactive" Version="6.0.1" />
+		<PackageReference Include="System.Interactive.Async" Version="6.0.1" />
+		<PackageReference Include="System.Interactive.Async.Providers" Version="6.0.1" />
+		<PackageReference Include="System.Interactive.Providers" Version="6.0.1" />
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+		<PackageReference Include="System.Linq.Async.Queryable" Version="6.0.1" />
+		<PackageReference Include="System.Reactive" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
 		<AssemblyAttribute Include="System.CLSCompliantAttribute">
 			<_Parameter1>false</_Parameter1>
 		</AssemblyAttribute>

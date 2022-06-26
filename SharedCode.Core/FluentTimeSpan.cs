@@ -6,7 +6,6 @@ namespace SharedCode;
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 /// <summary>
@@ -27,14 +26,12 @@ public struct FluentTimeSpan : IEquatable<FluentTimeSpan>, IComparable<TimeSpan>
 	/// Gets or sets Months.
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Advanced)]
-	[SuppressMessage("Style", "CC0047:You should change to 'private set' whenever possible.", Justification = "<Pending>")]
 	public int Months { get; set; }
 
 	/// <summary>
 	/// Gets or sets Years.
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Advanced)]
-	[SuppressMessage("Style", "CC0047:You should change to 'private set' whenever possible.", Justification = "<Pending>")]
 	public int Years { get; set; }
 
 	/// <summary>
@@ -42,7 +39,6 @@ public struct FluentTimeSpan : IEquatable<FluentTimeSpan>, IComparable<TimeSpan>
 	/// </summary>
 	/// <value>TimeSpan.</value>
 	[EditorBrowsable(EditorBrowsableState.Advanced)]
-	[SuppressMessage("Style", "CC0047:You should change to 'private set' whenever possible.", Justification = "<Pending>")]
 	public TimeSpan TimeSpan { get; set; }
 
 	/// <summary>
@@ -366,17 +362,10 @@ public struct FluentTimeSpan : IEquatable<FluentTimeSpan>, IComparable<TimeSpan>
 		}
 
 		var type = obj.GetType();
-		if (type == typeof(FluentTimeSpan))
-		{
-			return this == (FluentTimeSpan)obj;
-		}
-
-		if (type == typeof(TimeSpan))
-		{
-			return this == (TimeSpan)obj;
-		}
-
-		return false;
+		return type == typeof(FluentTimeSpan)
+			? this == (FluentTimeSpan)obj
+			: type == typeof(TimeSpan) &&
+				this == (TimeSpan)obj;
 	}
 
 	/// <inheritdoc />
@@ -387,7 +376,7 @@ public struct FluentTimeSpan : IEquatable<FluentTimeSpan>, IComparable<TimeSpan>
 		obj switch
 		{
 			null => 1,
-			TimeSpan x => CompareTo(x),
+			TimeSpan x => this.CompareTo(x),
 			_ => throw new ArgumentException("Object is not a FluentTimeSpan.", nameof(obj))
 		};
 

@@ -19,6 +19,8 @@ public static class DataRowExtensions
 	/// <param name="dataRow">The data row.</param>
 	/// <param name="parentTable">The parent table.</param>
 	/// <returns>An instance of the new DataRow</returns>
+	/// <exception cref="ArgumentNullException">dataRow</exception>
+	/// <exception cref="ArgumentNullException">parentTable</exception>
 	public static T Clone<T>(this DataRow dataRow, DataTable parentTable)
 		where T : DataRow
 	{

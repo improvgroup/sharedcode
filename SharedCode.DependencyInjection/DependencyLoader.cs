@@ -31,12 +31,12 @@ public static class DependencyLoader
 	public static void LoadDependencies(this IServiceCollection serviceCollection, string path, string pattern)
 	{
 		var directoryCatalog = new DirectoryCatalog(path, pattern);
-		var importDefinition = (ImportDefinition)(new(
+		ImportDefinition importDefinition = new(
 			_ => true,
 			typeof(IDependencyResolver).FullName,
 			ImportCardinality.ZeroOrMore,
 			false,
-			false));
+			false);
 
 		try
 		{

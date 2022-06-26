@@ -20,29 +20,29 @@ namespace SharedCode.Windows.WPF.ViewModels
 		string RouteDescription { get; }
 
 		/// <summary>
-		/// Childrens the specified prefix.
+		/// Returns the children with the specified prefix.
 		/// </summary>
-		/// <param name="prefix">The prefix.</param>
+		/// <param name="prefix">The child prefix.</param>
 		/// <returns>IEnumerable&lt;INavigable&gt;.</returns>
 		IEnumerable<INavigable> Children(string prefix);
 
 		/// <summary>
-		/// Childs the routes.
+		/// Returns the routes of the children with the specified prefix.
 		/// </summary>
-		/// <param name="prefix">The prefix.</param>
+		/// <param name="prefix">The child prefix.</param>
 		/// <returns>IEnumerable&lt;System.String&gt;.</returns>
 		IEnumerable<string> ChildRoutes(string prefix);
 
 		/// <summary>
-		/// Navigates the specified route.
+		/// Navigates to the specified route.
 		/// </summary>
-		/// <param name="route">The route.</param>
+		/// <param name="route">The route to navigate to.</param>
 		void Navigate(params string[] route);
 
 		/// <summary>
-		/// Uniques the prefixes.
+		/// Returns the unique prefixes.
 		/// </summary>
-		/// <param name="prefix">The prefix.</param>
+		/// <param name="prefix">The root prefix.</param>
 		/// <returns>IEnumerable&lt;System.String&gt;.</returns>
 		IEnumerable<string> UniquePrefixes(string prefix);
 	}

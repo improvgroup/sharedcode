@@ -10,7 +10,7 @@ namespace SharedCode.Specifications.Evaluators;
 /// </summary>
 /// <seealso cref="IEvaluator" />
 /// <seealso cref="IInMemoryEvaluator" />
-public class PaginationEvaluator : IEvaluator, IInMemoryEvaluator
+public sealed class PaginationEvaluator : IEvaluator, IInMemoryEvaluator
 {
 	/// <summary>
 	/// Prevents a default instance of the <see cref="PaginationEvaluator" /> class from being created.

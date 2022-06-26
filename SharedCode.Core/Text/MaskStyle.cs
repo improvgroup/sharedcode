@@ -1,4 +1,4 @@
-﻿// <copyright file="MaskStyle.cs" company="improvGroup, LLC">
+// <copyright file="MaskStyle.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -12,11 +12,11 @@ namespace SharedCode.Text
 		/// <summary>
 		/// Masks all characters within the masking region, regardless of type.
 		/// </summary>
-		All,
+		All = 0,
 
 		/// <summary>
 		/// Masks only alphabetic and numeric characters within the masking region.
 		/// </summary>
-		AlphaNumericOnly
+		AlphaNumericOnly = 1
 	}
 }

@@ -12,7 +12,7 @@ using SharedCode.Specifications.Builders;
 /// </summary>
 /// <seealso cref="IEvaluator" />
 /// <seealso cref="IInMemoryEvaluator" />
-public class WhereEvaluator : IEvaluator, IInMemoryEvaluator
+public sealed class WhereEvaluator : IEvaluator, IInMemoryEvaluator
 {
 	/// <summary>
 	/// Prevents a default instance of the <see cref="WhereEvaluator" /> class from being created.

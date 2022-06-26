@@ -1,6 +1,7 @@
 namespace SharedCode.Windows.WPF.Converters
 {
 	using System;
+	using System.Diagnostics.CodeAnalysis;
 	using System.Globalization;
 	using System.Windows;
 
@@ -15,6 +16,7 @@ namespace SharedCode.Windows.WPF.Converters
 		/// <param name="parameter">The converter parameter to use.</param>
 		/// <param name="culture">The culture to use in the converter.</param>
 		/// <returns>A converted value. If the method returns <see langword="null" />, the valid null value is used.</returns>
+		[SuppressMessage("Roslynator", "RCS1238:Avoid nested ?: operators.", Justification = "N/A")]
 		public override object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
 			parameter is null
 				? string.IsNullOrWhiteSpace(value?.ToString()) ? (object)Visibility.Collapsed : Visibility.Visible

@@ -14,7 +14,7 @@ namespace SharedCode.Windows.WPF.Converters
 			return targetType == typeof(string)
 				? value switch
 				{
-					null => (string?)null,
+					null => null,
 					short s => s.ToString(culture),
 					int i => i.ToString(culture),
 					long l => l.ToString(culture),

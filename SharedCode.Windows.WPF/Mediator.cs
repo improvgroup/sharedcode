@@ -20,7 +20,7 @@ namespace SharedCode.Windows.WPF
 		/// <summary>
 		/// Notifies the specified token.
 		/// </summary>
-		/// <param name="token">The token.</param>
+		/// <param name="token">The page token.</param>
 		/// <param name="args">The arguments.</param>
 		public static void Notify(string token, object? args = null)
 		{
@@ -36,8 +36,8 @@ namespace SharedCode.Windows.WPF
 		/// <summary>
 		/// Subscribes the specified token.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		/// <param name="callback">The callback.</param>
+		/// <param name="token">The page token.</param>
+		/// <param name="callback">The callback action.</param>
 		public static void Subscribe(string token, Action<object?> callback)
 		{
 			if (!pageListDictionary.ContainsKey(token))
@@ -66,8 +66,8 @@ namespace SharedCode.Windows.WPF
 		/// <summary>
 		/// Unsubscribes the specified token.
 		/// </summary>
-		/// <param name="token">The token.</param>
-		/// <param name="callback">The callback.</param>
+		/// <param name="token">The page token.</param>
+		/// <param name="callback">The callback action.</param>
 		public static void Unsubscribe(string token, Action<object?> callback)
 		{
 			if (pageListDictionary.ContainsKey(token))

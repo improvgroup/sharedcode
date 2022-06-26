@@ -19,7 +19,7 @@ internal class TypeSourceSelector : ITypeSourceSelector
 	/// <summary>
 	/// Initializes a new instance of the <see cref="TypeSourceSelector" /> class.
 	/// </summary>
-	/// <param name="services">The services.</param>
+	/// <param name="services">The service collection.</param>
 	public TypeSourceSelector(IServiceCollection services) => this.Services = services;
 
 	/// <summary>
@@ -35,11 +35,14 @@ internal class TypeSourceSelector : ITypeSourceSelector
 	public ICatalogSelector FromApplicationDependencies() => this.FromApplicationDependencies(_ => true);
 
 	/// <summary>
-	/// Froms the application dependencies.
+	/// Returns a catalog selector from the specified predicate.
 	/// </summary>
-	/// <param name="predicate">The predicate.</param>
+	/// <param name="predicate">The predicate that determines if the assembly is included by the selector.</param>
 	/// <returns>ICatalogSelector.</returns>
-	[SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "We are ignoring any load issues and falling back to the entry assembly.")]
+	[SuppressMessage(
+		"Design",
+		"CA1031:Do not catch general exception types",
+		Justification = "We are ignoring any load issues and falling back to the entry assembly.")]
 	public ICatalogSelector FromApplicationDependencies(Func<Assembly, bool> predicate)
 	{
 		try
@@ -178,8 +181,7 @@ internal class TypeSourceSelector : ITypeSourceSelector
 #pragma warning restore CS8604 // Possible null reference argument.
 
 	/// <inheritdoc />
-	public ICatalogSelector FromExecutingAssembly() =>
-		this.FromAssemblies(Assembly.GetExecutingAssembly());
+	public ICatalogSelector FromExecutingAssembly() => this.FromAssemblies(Assembly.GetExecutingAssembly());
 
 	/// <summary>
 	/// Internals from assemblies.

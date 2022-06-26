@@ -18,7 +18,7 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// <summary>
 		/// Sets the title.
 		/// </summary>
-		/// <param name="title">The title.</param>
+		/// <param name="title">The window title.</param>
 		void SetTitle(string title);
 	}
 }

@@ -4,9 +4,10 @@
 
 namespace SharedCode.Windows.WPF.ViewModels
 {
+	using CommunityToolkit.Mvvm.Input;
+
 	using SharedCode;
 	using SharedCode.Threading.Tasks;
-	using SharedCode.Windows.WPF.Commands;
 
 	using System;
 	using System.Collections.Generic;
@@ -24,15 +25,8 @@ namespace SharedCode.Windows.WPF.ViewModels
 	/// <seealso cref="IPageViewModel" />
 	public abstract class PageViewModelBase : ViewModelBase, IPersistable, IPageViewModel
 	{
-		private ICommand? closeAllPagesButThisCommand;
-		private ICommand? closeAllPagesCommand;
-		private ICommand? closePageCommand;
-		private ICommand? editTitleCommand;
-		private ICommand? finishTabTextCommand;
 		private bool isEditingTitle;
 		private bool isSelected;
-		private ICommand? saveCommand;
-		private ICommand? selectPageCommand;
 		private string? subTitle;
 		private string? tabIcon;
 		private string? tabTitle;
@@ -40,12 +34,18 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PageViewModelBase" /> class.
 		/// </summary>
-		/// <param name="title">The title.</param>
+		/// <param name="title">The page title.</param>
 		/// <param name="selectPageCommand">The select page command.</param>
 		protected PageViewModelBase(string? title = null, ICommand? selectPageCommand = null)
 		{
+			this.CloseAllPagesButThisCommand = new AsyncRelayCommand(this.CloseAllPagesButThis, this.CanCloseAllPagesButThis);
+			this.CloseAllPagesCommand = new AsyncRelayCommand(this.CloseAllPages, this.CanCloseAllPages);
+			this.ClosePageCommand = new AsyncRelayCommand(this.ClosePage, this.CanClosePage);
+			this.EditTitleCommand = new AsyncRelayCommand(this.EditTitle, this.CanEditTitle);
+			this.FinishTabTextCommand = new AsyncRelayCommand(this.FinishTabText, this.CanFinishTabText);
+			this.SaveCommand = new AsyncRelayCommand(this.Save, this.CanSave);
+			this.SelectPageCommand = selectPageCommand ??= new AsyncRelayCommand(this.SelectPage, this.CanSelectPage);
 			this.TabTitle = title ?? string.Empty;
-			this.SelectPageCommand = selectPageCommand ??= new AsyncCommand(this.SelectPage, this.CanSelectPage);
 		}
 
 		/// <summary>
@@ -95,19 +95,19 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// Gets the close all pages but this command.
 		/// </summary>
 		/// <value>The close all pages but this command.</value>
-		public ICommand CloseAllPagesButThisCommand => this.closeAllPagesButThisCommand ??= new AsyncCommand(this.CloseAllPagesButThis, this.CanCloseAllPagesButThis);
+		public ICommand CloseAllPagesButThisCommand { get; init; }
 
 		/// <summary>
 		/// Gets the close all pages command.
 		/// </summary>
 		/// <value>The close all pages command.</value>
-		public ICommand CloseAllPagesCommand => this.closeAllPagesCommand ??= new AsyncCommand(this.CloseAllPages, this.CanCloseAllPages);
+		public ICommand CloseAllPagesCommand { get; init; }
 
 		/// <summary>
 		/// Gets the close page command.
 		/// </summary>
 		/// <value>The close page command.</value>
-		public ICommand ClosePageCommand => this.closePageCommand ??= new AsyncCommand(this.ClosePage, this.CanClosePage);
+		public ICommand ClosePageCommand { get; init; }
 
 		/// <inheritdoc />
 		public virtual IEnumerable<IPersistable> Components => Enumerable.Empty<IPersistable>();
@@ -116,13 +116,13 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// Gets the edit title command.
 		/// </summary>
 		/// <value>The edit title command.</value>
-		public ICommand EditTitleCommand => this.editTitleCommand ??= new AsyncCommand(this.EditTitle, this.CanEditTitle);
+		public ICommand EditTitleCommand { get; init; }
 
 		/// <summary>
 		/// Gets the finish tab text command.
 		/// </summary>
 		/// <value>The finish tab text command.</value>
-		public ICommand FinishTabTextCommand => this.finishTabTextCommand ??= new AsyncCommand(this.FinishTabText, this.CanFinishTabText);
+		public ICommand FinishTabTextCommand { get; init; }
 
 		/// <inheritdoc />
 		public virtual bool HasUnsavedChanges => this.Components?.Any(c => c.HasUnsavedChanges) ?? false;
@@ -160,17 +160,13 @@ namespace SharedCode.Windows.WPF.ViewModels
 		public abstract string RouteDescription { get; }
 
 		/// <inheritdoc />
-		public ICommand SaveCommand => this.saveCommand ??= new AsyncCommand(this.Save, this.CanSave);
+		public ICommand SaveCommand { get; private init; }
 
 		/// <summary>
 		/// Gets the select page command.
 		/// </summary>
 		/// <value>The select page command.</value>
-		public ICommand SelectPageCommand
-		{
-			get => this.selectPageCommand ??= new AsyncCommand(this.SelectPage, this.CanSelectPage);
-			private init => this.selectPageCommand = value;
-		}
+		public ICommand SelectPageCommand { get; private init; }
 
 		/// <summary>
 		/// Gets or sets the sub title.
@@ -256,66 +252,59 @@ namespace SharedCode.Windows.WPF.ViewModels
 		/// <summary>
 		/// Determines whether this instance [can close all pages] the specified argument.
 		/// </summary>
-		/// <param name="arg">The argument.</param>
 		/// <returns>
 		/// <c>true</c> if this instance [can close all pages] the specified argument; otherwise, <c>false</c>.
 		/// </returns>
-		protected virtual bool CanCloseAllPages(object? arg) => true;
+		protected virtual bool CanCloseAllPages() => true;
 
 		/// <summary>
 		/// Determines whether this instance [can close all pages but this] the specified argument.
 		/// </summary>
-		/// <param name="arg">The argument.</param>
 		/// <returns>
 		/// <c>true</c> if this instance [can close all pages but this] the specified argument;
 		/// otherwise, <c>false</c>.
 		/// </returns>
-		protected virtual bool CanCloseAllPagesButThis(object? arg) => true;
+		protected virtual bool CanCloseAllPagesButThis() => true;
 
 		/// <summary>
 		/// Determines whether this instance [can close page] the specified argument.
 		/// </summary>
-		/// <param name="arg">The argument.</param>
 		/// <returns>
 		/// <c>true</c> if this instance [can close page] the specified argument; otherwise, <c>false</c>.
 		/// </returns>
-		protected virtual bool CanClosePage(object? arg) => true;
+		protected virtual bool CanClosePage() => true;
 
 		/// <summary>
 		/// Determines whether this instance [can edit title] the specified argument.
 		/// </summary>
-		/// <param name="arg">The argument.</param>
 		/// <returns>
 		/// <c>true</c> if this instance [can edit title] the specified argument; otherwise, <c>false</c>.
 		/// </returns>
-		protected virtual bool CanEditTitle(object? arg) => true;
+		protected virtual bool CanEditTitle() => true;
 
 		/// <summary>
 		/// Determines whether this instance [can finish tab text] the specified argument.
 		/// </summary>
-		/// <param name="arg">The argument.</param>
 		/// <returns>
 		/// <c>true</c> if this instance [can finish tab text] the specified argument; otherwise, <c>false</c>.
 		/// </returns>
-		protected virtual bool CanFinishTabText(object? arg) => true;
+		protected virtual bool CanFinishTabText() => true;
 
 		/// <summary>
 		/// Determines whether this instance can save the specified argument.
 		/// </summary>
-		/// <param name="arg">The argument.</param>
 		/// <returns>
 		/// <c>true</c> if this instance can save the specified argument; otherwise, <c>false</c>.
 		/// </returns>
-		protected virtual bool CanSave(object? arg) => true;
+		protected virtual bool CanSave() => true;
 
 		/// <summary>
 		/// Determines whether this instance [can select page] the specified argument.
 		/// </summary>
-		/// <param name="arg">The argument.</param>
 		/// <returns>
 		/// <c>true</c> if this instance [can select page] the specified argument; otherwise, <c>false</c>.
 		/// </returns>
-		protected virtual bool CanSelectPage(object? arg) => true;
+		protected virtual bool CanSelectPage() => true;
 
 		/// <summary>
 		/// Handles the CloseAll event.

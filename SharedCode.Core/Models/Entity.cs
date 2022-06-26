@@ -27,4 +27,3 @@ public class Entity : Entity<Guid>
 	{
 	}
 }
-
