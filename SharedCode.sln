@@ -9,8 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		.github\workflows\devskim.yml = .github\workflows\devskim.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		LICENSE = LICENSE
+		README.md = README.md
 		.github\workflows\release.yml = .github\workflows\release.yml
+		SECURITY.md = SECURITY.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "SharedCode.Core\Core.csproj", "{78E99859-E8A6-4946-9EF5-87265D1400AD}"
