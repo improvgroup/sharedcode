@@ -4,6 +4,7 @@
 A library of code shared for free use to help with common scenarios.
 
 To use these, search NuGet for each package:
+
  - SharedCode.Core
  - SharedCode.Data
  - SharedCode.Data.EntityFramework
