@@ -1,4 +1,4 @@
-// <copyright file="DataTableExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="DataTableExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -18,14 +18,15 @@ namespace SharedCode.Data
 		/// <summary>
 		/// Converts a data table to a delimited string.
 		/// </summary>
-		/// <param name="table">The data table.</param>
+		/// <param name="this">The data table.</param>
 		/// <param name="delimiter">The column delimiter.</param>
 		/// <param name="includeHeader">if set to <c>true</c> [include header].</param>
 		/// <exception cref="ArgumentNullException">table</exception>
-		public static string ToDelimitedString(this DataTable table, string delimiter, bool includeHeader)
+		[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "The compiler does not infer DataColumn properly here so we have to use the type instead of var.")]
+		public static string ToDelimitedString(this DataTable @this, string delimiter, bool includeHeader)
 		{
-			_ = table ?? throw new ArgumentNullException(nameof(table));
-			Contract.Ensures(Contract.Result<string>() != null);
+			ArgumentNullException.ThrowIfNull(@this);
+			Contract.Ensures(Contract.Result<string>() is not null);
 
 			var result = new StringBuilder();
 
@@ -33,7 +34,7 @@ namespace SharedCode.Data
 
 			if (includeHeader)
 			{
-				foreach (DataColumn column in table.Columns)
+				foreach (DataColumn column in @this.Columns)
 				{
 					_ = result.Append(column.ColumnName).Append(delimiter);
 				}
@@ -41,7 +42,7 @@ namespace SharedCode.Data
 				_ = result.Remove(--result.Length, 0).Append(Environment.NewLine);
 			}
 
-			foreach (DataRow row in table.Rows)
+			foreach (DataRow row in @this.Rows)
 			{
 				foreach (var item in row.ItemArray)
 				{
@@ -69,14 +70,15 @@ namespace SharedCode.Data
 		/// <summary>
 		/// Converts the data table to XML.
 		/// </summary>
-		/// <param name="dataTable">The data table.</param>
+		/// <param name="this">The data table.</param>
 		/// <param name="rootName">Name of the XML root node.</param>
 		/// <returns>An XML document.</returns>
 		/// <exception cref="ArgumentNullException">dataTable or rootName</exception>
-		public static XDocument ToXml(this DataTable dataTable, string rootName)
+		[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "The compiler does not infer DataColumn properly here so we have to use the type instead of var.")]
+		public static XDocument ToXml(this DataTable @this, string rootName)
 		{
-			_ = dataTable ?? throw new ArgumentNullException(nameof(dataTable));
-			_ = rootName ?? throw new ArgumentNullException(nameof(rootName));
+			ArgumentNullException.ThrowIfNull(@this);
+			ArgumentNullException.ThrowIfNull(rootName);
 			Contract.Ensures(Contract.Result<XDocument>() is not null);
 
 			var xdoc = new XDocument
@@ -86,10 +88,10 @@ namespace SharedCode.Data
 
 			xdoc.Add(new XElement(rootName));
 
-			foreach (DataRow row in dataTable.Rows)
+			foreach (DataRow row in @this.Rows)
 			{
-				var element = new XElement(dataTable.TableName);
-				foreach (DataColumn col in dataTable.Columns)
+				var element = new XElement(@this.TableName);
+				foreach (DataColumn col in @this.Columns)
 				{
 					element.Add(new XElement(col.ColumnName, row[col].ToString()?.Trim(' ')));
 				}

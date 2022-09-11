@@ -1,4 +1,4 @@
-// <copyright file="EnumerableExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="EnumerableExtensions.cs" company="improvGroup, LLC">
 //     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -23,6 +23,7 @@ public static class EnumerationUtilities
 	/// <exception cref="ArgumentException">
 	/// The type of the specified enumeration must be derived from the base <see cref="Enum" /> structure.
 	/// </exception>
+	[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "Inference does not resolve int properly here.")]
 	public static IList<T> ToList<T>() where T : struct
 	{
 		var enumType = typeof(T);

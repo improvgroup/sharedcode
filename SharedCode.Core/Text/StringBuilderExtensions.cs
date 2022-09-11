@@ -1,4 +1,4 @@
-// <copyright file="StringBuilderExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="StringBuilderExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -20,12 +20,13 @@ public static class StringBuilderExtensions
 	/// <param name="value">The string value.</param>
 	/// <param name="condition">if set to <c>true</c> then append the string value to the builder.</param>
 	/// <returns>The <see cref="StringBuilder" />.</returns>
-	/// <exception cref="ArgumentNullException">builder</exception>
-	public static StringBuilder? AppendIf(this StringBuilder @this, string value, bool condition)
+	/// <exception cref="ArgumentNullException">this</exception>
+	public static StringBuilder AppendIf(this StringBuilder @this, string? value, bool condition)
 	{
+		ArgumentNullException.ThrowIfNull(@this);
 		if (condition)
 		{
-			_ = @this?.Append(value);
+			_ = @this.Append(value);
 		}
 
 		return @this;
@@ -39,11 +40,12 @@ public static class StringBuilderExtensions
 	/// <param name="arguments">The format arguments.</param>
 	/// <returns>The string builder.</returns>
 	/// <exception cref="ArgumentNullException">format or arguments</exception>
-	public static StringBuilder? AppendLineFormat(this StringBuilder? @this, string format, params object[] arguments)
+	public static StringBuilder? AppendLineFormat(this StringBuilder @this, string format, params object[] arguments)
 	{
-		_ = format ?? throw new ArgumentNullException(nameof(format));
-		_ = arguments ?? throw new ArgumentNullException(nameof(arguments));
+		ArgumentNullException.ThrowIfNull(@this);
+		ArgumentNullException.ThrowIfNull(format);
+		ArgumentNullException.ThrowIfNull(arguments);
 
-		return @this?.AppendFormat(CultureInfo.CurrentCulture, format, arguments).AppendLine();
+		return @this.AppendFormat(CultureInfo.CurrentCulture, format, arguments).AppendLine();
 	}
 }

@@ -1,4 +1,4 @@
-// <copyright file="DataReaderExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="DataReaderExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -18,77 +18,83 @@ public static class DataReaderExtensions
 	/// <summary>
 	/// Returns an enumerable from this data reader.
 	/// </summary>
-	/// <param name="dataReader">The data reader.</param>
+	/// <param name="this">The data reader.</param>
 	/// <returns>An enumerable of data records.</returns>
-	public static IEnumerable<IDataRecord> AsEnumerable(this IDataReader dataReader)
+	public static IEnumerable<IDataRecord> AsEnumerable(this IDataReader @this)
 	{
-		Contract.Ensures(Contract.Result<IEnumerable<IDataRecord>>() != null);
+		Contract.Ensures(Contract.Result<IEnumerable<IDataRecord>>() is not null);
 
-		if (dataReader is null)
-			yield break;
-
-		while (dataReader.Read())
+		if (@this is null)
 		{
-			yield return dataReader;
+			yield break;
+		}
+
+		while (@this.Read())
+		{
+			yield return @this;
 		}
 	}
 
 	/// <summary>
 	/// Determines whether The specified column value is null.
 	/// </summary>
-	/// <param name="dataReader">The data reader.</param>
+	/// <param name="this">The data reader.</param>
 	/// <param name="columnName">Name of the column.</param>
 	/// <returns>A value indicating whether or not the specified column is null.</returns>
-	public static bool IsDBNull(this IDataReader dataReader, string columnName) => dataReader?.IsDBNull(dataReader.GetOrdinal(columnName)) ?? false;
+	public static bool IsDBNull(this IDataReader @this, string columnName) => @this?.IsDBNull(@this.GetOrdinal(columnName)) ?? false;
 
 	/// <summary>
 	/// Returns a list of delimited lines from the data reader.
 	/// </summary>
-	/// <param name="dataReader">The data reader.</param>
+	/// <param name="this">The data reader.</param>
 	/// <param name="separator">The value separator.</param>
 	/// <param name="includeHeaderAsFirstRow">if set to <c>true</c> include header as first row.</param>
 	/// <returns>A list of delimited lines.</returns>
 	/// <exception cref="ArgumentNullException">dataReader</exception>
-	public static IList<string> ToDelimited(this IDataReader dataReader, string separator, bool includeHeaderAsFirstRow)
+	public static IList<string> ToDelimited(this IDataReader @this, string separator, bool includeHeaderAsFirstRow)
 	{
-		_ = dataReader ?? throw new ArgumentNullException(nameof(dataReader));
-		Contract.Ensures(Contract.Result<List<string>>() != null);
+		ArgumentNullException.ThrowIfNull(@this);
+		Contract.Ensures(Contract.Result<List<string>>() is not null);
 
 		var output = new List<string>();
 		var sb = new StringBuilder();
 
 		if (includeHeaderAsFirstRow)
 		{
-			for (var index = 0; index < dataReader.FieldCount; index++)
+			for (var index = 0; index < @this.FieldCount; index++)
 			{
-				if (dataReader.GetName(index) != null)
-					_ = sb.Append(dataReader.GetName(index));
+				if (@this.GetName(index) is not null)
+				{
+					_ = sb.Append(@this.GetName(index));
+				}
 
-				if (index < dataReader.FieldCount - 1)
+				if (index < @this.FieldCount - 1)
+				{
 					_ = sb.Append(separator);
+				}
 			}
 
 			output.Add(sb.ToString());
 		}
 
-		while (dataReader.Read())
+		while (@this.Read())
 		{
 			_ = sb.Clear();
-			for (var index = 0; index < dataReader.FieldCount - 1; index++)
+			for (var index = 0; index < @this.FieldCount - 1; index++)
 			{
-				if (!dataReader.IsDBNull(index))
+				if (!@this.IsDBNull(index))
 				{
-					var value = dataReader.GetValue(index).ToString();
-					if (dataReader.GetFieldType(index) == typeof(string))
+					var value = @this.GetValue(index).ToString();
+					if (@this.GetFieldType(index) == typeof(string))
 					{
 						// If double quotes are used in value, ensure each are replaced but 2.
-						if (value?.Contains('"', StringComparison.Ordinal) ?? false)
+						if (value?.Contains('"', StringComparison.Ordinal) == true)
 						{
 							value = value.Replace("\"", "\"\"", StringComparison.Ordinal);
 						}
 
 						// If separtor are is in value, ensure it is put in double quotes.
-						if (value?.Contains(separator, StringComparison.Ordinal) ?? false)
+						if (value?.Contains(separator, StringComparison.Ordinal) == true)
 						{
 							value = $"\"{value}\"";
 						}
@@ -97,15 +103,17 @@ public static class DataReaderExtensions
 					_ = sb.Append(value);
 				}
 
-				if (index < dataReader.FieldCount - 1)
+				if (index < @this.FieldCount - 1)
+				{
 					_ = sb.Append(separator);
+				}
 			}
 
-			if (!dataReader.IsDBNull(dataReader.FieldCount - 1))
+			if (!@this.IsDBNull(@this.FieldCount - 1))
 			{
 				_ = sb.Append(
-					dataReader
-						.GetValue(dataReader.FieldCount - 1)
+					@this
+						.GetValue(@this.FieldCount - 1)
 						.ToString()
 						?.Replace(separator, " ", StringComparison.Ordinal));
 			}
@@ -113,7 +121,7 @@ public static class DataReaderExtensions
 			output.Add(sb.ToString());
 		}
 
-		dataReader.Close();
+		@this.Close();
 		return output;
 	}
 
@@ -121,15 +129,15 @@ public static class DataReaderExtensions
 	/// Returns the value of the specified column.
 	/// </summary>
 	/// <typeparam name="T">The type of the value.</typeparam>
-	/// <param name="dataReader">The data reader.</param>
+	/// <param name="this">The data reader.</param>
 	/// <param name="columnName">Name of the column.</param>
 	/// <returns>The value.</returns>
 	/// <exception cref="ArgumentNullException">columnName</exception>
-	public static T? ValueOrDefault<T>(this IDataReader dataReader, string columnName)
+	public static T? ValueOrDefault<T>(this IDataReader @this, string columnName)
 	{
-		_ = columnName ?? throw new ArgumentNullException(nameof(columnName));
+		ArgumentNullException.ThrowIfNull(columnName);
 
-		var value = dataReader?[columnName];
+		var value = @this?[columnName];
 		return DBNull.Value == value ? default : (T?)value;
 	}
 
@@ -137,13 +145,13 @@ public static class DataReaderExtensions
 	/// Returns the value of the specified column.
 	/// </summary>
 	/// <typeparam name="T">The type of the value.</typeparam>
-	/// <param name="dataReader">The data reader.</param>
+	/// <param name="this">The data reader.</param>
 	/// <param name="columnIndex">Index of the column.</param>
 	/// <returns>The value.</returns>
-	public static T? ValueOrDefault<T>(this IDataReader dataReader, int columnIndex)
+	public static T? ValueOrDefault<T>(this IDataReader @this, int columnIndex)
 	{
-		return (dataReader?.IsDBNull(columnIndex) ?? true) || dataReader?.FieldCount <= columnIndex || columnIndex < 0
+		return (@this?.IsDBNull(columnIndex) ?? true) || @this?.FieldCount <= columnIndex || columnIndex < 0
 			? default
-			: (T?)dataReader?[columnIndex];
+			: (T?)@this?[columnIndex];
 	}
 }

@@ -1,4 +1,4 @@
-// <copyright file="Utilities.cs" company="improvGroup, LLC">
+﻿// <copyright file="Utilities.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
