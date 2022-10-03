@@ -1,4 +1,4 @@
-// <copyright file="RepositoryBase.cs" company="improvGroup, LLC">
+﻿// <copyright file="RepositoryBase.cs" company="improvGroup, LLC">
 //     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -45,7 +45,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 
 	/// <inheritdoc />
 	public virtual async Task<int> CountAsync(ISpecification<T> specification, CancellationToken? cancellationToken = default) =>
-		await this.ApplySpecification(specification, true).CountAsync(cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+		await this.ApplySpecification(specification, evaluateCriteriaOnly: true).CountAsync(cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
 	/// <inheritdoc />
 	public virtual async Task<int> CountAsync(CancellationToken? cancellationToken = default) =>
