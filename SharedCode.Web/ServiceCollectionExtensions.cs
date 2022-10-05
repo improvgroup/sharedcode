@@ -21,15 +21,20 @@ public static class ServiceCollectionExtensions
 	/// <returns>The HTTP client builder.</returns>
 	public static IHttpClientBuilder AddResilientHttpClient(this IServiceCollection services, string clientName)
 	{
-		var policy = HttpPolicyExtensions
+		var retryPolicy = HttpPolicyExtensions
 			.HandleTransientHttpError()
 			.Or<HttpRequestException>()
 			.OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
 			.WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(1), retryCount: 5));
 
+		var circuitBreakerPolicy = HttpPolicyExtensions
+			.HandleTransientHttpError()
+			.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
+
 		return services
 			.AddHttpClient(clientName)
 			.SetHandlerLifetime(TimeSpan.FromMinutes(5))
-			.AddPolicyHandler(policy);
+			.AddPolicyHandler(retryPolicy)
+			.AddPolicyHandler(circuitBreakerPolicy);
 	}
 }

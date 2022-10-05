@@ -9,6 +9,8 @@ To use these, search NuGet for each package:
  - SharedCode.Data
  - SharedCode.Data.EntityFramework
  - SharedCode.DependencyInjection
+ - SharedCode.MediatR
+ - SharedCode.Web
  - SharedCode.Windows.WPF
 
 Contributions are welcome and will be included where appropriate.
