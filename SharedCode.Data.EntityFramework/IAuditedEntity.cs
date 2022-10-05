@@ -3,8 +3,11 @@
 /// <summary>
 /// The audited entity interface. Implements the <see cref="IAuditableEntity{TIdentityKey}" />.
 /// </summary>
-/// <typeparam name="TIdentityKey">The type of the t identity key.</typeparam>
+/// <typeparam name="TIdentityKey">The type of the identity key.</typeparam>
 /// <seealso cref="IAuditableEntity{TIdentityKey}" />
+/// <remarks>
+/// This is the audit history entity.
+/// </remarks>
 public interface IAuditedEntity<TIdentityKey> : IAuditableEntity<TIdentityKey> where TIdentityKey : notnull
 {
 	/// <summary>
