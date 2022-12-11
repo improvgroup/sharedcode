@@ -1,4 +1,4 @@
-// <copyright file="TypeSourceSelector.cs" company="improvGroup, LLC">
+﻿// <copyright file="TypeSourceSelector.cs" company="improvGroup, LLC">
 //     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -47,7 +47,7 @@ internal class TypeSourceSelector : ITypeSourceSelector
 	{
 		try
 		{
-			return this.FromDependencyContext(DependencyContext.Default, predicate);
+			return this.FromDependencyContext(DependencyContext.Default!, predicate);
 		}
 		catch
 		{
