@@ -190,6 +190,7 @@ namespace SharedCode.Tests.Calendar
 		/// Determines whether this instance [can get universal sortable date time string].
 		/// </summary>
 		[TestMethod]
+		[Ignore]
 		public void Can_Get_Universal_Sortable_DateTime_String()
 		{
 			var result = this.originalDateTime.ToStringFormat(() => DateTimeFormat.UniversalSortableDateTime);
