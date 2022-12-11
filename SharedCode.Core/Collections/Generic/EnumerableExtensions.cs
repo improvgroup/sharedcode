@@ -2,6 +2,7 @@
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
+#if NETSTANDARD2_0
 namespace SharedCode.Collections.Generic;
 
 using System;
@@ -41,3 +42,5 @@ public static class EnumerableExtensions
 		}
 	}
 }
+
+#endif

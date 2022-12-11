@@ -26,7 +26,7 @@ namespace SharedCode
 		[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "Non-generic inference does not work so well.")]
 		public static void AddData(this Exception @this, IDictionary dictionary)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
 			if (dictionary is not null)
 			{
 				foreach (DictionaryEntry item in dictionary)
@@ -45,7 +45,7 @@ namespace SharedCode
 		/// <exception cref="ArgumentNullException">this</exception>
 		public static void AddOrUpdateData(this Exception @this, string key, string value)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
 			if (@this.Data.Contains(key))
 			{
 				(@this.Data[key] as List<string>)?.Add(value);
@@ -79,7 +79,7 @@ namespace SharedCode
 		/// <exception cref="ArgumentNullException"></exception>
 		public static (bool IsEqual, string Message) DataEqualsWithDetail(this Exception @this, IDictionary? dictionary)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
 
 			var isEqual = true;
 			StringBuilder messageStringBuilder = new();
@@ -141,7 +141,7 @@ namespace SharedCode
 		/// <exception cref="ArgumentNullException">this</exception>
 		public static void ThrowIfContainsErrors(this Exception @this)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
 			if (@this.Data.Count > 0)
 			{
 				throw @this;
@@ -305,8 +305,8 @@ namespace SharedCode
 		[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "Non-generic inference does not work so well.")]
 		private static bool EvaluateSharedKeys(this Exception @this, bool isEqual, StringBuilder messageStringBuilder, IDictionary? sharedItems)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
-			ArgumentNullException.ThrowIfNull(messageStringBuilder);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
+			_ = messageStringBuilder ?? throw new ArgumentNullException(nameof(messageStringBuilder));
 			if (sharedItems?.Count > 0)
 			{
 				foreach (DictionaryEntry dictionaryEntry in sharedItems)

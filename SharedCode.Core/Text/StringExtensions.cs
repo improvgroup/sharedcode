@@ -1,4 +1,4 @@
-// <copyright file="StringExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="StringExtensions.cs" company="improvGroup, LLC">
 //     Copyright © 2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -130,7 +130,9 @@ public static class StringExtensions
 	/// <returns>The decrypted string or null if decryption failed.</returns>
 	/// <exception cref="ArgumentException">Occurs when this or key is empty.</exception>
 	/// <exception cref="ArgumentNullException">this or key</exception>
+#if NET5_0_OR_GREATER
 	[SupportedOSPlatform("windows")]
+#endif
 	public static string Decrypt(this string @this, string key)
 	{
 		_ = @this ?? throw new ArgumentNullException(nameof(@this));
@@ -176,7 +178,9 @@ public static class StringExtensions
 	/// <returns>A string representing a byte array separated by a minus sign.</returns>
 	/// <exception cref="ArgumentException">Occurs when stringToEncrypt or key is null or empty.</exception>
 	/// <exception cref="ArgumentNullException">this or key</exception>
+#if NET5_0_OR_GREATER
 	[SupportedOSPlatform("windows")]
+#endif
 	public static string Encrypt(this string @this, string key)
 	{
 		_ = @this ?? throw new ArgumentNullException(nameof(@this));
@@ -552,7 +556,11 @@ public static class StringExtensions
 	/// <param name="this">The string value.</param>
 	/// <param name="length">The maximum number of charaters to return.</param>
 	/// <returns>The string from left.</returns>
+#if NET5_0_OR_GREATER
 	public static string? Left(this string? @this, int length = 0) => @this is not null && @this.Length > length ? @this[..length] : @this;
+#else
+	public static string? Left(this string? @this, int length = 0) => @this is not null && @this.Length > length ? @this.Substring(0, length) : @this;
+#endif
 
 	/// <summary>
 	/// Takes a string of text and replaces text matching a link pattern to a hyperlink.
@@ -610,7 +618,11 @@ public static class StringExtensions
 			_ = builder.Append(maskChar, index);
 		}
 
+#if NET5_0_OR_GREATER
 		_ = builder.Append(@this.AsSpan(index));
+#else
+		_ = builder.Append(@this, index, @this.Length - index);
+#endif
 
 		return builder.ToString();
 	}
@@ -689,7 +701,11 @@ public static class StringExtensions
 	/// <param name="this">The string value.</param>
 	/// <param name="length">The maximum number of charaters to return.</param>
 	/// <returns>The string from right.</returns>
+#if NET5_0_OR_GREATER
 	public static string? Right(this string? @this, int length = 0) => @this is not null && @this.Length > length ? @this[^length..] : @this;
+#else
+	public static string? Right(this string? @this, int length = 0) => @this is not null && @this.Length > length ? @this.Substring(@this.Length - length) : @this;
+#endif
 
 	/// <summary>
 	/// Strips the HTML from the input string.
@@ -748,16 +764,16 @@ public static class StringExtensions
 		}
 
 		//۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹
-		return @this.Replace("0", "۰", StringComparison.Ordinal)
-			.Replace("1", "۱", StringComparison.Ordinal)
-			.Replace("2", "۲", StringComparison.Ordinal)
-			.Replace("3", "۳", StringComparison.Ordinal)
-			.Replace("4", "۴", StringComparison.Ordinal)
-			.Replace("5", "۵", StringComparison.Ordinal)
-			.Replace("6", "۶", StringComparison.Ordinal)
-			.Replace("7", "۷", StringComparison.Ordinal)
-			.Replace("8", "۸", StringComparison.Ordinal)
-			.Replace("9", "۹", StringComparison.Ordinal);
+		return @this.Replace("0", "۰")
+			.Replace("1", "۱")
+			.Replace("2", "۲")
+			.Replace("3", "۳")
+			.Replace("4", "۴")
+			.Replace("5", "۵")
+			.Replace("6", "۶")
+			.Replace("7", "۷")
+			.Replace("8", "۸")
+			.Replace("9", "۹");
 	}
 
 	/// <summary>
@@ -864,7 +880,7 @@ public static class StringExtensions
 			return truncatedString;
 		}
 
-		truncatedString = @this[..strLength];
+		truncatedString = @this.Substring(0, strLength);
 		truncatedString = truncatedString.TrimEnd();
 		truncatedString += suffix;
 

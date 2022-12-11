@@ -1,4 +1,4 @@
-// <copyright file="BufferedWriter.cs" company="improvGroup, LLC">
+﻿// <copyright file="BufferedWriter.cs" company="improvGroup, LLC">
 //     Copyright © 2013-2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -78,8 +78,13 @@ public class BufferedWriter : IDisposable
 
 		if (this.StringBuilder.Length > 0)
 		{
+#if NET5_0_OR_GREATER
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 			_ = this.StringBuilder.Clear();
+#else
+			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
+			_ = this.StringBuilder.Clear();
+#endif
 		}
 
 		token.ThrowIfCancellationRequested();
@@ -109,8 +114,13 @@ public class BufferedWriter : IDisposable
 
 		if (this.StringBuilder.Length > 0)
 		{
-			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
+#if NET5_0_OR_GREATER
+			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 			_ = this.StringBuilder.Clear();
+#else
+			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
+			_ = this.StringBuilder.Clear();
+#endif
 		}
 	}
 
@@ -135,8 +145,13 @@ public class BufferedWriter : IDisposable
 	{
 		if (this.StringBuilder.Length > BufferLength)
 		{
-			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
+#if NET5_0_OR_GREATER
+			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 			_ = this.StringBuilder.Clear();
+#else
+			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
+			_ = this.StringBuilder.Clear();
+#endif
 		}
 	}
 

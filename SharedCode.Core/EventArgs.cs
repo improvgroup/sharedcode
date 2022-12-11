@@ -1,4 +1,4 @@
-namespace SharedCode;
+﻿namespace SharedCode;
 
 using System;
 
@@ -17,5 +17,9 @@ public class EventArgs<T> : EventArgs
 	/// <summary>
 	/// The value.
 	/// </summary>
+#if NET5_0_OR_GREATER
 	public T? Value { get; init; }
+#else
+	public T? Value { get; set; }
+#endif
 }

@@ -30,7 +30,9 @@ public static class StreamExtensions
 	/// <exception cref="PlatformNotSupportedException">
 	/// The Image.FromStream() method is not available on non-Windows platforms.
 	/// </exception>
+#if NET5_0_OR_GREATER
 	[SupportedOSPlatform("windows")]
+#endif
 	[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>")]
 	public static MemoryStream FitImage(this Stream stream, int maxWidth = 0, int maxHeight = 0, bool makeSquare = false, long quality = 90L)
 	{

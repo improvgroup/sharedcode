@@ -23,7 +23,7 @@ public static class StringBuilderExtensions
 	/// <exception cref="ArgumentNullException">this</exception>
 	public static StringBuilder AppendIf(this StringBuilder @this, string? value, bool condition)
 	{
-		ArgumentNullException.ThrowIfNull(@this);
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
 		if (condition)
 		{
 			_ = @this.Append(value);
@@ -42,9 +42,9 @@ public static class StringBuilderExtensions
 	/// <exception cref="ArgumentNullException">format or arguments</exception>
 	public static StringBuilder? AppendLineFormat(this StringBuilder @this, string format, params object[] arguments)
 	{
-		ArgumentNullException.ThrowIfNull(@this);
-		ArgumentNullException.ThrowIfNull(format);
-		ArgumentNullException.ThrowIfNull(arguments);
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = format ?? throw new ArgumentNullException(nameof(format));
+		_ = arguments ?? throw new ArgumentNullException(nameof(arguments));
 
 		return @this.AppendFormat(CultureInfo.CurrentCulture, format, arguments).AppendLine();
 	}

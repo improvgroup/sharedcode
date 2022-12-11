@@ -104,7 +104,7 @@ internal static class DeepCloneSafeTypes
 
 		// default comparers should not be cloned due possible comparison
 		// EqualityComparer<T>.Default == comparer
-		if (type.FullName?.Contains("EqualityComparer", StringComparison.Ordinal) == true)
+		if (type.FullName?.Contains("EqualityComparer") == true)
 		{
 			if (type.FullName.StartsWith("System.Collections.Generic.GenericEqualityComparer`", StringComparison.Ordinal)
 				|| type.FullName.StartsWith("System.Collections.Generic.ObjectEqualityComparer`", StringComparison.Ordinal)

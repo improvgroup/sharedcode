@@ -25,7 +25,7 @@ namespace SharedCode.Data
 		[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "The compiler does not infer DataColumn properly here so we have to use the type instead of var.")]
 		public static string ToDelimitedString(this DataTable @this, string delimiter, bool includeHeader)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
 			Contract.Ensures(Contract.Result<string>() is not null);
 
 			var result = new StringBuilder();
@@ -55,7 +55,7 @@ namespace SharedCode.Data
 						// Double up all embedded double quotes To keep things simple, always
 						// delimit with double-quotes so we don't have to determine in which cases
 						// they're necessary and which cases they're not.
-						_ = result.Append('"').Append(item?.ToString()?.Replace("\"", "\"\"", StringComparison.Ordinal)).Append('"').Append(delimiter);
+						_ = result.Append('"').Append(item?.ToString()?.Replace("\"", "\"\"")).Append('"').Append(delimiter);
 					}
 				}
 
@@ -77,8 +77,8 @@ namespace SharedCode.Data
 		[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "The compiler does not infer DataColumn properly here so we have to use the type instead of var.")]
 		public static XDocument ToXml(this DataTable @this, string rootName)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
-			ArgumentNullException.ThrowIfNull(rootName);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
+			_ = rootName ?? throw new ArgumentNullException(nameof(rootName));
 			Contract.Ensures(Contract.Result<XDocument>() is not null);
 
 			var xdoc = new XDocument

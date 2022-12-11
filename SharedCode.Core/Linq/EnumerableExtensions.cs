@@ -1,4 +1,4 @@
-// <copyright file="EnumerableExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="EnumerableExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -287,7 +287,7 @@ namespace SharedCode.Linq
 
 			if (parts.Length > 1)
 			{
-				descending = parts[1].Contains("esc", StringComparison.OrdinalIgnoreCase);
+				descending = parts[1].Contains("esc");
 			}
 
 			var prop = typeof(T).GetProperty(property);

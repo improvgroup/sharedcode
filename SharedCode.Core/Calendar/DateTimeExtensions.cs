@@ -1,4 +1,4 @@
-// <copyright file="DateTimeExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="DateTimeExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -28,7 +28,7 @@ public static class DateTimeExtensions
 	public static DateTimeOffset AddWorkdays(this DateTimeOffset dto, int days)
 	{
 		// start from a weekday
-		while (dto.DayOfWeek.IsWeekday())
+		while (!dto.DayOfWeek.IsWeekday())
 		{
 			dto = dto.AddDays(1.0);
 		}
@@ -36,7 +36,7 @@ public static class DateTimeExtensions
 		for (var i = 0; i < days; ++i)
 		{
 			dto = dto.AddDays(1.0);
-			while (dto.DayOfWeek.IsWeekday())
+			while (!dto.DayOfWeek.IsWeekday())
 			{
 				dto = dto.AddDays(1.0);
 			}

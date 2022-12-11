@@ -1,4 +1,4 @@
-// <copyright file="Extensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="Extensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -12,6 +12,7 @@ namespace SharedCode
 	using System.Runtime.Serialization;
 	using System.Runtime.Serialization.Formatters.Binary;
 	using System.Runtime.Serialization.Json;
+	using System.Text.Json;
 	using System.Xml;
 	using System.Xml.Serialization;
 
@@ -211,7 +212,7 @@ namespace SharedCode
 		public static TResult? IfNotNull<T, TResult>(this T target, Func<T, TResult> getValue)
 		{
 			var handler = getValue;
-			return handler is null || EqualityComparer<T>.Default.Equals(target, default) ? default : handler(target);
+			return handler is null || target is null || EqualityComparer<T>.Default.Equals(target, default!) ? default : handler(target);
 		}
 
 		/// <summary>
@@ -276,7 +277,7 @@ namespace SharedCode
 			}
 			else
 			{
-				if (EqualityComparer<T>.Default.Equals(value, default))
+				if (EqualityComparer<T>.Default.Equals(value, default!))
 				{
 					return true;
 				}

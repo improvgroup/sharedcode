@@ -27,7 +27,7 @@ public static class ArrayExtensions
 	/// <exception cref="ArgumentNullException">input</exception>
 	public static T?[] ConvertTo<T>(this Array @this)
 	{
-		ArgumentNullException.ThrowIfNull(@this);
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
 		Contract.Ensures(Contract.Result<T[]>() is not null);
 
 		var result = new T?[@this.Length];

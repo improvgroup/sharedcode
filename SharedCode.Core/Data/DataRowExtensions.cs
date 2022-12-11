@@ -24,8 +24,8 @@ public static class DataRowExtensions
 	public static T Clone<T>(this DataRow @this, DataTable parentTable)
 		where T : DataRow
 	{
-		ArgumentNullException.ThrowIfNull(@this);
-		ArgumentNullException.ThrowIfNull(parentTable);
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
+		_ = parentTable ?? throw new ArgumentNullException(nameof(parentTable));
 		Contract.Ensures(Contract.Result<T>() is not null);
 
 		var result = (T)parentTable.NewRow();

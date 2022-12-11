@@ -1,4 +1,4 @@
-// <copyright file="ProducerConsumerBase.cs" company="improvGroup, LLC">
+﻿// <copyright file="ProducerConsumerBase.cs" company="improvGroup, LLC">
 //     Copyright © 2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -103,13 +103,22 @@ public class ProducerConsumer : IConsumer, IDisposable, IProducer
 		if (disposing)
 		{
 			// dispose managed state (managed objects)
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
 			foreach (var subscription in this.subscriptions)
 			{
 				subscription?.Dispose();
 			}
 
 			this.subscriptions.Clear();
-
+#else
+			while (!this.subscriptions.IsEmpty)
+			{
+				if (this.subscriptions.TryTake(out var subscription))
+				{
+					subscription?.Dispose();
+				}
+			}
+#endif
 			this.subject?.Dispose();
 		}
 

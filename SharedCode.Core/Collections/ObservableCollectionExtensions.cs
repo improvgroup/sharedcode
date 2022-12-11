@@ -24,8 +24,8 @@ namespace SharedCode.Collections
 		/// <exception cref="ArgumentNullException">collection</exception>
 		public static ObservableCollection<T> AddRange<T>(this ObservableCollection<T> @this, IEnumerable<T> enumerable)
 		{
-			ArgumentNullException.ThrowIfNull(@this);
-			ArgumentNullException.ThrowIfNull(enumerable);
+			_ = @this ?? throw new ArgumentNullException(nameof(@this));
+			_ = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
 			Contract.Ensures(Contract.Result<ObservableCollection<T>>() is not null);
 
 			foreach (var item in enumerable)

@@ -1,4 +1,4 @@
-// <copyright file="Entity.cs" company="improvGroup, LLC">
+﻿// <copyright file="Entity.cs" company="improvGroup, LLC">
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -51,7 +51,8 @@ public class Entity<TKey> : IEquatable<Entity<TKey>?>
 	/// <param name="right">The right value.</param>
 	/// <returns>The result of the operator.</returns>
 	public static bool operator ==(Entity<TKey>? left, Entity<TKey>? right) =>
-		EqualityComparer<Entity<TKey>>.Default.Equals(left, right);
+		(left is null && right is null) ||
+		(left is not null && right is not null && EqualityComparer<Entity<TKey>>.Default.Equals(left, right));
 
 	/// <inheritdoc />
 	public override bool Equals(object? obj) => this.Equals(obj as Entity<TKey>);

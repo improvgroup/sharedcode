@@ -7,7 +7,7 @@
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<IsPackable>false</IsPackable>
 		<RootNamespace>SharedCode.Tests</RootNamespace>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -53,7 +53,7 @@ public static class DataReaderExtensions
 	/// <exception cref="ArgumentNullException">dataReader</exception>
 	public static IList<string> ToDelimited(this IDataReader @this, string separator, bool includeHeaderAsFirstRow)
 	{
-		ArgumentNullException.ThrowIfNull(@this);
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
 		Contract.Ensures(Contract.Result<List<string>>() is not null);
 
 		var output = new List<string>();
@@ -88,13 +88,13 @@ public static class DataReaderExtensions
 					if (@this.GetFieldType(index) == typeof(string))
 					{
 						// If double quotes are used in value, ensure each are replaced but 2.
-						if (value?.Contains('"', StringComparison.Ordinal) == true)
+						if (value?.Contains('"') == true)
 						{
-							value = value.Replace("\"", "\"\"", StringComparison.Ordinal);
+							value = value.Replace("\"", "\"\"");
 						}
 
 						// If separtor are is in value, ensure it is put in double quotes.
-						if (value?.Contains(separator, StringComparison.Ordinal) == true)
+						if (value?.Contains(separator) == true)
 						{
 							value = $"\"{value}\"";
 						}
@@ -115,7 +115,7 @@ public static class DataReaderExtensions
 					@this
 						.GetValue(@this.FieldCount - 1)
 						.ToString()
-						?.Replace(separator, " ", StringComparison.Ordinal));
+						?.Replace(separator, " "));
 			}
 
 			output.Add(sb.ToString());
@@ -135,7 +135,7 @@ public static class DataReaderExtensions
 	/// <exception cref="ArgumentNullException">columnName</exception>
 	public static T? ValueOrDefault<T>(this IDataReader @this, string columnName)
 	{
-		ArgumentNullException.ThrowIfNull(columnName);
+		_ = columnName ?? throw new ArgumentNullException(nameof(columnName));
 
 		var value = @this?[columnName];
 		return DBNull.Value == value ? default : (T?)value;
