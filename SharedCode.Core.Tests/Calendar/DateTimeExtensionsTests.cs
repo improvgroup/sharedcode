@@ -1,14 +1,13 @@
-// <copyright file="DateTimeExtensionsTests.cs" company="improvGroup, LLC">
+﻿// <copyright file="DateTimeExtensionsTests.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
-namespace SharedCode.Tests
+namespace SharedCode.Tests.Calendar
 {
-	using Calendar;
-
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-	using System;
+	using SharedCode.Calendar;
+
 	using System.Diagnostics.CodeAnalysis;
 
 	/// <summary>
@@ -28,6 +27,34 @@ namespace SharedCode.Tests
 		/// The original date time
 		/// </summary>
 		private DateTime originalDateTime;
+
+		[DataTestMethod]
+		[DataRow(5, 2022, 12, 11, 2022, 12, 19)]
+		[DataRow(3, 2022, 12, 10, 2022, 12, 15)]
+		public void AddWorkdays_AddsGivenNumberOfWorkdaysAndSkipsWeekends(int workdays, int year, int month, int day, int expectedYear, int expectedMonth, int expectedDay)
+		{
+			// Arrange
+			var date = new DateTimeOffset(year, month, day, 0, 0, 0, TimeSpan.Zero);
+
+			// Act
+			DateTimeOffset result = date.AddWorkdays(workdays);
+
+			// Assert
+			Assert.AreEqual(new DateTimeOffset(expectedYear, expectedMonth, expectedDay, 0, 0, 0, TimeSpan.Zero), result);
+		}
+
+		[TestMethod]
+		public void AddWorkdays_SkipsWeekends()
+		{
+			// Arrange
+			DateTimeOffset date = new DateTimeOffset(2022, 12, 10, 0, 0, 0, TimeSpan.Zero);
+
+			// Act
+			DateTimeOffset result = date.AddWorkdays(3);
+
+			// Assert
+			Assert.AreEqual(new DateTimeOffset(2022, 12, 15, 0, 0, 0, TimeSpan.Zero), result);
+		}
 
 		/// <summary>
 		/// Determines whether this instance [can get full long date time string].

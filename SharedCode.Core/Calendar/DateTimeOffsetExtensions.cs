@@ -1,4 +1,4 @@
-// <copyright file="DateTimeExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="DateTimeExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -21,27 +21,31 @@ public static class DateTimeOffsetExtensions
 	/// <summary>
 	/// Adds the specified number of work days to the date.
 	/// </summary>
-	/// <param name="dto">The date time.</param>
+	/// <param name="this">The date time.</param>
 	/// <param name="days">The number of work days to add.</param>
 	/// <returns>The date time.</returns>
-	public static DateTimeOffset AddWorkdays(this DateTimeOffset dto, int days)
+	public static DateTimeOffset AddWorkdays(this DateTimeOffset @this, int days)
 	{
-		// start from a weekday
-		while (dto.DayOfWeek.IsWeekday())
+		var result = @this;
+		var negate = days < 0;
+
+		// If the date is on a weekend, advance to Monday.
+		while (result.DayOfWeek.IsWeekend())
 		{
-			dto = dto.AddDays(1.0);
+			result = result.AddDays(negate ? -1 : 1);
 		}
 
-		for (var i = 0; i < days; ++i)
+		// Add weekdays
+		for (var i = 0; i < days; i++)
 		{
-			dto = dto.AddDays(1.0);
-			while (dto.DayOfWeek.IsWeekday())
+			result = result.AddDays(negate ? -1 : 1);
+			while (result.DayOfWeek.IsWeekend())
 			{
-				dto = dto.AddDays(1.0);
+				result = result.AddDays(negate ? -1 : 1);
 			}
 		}
 
-		return dto;
+		return result;
 	}
 
 	/// <summary>

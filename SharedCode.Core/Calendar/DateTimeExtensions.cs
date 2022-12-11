@@ -25,7 +25,7 @@ public static class DateTimeExtensions
 	/// <param name="dto">The date time.</param>
 	/// <param name="days">The number of work days to add.</param>
 	/// <returns>The date time.</returns>
-	public static DateTimeOffset AddWorkdays(this DateTimeOffset dto, int days)
+	public static DateTime AddWorkdays(this DateTime dto, int days)
 	{
 		// start from a weekday
 		while (!dto.DayOfWeek.IsWeekday())
@@ -50,7 +50,7 @@ public static class DateTimeExtensions
 	/// </summary>
 	/// <param name="dateOfBirth">The date of birth.</param>
 	/// <returns>The age.</returns>
-	public static int Age(this DateTimeOffset dateOfBirth)
+	public static int Age(this DateTime dateOfBirth)
 	{
 		return (DateTime.Today.Month < dateOfBirth.Month || DateTime.Today.Month == dateOfBirth.Month) && DateTime.Today.Day < dateOfBirth.Day
 			? DateTime.Today.Year - dateOfBirth.Year - 1
