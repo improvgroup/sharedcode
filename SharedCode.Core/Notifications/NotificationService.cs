@@ -1,4 +1,4 @@
-// <copyright file="NotificationService.cs" company="improvGroup, LLC">
+﻿// <copyright file="NotificationService.cs" company="improvGroup, LLC">
 //     Copyright © 2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 /// The notification service class. Implements the <see cref="INotificationService" />.
 /// </summary>
 /// <seealso cref="INotificationService" />
+[Obsolete("Use CommunityToolkit.Mvvm WeakReferenceMessenger instead.")]
 public class NotificationService : INotificationService
 {
 	/// <summary>
