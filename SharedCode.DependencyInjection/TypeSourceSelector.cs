@@ -14,7 +14,7 @@ using System.Reflection;
 /// The type source selector class. Implements the <see cref="ITypeSourceSelector" />.
 /// </summary>
 /// <seealso cref="ITypeSourceSelector" />
-internal class TypeSourceSelector : ITypeSourceSelector
+internal sealed class TypeSourceSelector : ITypeSourceSelector
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="TypeSourceSelector" /> class.

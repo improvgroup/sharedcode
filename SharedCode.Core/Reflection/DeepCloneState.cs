@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-internal class DeepCloneState
+internal sealed class DeepCloneState
 {
 	private readonly object[] _baseFromTo = new object[6];
 	private int _idx;
@@ -44,7 +44,7 @@ internal class DeepCloneState
 		return this._loops?.FindEntry(from);
 	}
 
-	private class MiniDictionary
+	private sealed class MiniDictionary
 	{
 		private static readonly int[] _primes =
 		{

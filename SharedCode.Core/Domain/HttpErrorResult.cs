@@ -12,15 +12,15 @@ public class HttpErrorResult : ErrorResult
 	/// <summary>
 	/// Initializes a new instance of the <see cref="HttpErrorResult" /> class.
 	/// </summary>
-	/// <param name="message">The message.</param>
+	/// <param name="message">The error message.</param>
 	/// <param name="statusCode">The status code.</param>
 	public HttpErrorResult(string message, HttpStatusCode statusCode) : base(message) => this.StatusCode = statusCode;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="HttpErrorResult" /> class.
 	/// </summary>
-	/// <param name="message">The message.</param>
-	/// <param name="errors">The errors.</param>
+	/// <param name="message">The error message.</param>
+	/// <param name="errors">The list of errors.</param>
 	/// <param name="statusCode">The status code.</param>
 	public HttpErrorResult(string message, IReadOnlyCollection<Error> errors, HttpStatusCode statusCode) : base(message, errors) => this.StatusCode = statusCode;
 

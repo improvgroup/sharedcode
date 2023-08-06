@@ -14,7 +14,7 @@ public class ErrorResult : Result, IErrorResult
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ErrorResult" /> class.
 	/// </summary>
-	/// <param name="message">The message.</param>
+	/// <param name="message">The error message.</param>
 	public ErrorResult(string message) : this(message, Array.Empty<Error>())
 	{
 	}
@@ -22,8 +22,8 @@ public class ErrorResult : Result, IErrorResult
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ErrorResult" /> class.
 	/// </summary>
-	/// <param name="message">The message.</param>
-	/// <param name="errors">The errors.</param>
+	/// <param name="message">The error message.</param>
+	/// <param name="errors">The list of errors.</param>
 	public ErrorResult(string message, IReadOnlyCollection<Error> errors)
 	{
 		this.Message = message;

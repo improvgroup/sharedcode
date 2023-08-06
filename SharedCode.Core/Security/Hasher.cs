@@ -1,4 +1,4 @@
-// <copyright file="Hasher.cs" company="improvGroup, LLC">
+﻿// <copyright file="Hasher.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -24,6 +24,7 @@ public static partial class Hasher
 	[SuppressMessage("Security", "CA5351:Do Not Use Broken Cryptographic Algorithms", Justification = "Computing a hash. May not need to be cryptographically safe.")]
 	[SuppressMessage("Security", "CA5350:Do Not Use Weak Cryptographic Algorithms", Justification = "Computing a hash. May not need to be cryptographically safe.")]
 	[SuppressMessage("Roslynator", "RCS1136:Merge switch sections with equivalent content.", Justification = "CA rules overlap here. Have to disable this or that.")]
+	[SuppressMessage("Roslynator", "RCS1069:Remove unnecessary case label.", Justification = "For completeness we want to keep the extra cases.")]
 	private static byte[] GetHash(string input, EHashType hash)
 	{
 		var inputBytes = Encoding.ASCII.GetBytes(input);
@@ -69,39 +70,57 @@ public static partial class Hasher
 #pragma warning restore SYSLIB0007 // Type or member is obsolete
 
 			case EHashType.MD5:
+#if NET6_0_OR_GREATER
+				var outputMd5 = MD5.HashData(inputBytes);
+#else
 				var md5 = MD5.Create();
 				var outputMd5 = md5.ComputeHash(inputBytes);
 				md5.Dispose();
+#endif
 				return outputMd5;
 
 			case EHashType.SHA1:
+#if NET6_0_OR_GREATER
+				var outputSha1 = SHA1.HashData(inputBytes);
+#else
 				var sha1 = SHA1.Create();
 				var outputSha1 = sha1.ComputeHash(inputBytes);
 				sha1.Dispose();
+#endif
 				return outputSha1;
 
 			case EHashType.SHA256:
+#if NET6_0_OR_GREATER
+				var outputSha256 = SHA256.HashData(inputBytes);
+#else
 				var sha256 = SHA256.Create();
 				var outputSha256 = sha256.ComputeHash(inputBytes);
 				sha256.Dispose();
+#endif
 				return outputSha256;
 
 			case EHashType.SHA384:
+#if NET6_0_OR_GREATER
+				var outputSha384 = SHA384.HashData(inputBytes);
+#else
 				var sha384 = SHA384.Create();
 				var outputSha384 = sha384.ComputeHash(inputBytes);
 				sha384.Dispose();
+#endif
 				return outputSha384;
 
 			case EHashType.SHA512:
+#if NET6_0_OR_GREATER
+				var outputSha512 = SHA512.HashData(inputBytes);
+#else
 				var sha512 = SHA512.Create();
 				var outputSha512 = sha512.ComputeHash(inputBytes);
 				sha512.Dispose();
+#endif
 				return outputSha512;
 
 			case EHashType.MACTripleDES:
-				return inputBytes;
 			case EHashType.RIPEMD160:
-				return inputBytes;
 			default:
 				return inputBytes;
 		}

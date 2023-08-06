@@ -11,7 +11,7 @@ public class Error
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Error" /> class.
 	/// </summary>
-	/// <param name="details">The details.</param>
+	/// <param name="details">The error details.</param>
 	public Error(string details) : this(null, details)
 	{
 	}
@@ -19,8 +19,8 @@ public class Error
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Error" /> class.
 	/// </summary>
-	/// <param name="code">The code.</param>
-	/// <param name="details">The details.</param>
+	/// <param name="code">The error code.</param>
+	/// <param name="details">The error details.</param>
 	public Error(string? code, string? details)
 	{
 		this.Code = code;

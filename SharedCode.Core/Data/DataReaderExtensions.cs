@@ -88,6 +88,18 @@ public static class DataReaderExtensions
 					if (@this.GetFieldType(index) == typeof(string))
 					{
 						// If double quotes are used in value, ensure each are replaced but 2.
+#if NET6_0_OR_GREATER
+						if (value?.Contains('"', StringComparison.Ordinal) == true)
+						{
+							value = value.Replace("\"", "\"\"", StringComparison.Ordinal);
+						}
+
+						// If separtor are is in value, ensure it is put in double quotes.
+						if (value?.Contains(separator, StringComparison.Ordinal) == true)
+						{
+							value = $"\"{value}\"";
+						}
+#else
 						if (value?.Contains('"') == true)
 						{
 							value = value.Replace("\"", "\"\"");
@@ -98,6 +110,7 @@ public static class DataReaderExtensions
 						{
 							value = $"\"{value}\"";
 						}
+#endif
 					}
 
 					_ = sb.Append(value);
@@ -111,11 +124,19 @@ public static class DataReaderExtensions
 
 			if (!@this.IsDBNull(@this.FieldCount - 1))
 			{
+#if NET6_0_OR_GREATER
+				_ = sb.Append(
+					@this
+						.GetValue(@this.FieldCount - 1)
+						.ToString()
+						?.Replace(separator, " ", StringComparison.Ordinal));
+#else
 				_ = sb.Append(
 					@this
 						.GetValue(@this.FieldCount - 1)
 						.ToString()
 						?.Replace(separator, " "));
+#endif
 			}
 
 			output.Add(sb.ToString());

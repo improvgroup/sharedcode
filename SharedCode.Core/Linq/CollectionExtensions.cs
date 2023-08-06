@@ -1,4 +1,4 @@
-// <copyright file="CollectionExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="CollectionExtensions.cs" company="improvGroup, LLC">
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -439,6 +439,7 @@ public static partial class CollectionExtensions
 	/// </remarks>
 	/// <exception cref="ArgumentNullException">collection or source or getKey</exception>
 	/// <exception cref="ArgumentException">source cannot be empty.</exception>
+	[SuppressMessage("Performance", "CA1851:Possible multiple enumerations of 'IEnumerable' collection", Justification = "Any is optimized and we do not want to materialize the array until later.")]
 	public static SyncChanges<T> SyncFrom<T, TKey>(
 		 this ICollection<T> @this,
 		 IEnumerable<T> source,

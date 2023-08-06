@@ -43,7 +43,7 @@ public abstract class ShallowCloneHelper
 	/// <param name="obj">The object to clone.</param>
 	protected abstract object DoCloneObject(object obj);
 
-	private class ShallowSafeObjectCloneHelper : ShallowCloneHelper
+	private sealed class ShallowSafeObjectCloneHelper : ShallowCloneHelper
 	{
 		private static readonly Func<object, object> _cloneFunc =
 			Expression

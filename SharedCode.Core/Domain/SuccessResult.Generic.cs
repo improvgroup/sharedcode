@@ -10,6 +10,6 @@ public class SuccessResult<T> : Result<T>
 	/// <summary>
 	/// Initializes a new instance of the <see cref="SuccessResult{T}" /> class.
 	/// </summary>
-	/// <param name="data">The data.</param>
+	/// <param name="data">The result data.</param>
 	public SuccessResult(T data) : base(data) => this.Success = true;
 }

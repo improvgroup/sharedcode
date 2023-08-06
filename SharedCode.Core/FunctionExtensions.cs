@@ -1,4 +1,4 @@
-// <copyright file="FunctionExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="FunctionExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -18,28 +18,23 @@ public static class FunctionExtensions
 	/// </summary>
 	/// <typeparam name="T">The input type.</typeparam>
 	/// <typeparam name="TResult">The type of the result.</typeparam>
-	/// <param name="function">The function to memoize.</param>
+	/// <param name="this">The function to memoize.</param>
 	/// <returns>The memoized function.</returns>
 	/// <exception cref="ArgumentNullException">function</exception>
-	public static Func<T, TResult> Memoize<T, TResult>(this Func<T, TResult> function) where T : notnull
+	public static Func<T, TResult> Memoize<T, TResult>(this Func<T, TResult> @this) where T : notnull
 	{
-		_ = function ?? throw new ArgumentNullException(nameof(function));
+		_ = @this ?? throw new ArgumentNullException(nameof(@this));
 		Contract.Ensures(Contract.Result<Func<T, TResult>>() != null);
 
 		var dictionary = new Dictionary<T, TResult>();
 		return n =>
 		{
-			if (dictionary.ContainsKey(n))
+			if (dictionary.TryGetValue(n, out var value))
 			{
-				return dictionary[n];
+				return value;
 			}
 
-			var handler = function;
-			if (handler is null)
-			{
-				throw new ArgumentNullException(nameof(function));
-			}
-
+			var handler = @this ?? throw new ArgumentNullException(nameof(@this));
 			var result = handler(n);
 			dictionary.Add(n, result);
 			return result;

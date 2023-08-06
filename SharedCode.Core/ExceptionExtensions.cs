@@ -21,7 +21,7 @@ namespace SharedCode
 		/// Adds the specified data to this exception.
 		/// </summary>
 		/// <param name="this">The exception.</param>
-		/// <param name="dictionary">The dictionary.</param>
+		/// <param name="dictionary">The data dictionary.</param>
 		/// <exception cref="ArgumentNullException"></exception>
 		[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "Non-generic inference does not work so well.")]
 		public static void AddData(this Exception @this, IDictionary dictionary)
@@ -61,7 +61,7 @@ namespace SharedCode
 		/// is equal to the specified dictionary.
 		/// </summary>
 		/// <param name="this">The exception.</param>
-		/// <param name="dictionary">The dictionary.</param>
+		/// <param name="dictionary">The data dictionary.</param>
 		/// <returns><c>true</c> if the data dictionaries are equal, <c>false</c> otherwise.</returns>
 		public static bool DataEquals(this Exception @this, IDictionary? dictionary)
 		{
@@ -74,7 +74,7 @@ namespace SharedCode
 		/// data dictionary.
 		/// </summary>
 		/// <param name="this">The exception.</param>
-		/// <param name="dictionary">The dictionary.</param>
+		/// <param name="dictionary">The data dictionary.</param>
 		/// <returns>System.ValueTuple&lt;System.Boolean, System.String&gt;.</returns>
 		/// <exception cref="ArgumentNullException"></exception>
 		public static (bool IsEqual, string Message) DataEqualsWithDetail(this Exception @this, IDictionary? dictionary)
@@ -82,7 +82,7 @@ namespace SharedCode
 			_ = @this ?? throw new ArgumentNullException(nameof(@this));
 
 			var isEqual = true;
-			StringBuilder messageStringBuilder = new();
+			var messageStringBuilder = new StringBuilder();
 			isEqual = @this.CompareDataKeys(dictionary, isEqual, messageStringBuilder);
 
 			return (isEqual, messageStringBuilder.ToString());

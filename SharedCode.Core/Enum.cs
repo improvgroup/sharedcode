@@ -1,4 +1,4 @@
-// <copyright file="Enum.cs" company="improvGroup, LLC">
+﻿// <copyright file="Enum.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -51,12 +51,13 @@ public static class Enum<T>
 		{
 			// Check for our custom attribute
 			var attrs = fi.GetCustomAttributes<StringValueAttribute>(inherit: false);
-			if (attrs.Any())
+			var attr = attrs?.FirstOrDefault();
+			if (attr is not null)
 			{
 				_ = values.Add(
 					new DictionaryEntry(
 						Convert.ChangeType(Enum.Parse(typeof(T), fi.Name), underlyingType, CultureInfo.CurrentCulture),
-						attrs.First().Value));
+						attr.Value));
 			}
 		}
 
@@ -83,7 +84,7 @@ public static class Enum<T>
 		}
 		catch (Exception)
 		{
-			// ignored
+			// No logging is needed
 		}
 
 		return stringValue;
@@ -135,8 +136,9 @@ public static class Enum<T>
 		{
 			// Check for our custom attribute
 			var attrs = fi.GetCustomAttributes<StringValueAttribute>(inherit: false);
-			if (attrs.Any())
-				_ = values.Add(attrs.First().Value);
+			var attr = attrs?.FirstOrDefault();
+			if (attr is not null)
+				_ = values.Add(attr.Value);
 		}
 
 		return values.ToArray();
@@ -213,8 +215,9 @@ public static class Enum<T>
 		{
 			// Check for our custom attribute
 			var attrs = fi.GetCustomAttributes<StringValueAttribute>(inherit: false);
-			if (attrs.Any())
-				enumStringValue = attrs.First().Value;
+			var attr = attrs?.FirstOrDefault();
+			if (attr is not null)
+				enumStringValue = attr.Value;
 
 			// Check for equality then select actual enum value.
 			if (string.Equals(enumStringValue, stringValue, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal))

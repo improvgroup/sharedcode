@@ -55,7 +55,11 @@ namespace SharedCode.Data
 						// Double up all embedded double quotes To keep things simple, always
 						// delimit with double-quotes so we don't have to determine in which cases
 						// they're necessary and which cases they're not.
+#if NET6_0_OR_GREATER
+						_ = result.Append('"').Append(item?.ToString()?.Replace("\"", "\"\"", StringComparison.Ordinal)).Append('"').Append(delimiter);
+#else
 						_ = result.Append('"').Append(item?.ToString()?.Replace("\"", "\"\"")).Append('"').Append(delimiter);
+#endif
 					}
 				}
 

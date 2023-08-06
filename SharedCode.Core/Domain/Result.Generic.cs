@@ -7,18 +7,19 @@
 /// <seealso cref="Result" />
 public abstract class Result<T> : Result
 {
+	[SuppressMessage("Style", "GCop406:Mark {0} field as read-only.", Justification = "Backing field for mutable property so readonly is inappropriate here.")]
 	private T? _data;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Result{T}" /> class.
 	/// </summary>
-	/// <param name="data">The data.</param>
+	/// <param name="data">The result data.</param>
 	protected Result(T? data) => this.Data = data;
 
 	/// <summary>
 	/// Gets or sets the data.
 	/// </summary>
-	/// <value>The data.</value>
+	/// <value>The result data.</value>
 	/// <exception cref="InvalidOperationException">
 	/// You cannot access this.Data when this.Success is false.
 	/// </exception>

@@ -1,4 +1,4 @@
-// <copyright file="DayOfWeekExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="DayOfWeekExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -33,12 +33,12 @@ namespace SharedCode.Calendar
 		}
 
 		/// <summary>
-		/// Determines whether the specified <paramref name="dayOfWeek" /> is weekend.
+		/// Determines whether the specified <paramref name="this" /> is weekend.
 		/// </summary>
-		/// <param name="dayOfWeek">The day of the week.</param>
+		/// <param name="this">The day of the week.</param>
 		/// <returns>
-		/// <c>true</c> if the specified <paramref name="dayOfWeek" /> is weekend; otherwise, <c>false</c>.
+		/// <c>true</c> if the specified <paramref name="this" /> is weekend; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsWeekend(this DayOfWeek dayOfWeek) => !dayOfWeek.IsWeekday();
+		public static bool IsWeekend(this DayOfWeek @this) => !@this.IsWeekday();
 	}
 }

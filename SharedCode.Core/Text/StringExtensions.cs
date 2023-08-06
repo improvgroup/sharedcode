@@ -764,6 +764,18 @@ public static class StringExtensions
 		}
 
 		//۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹
+#if NET6_0_OR_GREATER
+		return @this.Replace("0", "۰", StringComparison.Ordinal)
+			.Replace("1", "۱", StringComparison.Ordinal)
+			.Replace("2", "۲", StringComparison.Ordinal)
+			.Replace("3", "۳", StringComparison.Ordinal)
+			.Replace("4", "۴", StringComparison.Ordinal)
+			.Replace("5", "۵", StringComparison.Ordinal)
+			.Replace("6", "۶", StringComparison.Ordinal)
+			.Replace("7", "۷", StringComparison.Ordinal)
+			.Replace("8", "۸", StringComparison.Ordinal)
+			.Replace("9", "۹", StringComparison.Ordinal);
+#else
 		return @this.Replace("0", "۰")
 			.Replace("1", "۱")
 			.Replace("2", "۲")
@@ -774,6 +786,7 @@ public static class StringExtensions
 			.Replace("7", "۷")
 			.Replace("8", "۸")
 			.Replace("9", "۹");
+#endif
 	}
 
 	/// <summary>

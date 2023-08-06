@@ -1,4 +1,4 @@
-// <copyright file="Converter.cs" company="improvGroup, LLC">
+﻿// <copyright file="Converter.cs" company="improvGroup, LLC">
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace SharedCode.Data
 	/// Class used to convert returned database records to strongly typed classes
 	/// </summary>
 	/// <typeparam name="T">The type of the object being converted to.</typeparam>
-	internal class DataRecordConverter<T> where T : new()
+	internal sealed class DataRecordConverter<T> where T : new()
 	{
 		/// <summary>
 		/// The converter

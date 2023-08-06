@@ -1,4 +1,4 @@
-// <copyright file="INotificationHandler.cs" company="improvGroup, LLC">
+﻿// <copyright file="INotificationHandler.cs" company="improvGroup, LLC">
 //     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ public interface INotificationHandler<in TNotification>
 	/// <summary>
 	/// Handles the specified notification.
 	/// </summary>
-	/// <param name="notification">The notification.</param>
+	/// <param name="notification">The notification to handle.</param>
 	/// <param name="cancellationToken">The cancellation token.</param>
 	Task Handle(TNotification notification, CancellationToken? cancellationToken = default);
 }

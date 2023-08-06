@@ -16,7 +16,7 @@ public class BaseException : Exception
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BaseException"/> class.
 	/// </summary>
-	public BaseException() : base() { }
+	public BaseException() { }
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="BaseException"/> class.

@@ -1,4 +1,4 @@
-// <copyright file="Mediator.cs" company="improvGroup, LLC">
+﻿// <copyright file="Mediator.cs" company="improvGroup, LLC">
 //     Copyright © 2022 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -24,9 +24,9 @@ namespace SharedCode.Windows.WPF
 		/// <param name="args">The arguments.</param>
 		public static void Notify(string token, object? args = null)
 		{
-			if (pageListDictionary.ContainsKey(token))
+			if (pageListDictionary.TryGetValue(token, out var pageList))
 			{
-				foreach (var callback in pageListDictionary[token])
+				foreach (var callback in pageList)
 				{
 					callback(args);
 				}
@@ -70,9 +70,9 @@ namespace SharedCode.Windows.WPF
 		/// <param name="callback">The callback action.</param>
 		public static void Unsubscribe(string token, Action<object?> callback)
 		{
-			if (pageListDictionary.ContainsKey(token))
+			if (pageListDictionary.TryGetValue(token, out var pageList))
 			{
-				_ = pageListDictionary[token].Remove(callback);
+				_ = pageList.Remove(callback);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-namespace SharedCode;
+﻿namespace SharedCode;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -11,42 +11,42 @@ public static class EventHandlerExtensions
 	/// <summary>
 	/// Executes the handler with the specified sender and empty arguments.
 	/// </summary>
-	/// <param name="handler">The event handler.</param>
-	/// <param name="sender">The sender.</param>
+	/// <param name="this">The event handler.</param>
+	/// <param name="sender">The sender object.</param>
 	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
-	public static void Raise(this EventHandler handler, object sender) =>
-		handler?.Invoke(sender, EventArgs.Empty);
+	public static void Raise(this EventHandler @this, object sender) =>
+		@this?.Invoke(sender, EventArgs.Empty);
 
 	/// <summary>
 	/// Executes the handler with the specified sender and arguments.
 	/// </summary>
 	/// <typeparam name="T">The type of the value in the arguments.</typeparam>
-	/// <param name="handler">The event handler.</param>
-	/// <param name="sender">The sender.</param>
-	/// <param name="value">The value.</param>
+	/// <param name="this">The event handler.</param>
+	/// <param name="sender">The sender object.</param>
+	/// <param name="value">The argument value.</param>
 	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
-	public static void Raise<T>(this EventHandler<EventArgs<T>> handler, object sender, T value) =>
-		handler?.Invoke(sender, new EventArgs<T>(value));
+	public static void Raise<T>(this EventHandler<EventArgs<T>> @this, object sender, T value) =>
+		@this?.Invoke(sender, new EventArgs<T>(value));
 
 	/// <summary>
 	/// Executes the handler with the specified sender and arguments.
 	/// </summary>
 	/// <typeparam name="T">The type of the arguments.</typeparam>
-	/// <param name="handler">The event handler.</param>
-	/// <param name="sender">The sender.</param>
+	/// <param name="this">The event handler.</param>
+	/// <param name="sender">The sender object.</param>
 	/// <param name="value">The event arguments.</param>
 	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
-	public static void Raise<T>(this EventHandler<T> handler, object sender, T value) where T : EventArgs =>
-		handler?.Invoke(sender, value);
+	public static void Raise<T>(this EventHandler<T> @this, object sender, T value) where T : EventArgs =>
+		@this?.Invoke(sender, value);
 
 	/// <summary>
 	/// Executes the handler with the specified sender and arguments.
 	/// </summary>
 	/// <typeparam name="T">The type of the value in the arguments.</typeparam>
-	/// <param name="handler">The event handler.</param>
-	/// <param name="sender">The sender.</param>
+	/// <param name="this">The event handler.</param>
+	/// <param name="sender">The sender object.</param>
 	/// <param name="value">The event arguments.</param>
 	[SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "This is applied to event handlers.")]
-	public static void Raise<T>(this EventHandler<EventArgs<T>> handler, object sender, EventArgs<T> value) =>
-		handler?.Invoke(sender, value);
+	public static void Raise<T>(this EventHandler<EventArgs<T>> @this, object sender, EventArgs<T> value) =>
+		@this?.Invoke(sender, value);
 }
