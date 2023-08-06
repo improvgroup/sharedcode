@@ -7,6 +7,7 @@ To use these, search NuGet for each package:
 
  - SharedCode.Core
  - SharedCode.Data
+ - SharedCode.Data.CosmosDb
  - SharedCode.Data.EntityFramework
  - SharedCode.DependencyInjection
  - SharedCode.MediatR
