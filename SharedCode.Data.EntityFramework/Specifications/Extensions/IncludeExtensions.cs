@@ -1,4 +1,4 @@
-// <copyright file="IncludeExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="IncludeExtensions.cs" company="improvGroup, LLC">
 //     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -28,16 +28,16 @@ public static class IncludeExtensions
 	/// <exception cref="ArgumentNullException">info</exception>
 	public static IQueryable<T> Include<T>(this IQueryable<T> source, IncludeExpressionInformation info)
 	{
-		_ = source ?? throw new ArgumentNullException(nameof(source));
-		_ = info ?? throw new ArgumentNullException(nameof(info));
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(info);
 
 		var queryExpr = Expression.Call(
 			typeof(EntityFrameworkQueryableExtensions),
 			"Include",
-			new Type[] {
-					info.EntityType,
-					info.PropertyType
-			},
+			[
+				info.EntityType,
+				info.PropertyType
+			],
 			source.Expression,
 			info.LambdaExpression
 			);
@@ -57,18 +57,18 @@ public static class IncludeExtensions
 	/// <exception cref="ArgumentNullException">PreviousPropertyType</exception>
 	public static IQueryable<T> ThenInclude<T>(this IQueryable<T> source, IncludeExpressionInformation info)
 	{
-		_ = source ?? throw new ArgumentNullException(nameof(source));
-		_ = info ?? throw new ArgumentNullException(nameof(info));
-		_ = info.PreviousPropertyType ?? throw new ArgumentNullException(nameof(info), "info.PreviousPropertyType cannot be null.");
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(info);
+		ArgumentNullException.ThrowIfNull(info.PreviousPropertyType);
 
 		var queryExpr = Expression.Call(
 			typeof(EntityFrameworkQueryableExtensions),
 			"ThenInclude",
-			new Type[] {
-					info.EntityType,
-					info.PreviousPropertyType,
-					info.PropertyType
-			},
+			[
+				info.EntityType,
+				info.PreviousPropertyType,
+				info.PropertyType
+			],
 			source.Expression,
 			info.LambdaExpression
 			);

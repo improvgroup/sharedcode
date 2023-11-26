@@ -1,4 +1,4 @@
-// <copyright file="OrderEvaluator.cs" company="improvGroup, LLC">
+﻿// <copyright file="OrderEvaluator.cs" company="improvGroup, LLC">
 //     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -75,7 +75,7 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 			}
 		}
 
-		return query;
+		return query ?? Enumerable.Empty<T>();
 	}
 
 	/// <summary>
@@ -88,6 +88,8 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 	/// <exception cref="DuplicateOrderChainException"></exception>
 	public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
 	{
+		ArgumentNullException.ThrowIfNull(query);
+
 		if (specification?.OrderExpressions is not null)
 		{
 			if (specification.OrderExpressions.Count(x => x.OrderType is OrderType.OrderBy or OrderType.OrderByDescending) > 1)
@@ -122,6 +124,6 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 			}
 		}
 
-		return query;
+		return query!;
 	}
 }

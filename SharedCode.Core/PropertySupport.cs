@@ -49,8 +49,7 @@ public static class PropertySupport
 	/// </exception>
 	internal static string ExtractPropertyNameFromLambda(LambdaExpression expression)
 	{
-		if (expression is null)
-			throw new ArgumentNullException(nameof(expression));
+		ArgumentNullException.ThrowIfNull(expression);
 
 		if (expression.Body is not MemberExpression memberExpression)
 			throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception, nameof(expression));

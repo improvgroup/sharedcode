@@ -6,7 +6,6 @@ namespace SharedCode.DependencyInjection;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
-
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -14,19 +13,17 @@ using System.Reflection;
 /// The type source selector class. Implements the <see cref="ITypeSourceSelector" />.
 /// </summary>
 /// <seealso cref="ITypeSourceSelector" />
-internal sealed class TypeSourceSelector : ITypeSourceSelector
+/// <remarks>
+/// Initializes a new instance of the <see cref="TypeSourceSelector" /> class.
+/// </remarks>
+/// <param name="services">The service collection.</param>
+internal sealed class TypeSourceSelector(IServiceCollection services) : ITypeSourceSelector
 {
-	/// <summary>
-	/// Initializes a new instance of the <see cref="TypeSourceSelector" /> class.
-	/// </summary>
-	/// <param name="services">The service collection.</param>
-	public TypeSourceSelector(IServiceCollection services) => this.Services = services;
-
 	/// <summary>
 	/// Gets the services.
 	/// </summary>
 	/// <value>The services.</value>
-	public IServiceCollection Services { get; }
+	public IServiceCollection Services { get; } = services;
 
 	/// <summary>
 	/// Froms the application dependencies.
@@ -53,9 +50,7 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 		{
 			// Something went wrong when loading the DependencyContext, fall back to loading all
 			// referenced assemblies of the entry assembly…
-#pragma warning disable CS8604 // Possible null reference argument.
-			return this.FromAssemblyDependencies(Assembly.GetEntryAssembly());
-#pragma warning restore CS8604 // Possible null reference argument.
+			return this.FromAssemblyDependencies(Assembly.GetEntryAssembly()!);
 		}
 	}
 
@@ -67,7 +62,7 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	/// <exception cref="ArgumentNullException">assemblies</exception>
 	public ICatalogSelector FromAssemblies(params Assembly[] assemblies)
 	{
-		_ = assemblies ?? throw new ArgumentNullException(nameof(assemblies));
+		ArgumentNullException.ThrowIfNull(assemblies);
 
 		return this.InternalFromAssemblies(assemblies);
 	}
@@ -80,7 +75,7 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	/// <exception cref="ArgumentNullException">assemblies</exception>
 	public ICatalogSelector FromAssemblies(IEnumerable<Assembly> assemblies)
 	{
-		_ = assemblies ?? throw new ArgumentNullException(nameof(assemblies));
+		ArgumentNullException.ThrowIfNull(assemblies);
 
 		return this.InternalFromAssemblies(assemblies);
 	}
@@ -93,7 +88,7 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	/// <exception cref="ArgumentNullException">types</exception>
 	public ICatalogSelector FromAssembliesOf(params Type[] types)
 	{
-		_ = types ?? throw new ArgumentNullException(nameof(types));
+		ArgumentNullException.ThrowIfNull(types);
 
 		return this.InternalFromAssembliesOf(types.Select(x => x.GetTypeInfo()));
 	}
@@ -106,7 +101,7 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	/// <exception cref="ArgumentNullException">types</exception>
 	public ICatalogSelector FromAssembliesOf(IEnumerable<Type> types)
 	{
-		_ = types ?? throw new ArgumentNullException(nameof(types));
+		ArgumentNullException.ThrowIfNull(types);
 
 		return this.InternalFromAssembliesOf(types.Select(t => t.GetTypeInfo()));
 	}
@@ -120,7 +115,7 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	[SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Ignoring assembly load exceptions.")]
 	public ICatalogSelector FromAssemblyDependencies(Assembly assembly)
 	{
-		_ = assembly ?? throw new ArgumentNullException(nameof(assembly));
+		ArgumentNullException.ThrowIfNull(assembly);
 
 		var assemblies = new List<Assembly> { assembly };
 
@@ -162,8 +157,8 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	/// <inheritdoc />
 	public ICatalogSelector FromDependencyContext(DependencyContext context, Func<Assembly, bool> predicate)
 	{
-		_ = context ?? throw new ArgumentNullException(nameof(context));
-		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
+		ArgumentNullException.ThrowIfNull(context);
+		ArgumentNullException.ThrowIfNull(predicate);
 
 		var assemblies = context.RuntimeLibraries
 			.SelectMany(library => library.GetDefaultAssemblyNames(context))
@@ -176,9 +171,7 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 
 	/// <inheritdoc />
 	public ICatalogSelector FromEntryAssembly() =>
-#pragma warning disable CS8604 // Possible null reference argument.
-		this.FromAssemblies(Assembly.GetEntryAssembly());
-#pragma warning restore CS8604 // Possible null reference argument.
+		this.FromAssemblies(Assembly.GetEntryAssembly()!);
 
 	/// <inheritdoc />
 	public ICatalogSelector FromExecutingAssembly() => this.FromAssemblies(Assembly.GetExecutingAssembly());
@@ -188,8 +181,8 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	/// </summary>
 	/// <param name="assemblies">The assemblies.</param>
 	/// <returns>ICatalogSelector.</returns>
-	private ICatalogSelector InternalFromAssemblies(IEnumerable<Assembly> assemblies) =>
-		new CatalogSelector(
+	private CatalogSelector InternalFromAssemblies(IEnumerable<Assembly> assemblies) =>
+		new(
 			assemblies
 				.SelectMany(asm => asm.DefinedTypes)
 				.Where(x => x.IsAssignableTo(typeof(Catalog)))
@@ -201,6 +194,6 @@ internal sealed class TypeSourceSelector : ITypeSourceSelector
 	/// </summary>
 	/// <param name="typeInfos">The type infos.</param>
 	/// <returns>ICatalogSelector.</returns>
-	private ICatalogSelector InternalFromAssembliesOf(IEnumerable<TypeInfo> typeInfos) =>
+	private CatalogSelector InternalFromAssembliesOf(IEnumerable<TypeInfo> typeInfos) =>
 		this.InternalFromAssemblies(typeInfos.Select(t => t.Assembly));
 }

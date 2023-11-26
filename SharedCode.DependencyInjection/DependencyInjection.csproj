@@ -4,17 +4,17 @@
 		<AssemblyName>SharedCode.DependencyInjection</AssemblyName>
 		<PackageTags>shared code, c#, utilities, dependency injection</PackageTags>
 		<RootNamespace>SharedCode.DependencyInjection</RootNamespace>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="GCop.All.Common" Version="2.8.0">
+		<PackageReference Include="GCop.All.Common" Version="2.8.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="7.0.0" />
-		<PackageReference Include="System.ComponentModel.Composition" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
+		<PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,6 +38,26 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Update="Roslynator.Analyzers" Version="4.6.4">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Update="Roslynator.CodeAnalysis.Analyzers" Version="4.6.4">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Update="Roslynator.Formatting.Analyzers" Version="4.6.4">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Update="System.Collections.Immutable" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>

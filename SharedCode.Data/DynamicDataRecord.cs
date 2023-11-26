@@ -1,4 +1,4 @@
-// <copyright file="DynamicDataRecord.cs" company="improvGroup, LLC">
+﻿// <copyright file="DynamicDataRecord.cs" company="improvGroup, LLC">
 //     Copyright © 2013-2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -29,10 +29,7 @@ namespace SharedCode.Data
 		/// <inheritdoc/>
 		public override bool TryGetMember(GetMemberBinder binder, out object? result)
 		{
-			if (binder is null)
-			{
-				throw new ArgumentNullException(nameof(binder));
-			}
+			ArgumentNullException.ThrowIfNull(binder);
 
 			try
 			{

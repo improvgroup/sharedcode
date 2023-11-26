@@ -1,4 +1,4 @@
-// <copyright file="DataService.cs" company="improvGroup, LLC">
+﻿// <copyright file="DataService.cs" company="improvGroup, LLC">
 //     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -31,7 +31,7 @@ namespace SharedCode.Data.EntityFramework
 		/// <inheritdoc />
 		public async Task<T> Create(T entity, CancellationToken cancellationToken = default)
 		{
-			using var context = this.dbContextFactory.CreateDbContext();
+			using var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
 
 			var entry = await context.Set<T>().AddAsync(entity, cancellationToken).ConfigureAwait(false);
 			_ = await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -42,9 +42,9 @@ namespace SharedCode.Data.EntityFramework
 		/// <inheritdoc />
 		public async Task<bool> Delete<TKey>(TKey key, CancellationToken cancellationToken = default)
 		{
-			using var context = this.dbContextFactory.CreateDbContext();
+			using var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
 
-			var entity = await context.Set<T>().FindAsync(new object?[] { key }, cancellationToken: cancellationToken).ConfigureAwait(false);
+			var entity = await context.Set<T>().FindAsync([key], cancellationToken: cancellationToken).ConfigureAwait(false);
 			if (entity is null)
 				return false;
 
@@ -56,7 +56,7 @@ namespace SharedCode.Data.EntityFramework
 		/// <inheritdoc />
 		public async Task<bool> Delete(T entity, CancellationToken cancellationToken = default)
 		{
-			using var context = this.dbContextFactory.CreateDbContext();
+			using var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
 			var entry = context.Set<T>().Attach(entity);
 			entry.State = EntityState.Deleted;
 			var result = await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -67,15 +67,22 @@ namespace SharedCode.Data.EntityFramework
 		/// <inheritdoc />
 		public async Task<T?> Get<TKey>(TKey key, CancellationToken cancellationToken = default)
 		{
-			using var context = this.dbContextFactory.CreateDbContext();
-			return await context.Set<T>().FindAsync(new object?[] { key }, cancellationToken: cancellationToken).ConfigureAwait(false);
+			using var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
+			return await context.Set<T>().FindAsync([key], cancellationToken: cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public IAsyncEnumerable<T> Get(Expression<Func<T, bool>>? expression = null)
+		public async IAsyncEnumerable<T> Get(Expression<Func<T, bool>>? expression = null)
 		{
-			using var context = this.dbContextFactory.CreateDbContext();
-			return expression is null ? context.Set<T>().AsNoTracking().AsAsyncEnumerable() : context.Set<T>().Where(expression).AsNoTracking().AsAsyncEnumerable();
+			using var context = await this.dbContextFactory.CreateDbContextAsync().ConfigureAwait(false);
+			var enumerable = expression is null
+				? context.Set<T>().AsNoTracking().AsAsyncEnumerable()
+				: context.Set<T>().Where(expression).AsNoTracking().AsAsyncEnumerable();
+
+			await foreach (var entity in enumerable)
+			{
+				yield return entity;
+			}
 		}
 
 		/// <inheritdoc />
@@ -88,7 +95,7 @@ namespace SharedCode.Data.EntityFramework
 		/// <inheritdoc />
 		public async Task<T> Update(T entity, CancellationToken cancellationToken = default)
 		{
-			using var context = this.dbContextFactory.CreateDbContext();
+			using var context = await this.dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false);
 
 			var entry = context.Set<T>().Attach(entity);
 			entry.State = EntityState.Modified;

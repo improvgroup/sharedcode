@@ -58,6 +58,7 @@ public static class StringExtensions
 	/// The valid IP address (v4) regular expression
 	/// </summary>
 	private static readonly Regex ValidIpRegEx = new(@"\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b");
+	private static readonly string[] separator = new[] { "-" };
 
 	/// <summary>
 	/// Returns a value indicating whether the specified <see cref="string" /> object occurs within
@@ -130,9 +131,7 @@ public static class StringExtensions
 	/// <returns>The decrypted string or null if decryption failed.</returns>
 	/// <exception cref="ArgumentException">Occurs when this or key is empty.</exception>
 	/// <exception cref="ArgumentNullException">this or key</exception>
-#if NET5_0_OR_GREATER
 	[SupportedOSPlatform("windows")]
-#endif
 	public static string Decrypt(this string @this, string key)
 	{
 		_ = @this ?? throw new ArgumentNullException(nameof(@this));
@@ -150,7 +149,7 @@ public static class StringExtensions
 		}
 
 		using var rsa = new RSACryptoServiceProvider(new CspParameters { KeyContainerName = key }) { PersistKeyInCsp = true };
-		var decryptArray = @this.Split(new[] { "-" }, StringSplitOptions.None);
+		var decryptArray = @this.Split(separator, StringSplitOptions.None);
 		var decryptByteArray = Array.ConvertAll(decryptArray, s => Convert.ToByte(byte.Parse(s, NumberStyles.HexNumber, CultureInfo.CurrentCulture)));
 
 		var bytes = rsa.Decrypt(decryptByteArray, fOAEP: true);
@@ -333,7 +332,7 @@ public static class StringExtensions
 
 		var field = type.GetField(name);
 		var customAttribute = field?.GetCustomAttributes<DescriptionAttribute>(inherit: false).ToList();
-		return customAttribute?.Any() ?? false ? customAttribute[0].Description : name;
+		return customAttribute?.Count > 0 ? customAttribute[0].Description : name;
 	}
 
 	/// <summary>

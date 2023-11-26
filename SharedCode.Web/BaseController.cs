@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 /// <summary>
 /// A base controller class. Implements the <see cref="ControllerBase" />
 /// </summary>
-/// <seealso cref="ControllerBase" />
+/// <seealso cref="Controller" />
 public abstract class BaseController : ControllerBase
 {
 	/// <summary>

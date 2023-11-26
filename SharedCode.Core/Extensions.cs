@@ -181,15 +181,8 @@ namespace SharedCode
 		/// <exception cref="ArgumentNullException">source or property</exception>
 		public static T? GetPropertyValue<T>(this object source, string property)
 		{
-			if (source is null)
-			{
-				throw new ArgumentNullException(nameof(source));
-			}
-
-			if (property is null)
-			{
-				throw new ArgumentNullException(nameof(property));
-			}
+			ArgumentNullException.ThrowIfNull(source);
+			ArgumentNullException.ThrowIfNull(property);
 
 			var sourceType = source.GetType();
 			var sourceProperties = sourceType.GetProperties();

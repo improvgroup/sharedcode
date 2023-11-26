@@ -15,7 +15,7 @@ namespace SharedCode.Windows.WPF
 		/// <summary>
 		/// The page list dictionary
 		/// </summary>
-		private static readonly IDictionary<string, List<Action<object?>>> pageListDictionary = new Dictionary<string, List<Action<object?>>>();
+		private static readonly Dictionary<string, List<Action<object?>>> pageListDictionary = [];
 
 		/// <summary>
 		/// Notifies the specified token.
@@ -40,15 +40,12 @@ namespace SharedCode.Windows.WPF
 		/// <param name="callback">The callback action.</param>
 		public static void Subscribe(string token, Action<object?> callback)
 		{
-			if (!pageListDictionary.ContainsKey(token))
-			{
-				var list = new List<Action<object?>> { callback };
-				pageListDictionary.Add(token, list);
-			}
-			else
+			ArgumentNullException.ThrowIfNull(callback);
+
+			if (pageListDictionary.TryGetValue(token, out var value))
 			{
 				var found = false;
-				foreach (var item in pageListDictionary[token])
+				foreach (var item in value)
 				{
 					if (item.Method.ToString() == callback?.Method.ToString())
 					{
@@ -58,8 +55,13 @@ namespace SharedCode.Windows.WPF
 
 				if (!found)
 				{
-					pageListDictionary[token].Add(callback);
+					value.Add(callback!);
 				}
+			}
+			else
+			{
+				var list = new List<Action<object?>> { callback };
+				pageListDictionary.Add(token, list);
 			}
 		}
 

@@ -78,17 +78,16 @@ public class BufferedWriter : IDisposable
 
 		if (this.StringBuilder.Length > 0)
 		{
-#if NET5_0_OR_GREATER
-			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
+			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
 			_ = this.StringBuilder.Clear();
-#else
-			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
-			_ = this.StringBuilder.Clear();
-#endif
 		}
 
 		token.ThrowIfCancellationRequested();
-		await this.writer.FlushAsync().ConfigureAwait(true);
+#if NET8_0_OR_GREATER
+		await this.writer.FlushAsync(token).ConfigureAwait(false);
+#else
+		await this.writer.FlushAsync().ConfigureAwait(false);
+#endif
 	}
 
 	/// <summary>
@@ -114,13 +113,8 @@ public class BufferedWriter : IDisposable
 
 		if (this.StringBuilder.Length > 0)
 		{
-#if NET5_0_OR_GREATER
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 			_ = this.StringBuilder.Clear();
-#else
-			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
-			_ = this.StringBuilder.Clear();
-#endif
 		}
 	}
 
@@ -145,13 +139,8 @@ public class BufferedWriter : IDisposable
 	{
 		if (this.StringBuilder.Length > BufferLength)
 		{
-#if NET5_0_OR_GREATER
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 			_ = this.StringBuilder.Clear();
-#else
-			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
-			_ = this.StringBuilder.Clear();
-#endif
 		}
 	}
 

@@ -929,6 +929,6 @@ namespace SharedCode.Linq
 		/// <returns>The standard deviation.</returns>
 		/// <exception cref="ArgumentNullException">source</exception>
 		/// ReSharper disable once SuspiciousTypeConversion.Global
-		private static double StdDevLogic(this IEnumerable<int> source, int buffer = 1) => source.Cast<double>().StdDevLogic(buffer);
+		private static double StdDevLogic(this IEnumerable<int> source, int buffer = 1) => source.Select(Convert.ToDouble).StdDevLogic(buffer);
 	}
 }

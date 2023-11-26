@@ -311,15 +311,8 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or action</exception>
 	public static void ForEach<T>(this ICollection<T> @this, Action<T> action)
 	{
-		if (@this is null)
-		{
-			throw new ArgumentNullException(nameof(@this));
-		}
-
-		if (action is null)
-		{
-			throw new ArgumentNullException(nameof(action));
-		}
+		ArgumentNullException.ThrowIfNull(@this);
+		ArgumentNullException.ThrowIfNull(action);
 
 		foreach (var item in @this)
 		{
@@ -345,15 +338,9 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or match</exception>
 	public static int RemoveAll<T>(this ICollection<T> @this, Predicate<T> match)
 	{
-		if (@this is null)
-		{
-			throw new ArgumentNullException(nameof(@this));
-		}
+		ArgumentNullException.ThrowIfNull(@this);
 
-		if (match is null)
-		{
-			throw new ArgumentNullException(nameof(match));
-		}
+		ArgumentNullException.ThrowIfNull(match);
 
 		var count = 0;
 		for (var i = 0; i < @this.Count; i++)
@@ -383,15 +370,9 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or items</exception>
 	public static IEnumerable<bool> RemoveRange<T>(this ICollection<T> @this, IEnumerable<T> items)
 	{
-		if (@this is null)
-		{
-			throw new ArgumentNullException(nameof(@this));
-		}
+		ArgumentNullException.ThrowIfNull(@this);
 
-		if (items is null)
-		{
-			throw new ArgumentNullException(nameof(items));
-		}
+		ArgumentNullException.ThrowIfNull(items);
 
 		Contract.Ensures(Contract.Result<IEnumerable<bool>>() != null);
 
@@ -410,15 +391,9 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or items</exception>
 	public static IEnumerable<bool> RemoveRange<T>(this ICollection<T> @this, params T[] items)
 	{
-		if (@this is null)
-		{
-			throw new ArgumentNullException(nameof(@this));
-		}
+		ArgumentNullException.ThrowIfNull(@this);
 
-		if (items is null)
-		{
-			throw new ArgumentNullException(nameof(items));
-		}
+		ArgumentNullException.ThrowIfNull(items);
 
 		Contract.Ensures(Contract.Result<IEnumerable<bool>>() != null);
 
@@ -445,25 +420,16 @@ public static partial class CollectionExtensions
 		 IEnumerable<T> source,
 		 Func<T, TKey> getKey)
 	{
-		if (@this is null)
-		{
-			throw new ArgumentNullException(nameof(@this));
-		}
+		ArgumentNullException.ThrowIfNull(@this);
 
-		if (source is null)
-		{
-			throw new ArgumentNullException(nameof(source));
-		}
+		ArgumentNullException.ThrowIfNull(source);
 
 		if (source.Any(item => Equals(item, default)))
 		{
 			throw new ArgumentNullException(nameof(source));
 		}
 
-		if (getKey is null)
-		{
-			throw new ArgumentNullException(nameof(getKey));
-		}
+		ArgumentNullException.ThrowIfNull(getKey);
 
 		Contract.Ensures(Contract.Result<SyncChanges<T>>() != null);
 
@@ -522,25 +488,13 @@ public static partial class CollectionExtensions
 		 Func<T, TKey> getKey,
 		 Func<TKey, T> getObject)
 	{
-		if (@this is null)
-		{
-			throw new ArgumentNullException(nameof(@this));
-		}
+		ArgumentNullException.ThrowIfNull(@this);
 
-		if (newKeys is null)
-		{
-			throw new ArgumentNullException(nameof(newKeys));
-		}
+		ArgumentNullException.ThrowIfNull(newKeys);
 
-		if (getKey is null)
-		{
-			throw new ArgumentNullException(nameof(getKey));
-		}
+		ArgumentNullException.ThrowIfNull(getKey);
 
-		if (getObject is null)
-		{
-			throw new ArgumentNullException(nameof(getObject));
-		}
+		ArgumentNullException.ThrowIfNull(getObject);
 
 		Contract.Ensures(Contract.Result<SyncChanges<T>>() != null);
 

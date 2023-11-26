@@ -36,10 +36,7 @@ public static class StreamExtensions
 	[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>")]
 	public static MemoryStream FitImage(this Stream stream, int maxWidth = 0, int maxHeight = 0, bool makeSquare = false, long quality = 90L)
 	{
-		if (stream is null)
-		{
-			throw new ArgumentNullException(nameof(stream));
-		}
+		ArgumentNullException.ThrowIfNull(stream);
 
 		if (stream.CanSeek)
 		{

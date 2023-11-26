@@ -1,7 +1,5 @@
 ﻿namespace SharedCode.MediatR;
 
-using global::MediatR;
-
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
@@ -13,5 +11,9 @@ public static class ServiceCollectionExtensions
 	/// Adds the MediatR commands.
 	/// </summary>
 	/// <param name="services">The services.</param>
-	public static void AddMediatRCommands(this IServiceCollection services) => services.AddMediatR(AssemblyReference.Assembly);
+	public static void AddMediatRCommands(this IServiceCollection services) =>
+		services.AddMediatR(
+			cfg =>
+				cfg.RegisterServicesFromAssembly(
+					AssemblyReference.Assembly));
 }
