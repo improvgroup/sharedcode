@@ -4,7 +4,7 @@
 		<AssemblyName>SharedCode.DependencyInjection</AssemblyName>
 		<PackageTags>shared code, c#, utilities, dependency injection</PackageTags>
 		<RootNamespace>SharedCode.DependencyInjection</RootNamespace>
-		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>
