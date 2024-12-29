@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<AssemblyName>SharedCode.Data.EntityFramework</AssemblyName>
 		<RootNamespace>SharedCode.Data.EntityFramework</RootNamespace>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net8.0;net9.0</TargetFramework>
 	</PropertyGroup>
 
 	<ItemGroup>
