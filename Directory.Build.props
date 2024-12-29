@@ -8,7 +8,7 @@
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
 		<Company>improvGroup, LLC</Company>
-		<Copyright>Copyright © 2022 improvGroup, LLC. All Rights Reserved.</Copyright>
+		<Copyright>Copyright © 2024 improvGroup, LLC and contributors. All Rights Reserved.</Copyright>
 		<DebugType>portable</DebugType>
 		<Description>A library of code shared for free use to help with common scenarios.</Description>
 		<Deterministic>true</Deterministic>
