@@ -743,7 +743,7 @@ public static class StringExtensions
 	/// <typeparam name="T">The type of enumeration.</typeparam>
 	/// <param name="this">The string value to convert.</param>
 	/// <returns>Returns enumeration value.</returns>
-	public static T ToEnum<T>(this string @this) where T : struct => @this is null ? default : (T)Enum.Parse(typeof(T), @this, ignoreCase: true);
+	public static T ToEnum<T>(this string @this) where T : struct => @this is null ? default : Enum.Parse<T>(@this, ignoreCase: true);
 
 	/// <summary>
 	/// متدی برای تبدیل اعداد انگلیسی به فارسی

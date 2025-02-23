@@ -1,4 +1,4 @@
-// <copyright file="LambdaComparer.cs" company="improvGroup, LLC">
+﻿// <copyright file="LambdaComparer.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -14,6 +14,7 @@ using System.Diagnostics.CodeAnalysis;
 /// </summary>
 /// <typeparam name="T">The type of the objects being compared.</typeparam>
 /// <seealso cref="IComparer" />
+[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class LambdaComparer<T> : IComparer, IComparer<T>
 {
 	/// <summary>

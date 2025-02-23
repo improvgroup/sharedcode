@@ -14,6 +14,7 @@ namespace SharedCode.Tests.Calendar
 	/// The date time extensions tests class
 	/// </summary>
 	[TestClass]
+	[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 	public class DateTimeExtensionsTests
 	{
 		private const int Day = 11;

@@ -1,4 +1,4 @@
-// <copyright file="AssertExtensions.cs" company="improvGroup, LLC">
+﻿// <copyright file="AssertExtensions.cs" company="improvGroup, LLC">
 //     Copyright © improvGroup, LLC. All Rights Reserved.
 // </copyright>
 
@@ -11,6 +11,7 @@ using System.Collections;
 /// <summary>
 /// The assert extensions class.
 /// </summary>
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public static class AssertExtensions
 {
 	/// <summary>

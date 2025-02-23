@@ -1,4 +1,4 @@
-namespace SharedCode.Tests.Linq
+﻿namespace SharedCode.Tests.Linq
 {
 	using FluentAssertions;
 
@@ -8,6 +8,7 @@ namespace SharedCode.Tests.Linq
 
 	using Xunit;
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 	public class PredicatesTests
 	{
 		[Fact]

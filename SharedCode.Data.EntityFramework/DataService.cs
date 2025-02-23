@@ -79,7 +79,7 @@ namespace SharedCode.Data.EntityFramework
 				? context.Set<T>().AsNoTracking().AsAsyncEnumerable()
 				: context.Set<T>().Where(expression).AsNoTracking().AsAsyncEnumerable();
 
-			await foreach (var entity in enumerable)
+			await foreach (var entity in enumerable.ConfigureAwait(false))
 			{
 				yield return entity;
 			}
