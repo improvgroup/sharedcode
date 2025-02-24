@@ -1,7 +1,4 @@
-// <copyright file="AsNoTrackingEvaluator.cs" company="improvGroup, LLC">
-//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Data.EntityFramework.Specifications.Evaluators;
 
 using SharedCode.Specifications;

@@ -1,6 +1,5 @@
-// <copyright file="ColumnIsNotInResultSetException.cs" company="improvGroup, LLC">
-//     Copyright © 2013-2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
+﻿
+
 
 namespace SharedCode.Data.Exceptions
 {

@@ -1,7 +1,4 @@
-// <copyright file="ParameterReplacerVisitor.cs" company="improvGroup, LLC">
-//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Data.EntityFramework.Specifications.Extensions;
 
 using System.Linq.Expressions;

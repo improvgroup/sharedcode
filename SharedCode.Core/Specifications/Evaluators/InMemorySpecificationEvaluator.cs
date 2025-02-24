@@ -1,7 +1,4 @@
-// <copyright file="InMemorySpecificationEvaluator.cs" company="improvGroup, LLC">
-//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Specifications.Evaluators;
 
 using SharedCode.Specifications.Exceptions;

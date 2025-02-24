@@ -1,7 +1,4 @@
-﻿// <copyright file="DateTimeOffsetExtensions.cs" company="improvGroup, LLC">
-//     Copyright © 2013-2022 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode;
 
 using System;

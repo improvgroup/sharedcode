@@ -1,7 +1,4 @@
-// <copyright file="TcpClientExtensions.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.IO
 {
 	using System;

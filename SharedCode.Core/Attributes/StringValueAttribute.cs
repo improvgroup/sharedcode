@@ -1,8 +1,4 @@
-// <copyright file="StringValueAttribute.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
-namespace SharedCode.Attributes;
+﻿namespace SharedCode.Attributes;
 
 using System;
 

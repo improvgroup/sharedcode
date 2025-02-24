@@ -1,6 +1,5 @@
-﻿// <copyright file="StreamExtensions.cs" company="improvGroup, LLC">
-//     Copyright © 2009-2022 improvGroup, LLC. All Rights Reserved.
-// </copyright>
+﻿
+
 
 namespace SharedCode.IO;
 

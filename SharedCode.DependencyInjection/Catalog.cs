@@ -1,6 +1,5 @@
-// <copyright file="Catalog.cs" company="William Forney">
+﻿// <copyright file="Catalog.cs" company="William Forney">
 //     Copyright © 2021 William Forney. All Rights Reserved.
-// </copyright>
 
 namespace SharedCode.DependencyInjection;
 

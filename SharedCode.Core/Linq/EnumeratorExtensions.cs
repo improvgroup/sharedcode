@@ -1,7 +1,4 @@
-// <copyright file="EnumeratorExtensions.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Linq;
 
 using System.Collections.Generic;

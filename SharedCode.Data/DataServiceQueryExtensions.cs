@@ -1,7 +1,4 @@
-// <copyright file="DataServiceQueryExtensions.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Data;
 
 using System.Collections.Generic;

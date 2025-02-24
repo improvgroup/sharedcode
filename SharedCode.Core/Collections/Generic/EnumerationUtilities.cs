@@ -1,8 +1,4 @@
-﻿// <copyright file="EnumerableExtensions.cs" company="improvGroup, LLC">
-//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
-namespace SharedCode.Collections.Generic;
+﻿namespace SharedCode.Collections.Generic;
 
 using SharedCode.Properties;
 

@@ -1,7 +1,4 @@
-// <copyright file="MaskStyle.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Text
 {
 	/// <summary>

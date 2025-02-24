@@ -1,7 +1,4 @@
-﻿// <copyright file="RepositoryBase.cs" company="improvGroup, LLC">
-//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Data.EntityFramework.Specifications;
 
 using Microsoft.EntityFrameworkCore;

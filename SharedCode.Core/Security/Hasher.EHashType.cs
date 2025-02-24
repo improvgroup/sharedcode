@@ -1,7 +1,4 @@
-// <copyright file="Hasher.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Security;
 public static partial class Hasher
 {

@@ -1,7 +1,4 @@
-﻿// <copyright file="ExceptionExtensions.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode
 {
 	using SharedCode.Reflection;

@@ -1,6 +1,5 @@
-// <copyright file="ObservableExtensions.cs" company="improvGroup, LLC">
-//     Copyright © 2022 improvGroup, LLC. All Rights Reserved.
-// </copyright>
+﻿
+
 
 namespace SharedCode.Notifications;
 

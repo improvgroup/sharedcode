@@ -1,9 +1,4 @@
-﻿// <copyright file="EnumerableExtensions.cs" company="improvGroup, LLC">
-//     Copyright © 2009-2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
-#if NETSTANDARD2_0
-namespace SharedCode.Collections.Generic;
+﻿namespace SharedCode.Collections.Generic;
 
 using System;
 using System.Collections.Generic;
@@ -42,5 +37,3 @@ public static class EnumerableExtensions
 		}
 	}
 }
-
-#endif

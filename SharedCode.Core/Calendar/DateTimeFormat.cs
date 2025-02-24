@@ -1,8 +1,4 @@
-﻿// <copyright file="DateTimeFormat.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
-namespace SharedCode.Calendar
+﻿namespace SharedCode.Calendar
 {
 	using Attributes;
 

@@ -1,7 +1,4 @@
-﻿// <copyright file="EnumerableExtensions.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Linq
 {
 	using Collections;

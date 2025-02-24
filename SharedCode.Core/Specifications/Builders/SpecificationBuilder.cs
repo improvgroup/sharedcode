@@ -1,7 +1,4 @@
-// <copyright file="SpecificationBuilder.cs" company="improvGroup, LLC">
-//     Copyright © 2021 improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Specifications.Builders;
 
 /// <summary>

@@ -1,6 +1,5 @@
-// <copyright file="IFluentInterface.cs" company="William Forney">
+﻿// <copyright file="IFluentInterface.cs" company="William Forney">
 //     Copyright © 2021 William Forney. All Rights Reserved.
-// </copyright>
 
 namespace SharedCode.DependencyInjection;
 

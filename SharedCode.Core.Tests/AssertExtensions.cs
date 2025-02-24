@@ -1,7 +1,4 @@
-﻿// <copyright file="AssertExtensions.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

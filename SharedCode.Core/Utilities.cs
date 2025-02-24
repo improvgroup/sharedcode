@@ -1,8 +1,4 @@
-﻿// <copyright file="Utilities.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
-namespace SharedCode;
+﻿namespace SharedCode;
 
 using System;
 using System.Diagnostics.Contracts;

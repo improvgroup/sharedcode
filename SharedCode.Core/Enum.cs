@@ -1,8 +1,4 @@
-﻿// <copyright file="Enum.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
-namespace SharedCode;
+﻿namespace SharedCode;
 
 using SharedCode.Attributes;
 

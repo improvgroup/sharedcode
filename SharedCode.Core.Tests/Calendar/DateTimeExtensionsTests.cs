@@ -1,7 +1,4 @@
-﻿// <copyright file="DateTimeExtensionsTests.cs" company="improvGroup, LLC">
-//     Copyright © improvGroup, LLC. All Rights Reserved.
-// </copyright>
-
+﻿
 namespace SharedCode.Tests.Calendar
 {
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
