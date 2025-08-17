@@ -1,102 +1,108 @@
 <Project>
-  <PropertyGroup>
-    <ApplicationIcon>share.ico</ApplicationIcon>
-    <AnalysisLevel>latest</AnalysisLevel>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <AssemblyClsCompliant>false</AssemblyClsCompliant>
-    <Authors>William Forney</Authors>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-    <Company>improvGroup, LLC</Company>
-    <Copyright>Copyright © 2024 improvGroup, LLC and contributors. All Rights Reserved.</Copyright>
-    <DebugType>portable</DebugType>
-    <Description>A library of code shared for free use to help with common scenarios.</Description>
-    <Deterministic>true</Deterministic>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <IncludeBuildOutput>true</IncludeBuildOutput>
-    <IncludeSymbols>true</IncludeSymbols>
-    <LangVersion>latest</LangVersion>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <NoWarn>$(NoWarn);CA1014</NoWarn>
-    <Nullable>enable</Nullable>
-    <PackageIcon>share.png</PackageIcon>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/improvgroup/sharedcode</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>shared code, c#, utilities</PackageTags>
-    <Product>Shared Code Library</Product>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/improvgroup/sharedcode.git</RepositoryUrl>
-    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
-    <!-- Disable deprecated post-build code analysis -->
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <SourceControlInformationFeatureSupported>true</SourceControlInformationFeatureSupported>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Title>Shared Code</Title>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors>nullable</WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <VersionSuffix Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">alpha.$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))</VersionSuffix>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Build Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
-    <Revision Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
-    <Version Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">6.1.$(Build).$(Revision)</Version>
-  </PropertyGroup>
-  <ItemGroup>
-    <!-- GCop is good but it has too many false positives with newer language constructs so commenting out here. -->
-    <!--
-		<PackageReference Include="GCop.All.Common" Version="2.8.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		-->
-    <PackageReference Include="Microsoft.Bcl.HashCode" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Roslynator.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="System.Collections.Immutable" />
-    <PackageReference Include="System.Interactive" />
-    <PackageReference Include="System.Interactive.Async" />
-    <PackageReference Include="System.Interactive.Async.Providers" />
-    <PackageReference Include="System.Interactive.Providers" />
-    <PackageReference Include="System.Linq.Async" />
-    <PackageReference Include="System.Linq.Async.Queryable" />
-    <PackageReference Include="System.Reactive" />
-  </ItemGroup>
-  <ItemGroup>
-    <AssemblyAttribute Include="System.CLSCompliantAttribute">
-      <_Parameter1>false</_Parameter1>
-    </AssemblyAttribute>
-    <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
-      <_Parameter1>false</_Parameter1>
-    </AssemblyAttribute>
-    <EmbeddedFiles Include="$(GeneratedAssemblyInfoFile)" />
-  </ItemGroup>
-  <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
-    <Exec Command="git describe --long --always --dirty --exclude=* --abbrev=8" ConsoleToMSBuild="True" IgnoreExitCode="False">
-      <!--<Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput" />-->
-    </Exec>
-  </Target>
+    <PropertyGroup>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+        <ApplicationIcon>share.ico</ApplicationIcon>
+        <AssemblyClsCompliant>false</AssemblyClsCompliant>
+        <Authors>William Forney</Authors>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+        <Company>improvGroup, LLC</Company>
+        <Copyright>Copyright © 2025 improvGroup, LLC and contributors. All Rights Reserved.</Copyright>
+        <DebugType>portable</DebugType>
+        <Description>A library of code shared for free use to help with common scenarios.</Description>
+        <Deterministic>true</Deterministic>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <IncludeBuildOutput>true</IncludeBuildOutput>
+        <IncludeSymbols>true</IncludeSymbols>
+        <LangVersion>preview</LangVersion>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <NoWarn>$(NoWarn);CA1014</NoWarn>
+        <Nullable>enable</Nullable>
+        <PackageIcon>share.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/improvgroup/sharedcode</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>shared code, c#, utilities</PackageTags>
+        <Product>Shared Code Library</Product>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryType>Github</RepositoryType>
+        <RepositoryUrl>https://github.com/improvgroup/sharedcode.git</RepositoryUrl>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+        <!-- Disable deprecated post-build code analysis -->
+        <RunCodeAnalysis>false</RunCodeAnalysis>
+        <SourceControlInformationFeatureSupported>true</SourceControlInformationFeatureSupported>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <Title>Shared Code</Title>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <WarningsAsErrors>nullable</WarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <VersionSuffix Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">alpha.$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmmss`))</VersionSuffix>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <Build Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
+        <Revision Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
+        <Version Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">6.1.$(Build).$(Revision)</Version>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Bcl.HashCode" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Polyfill">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Roslynator.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Roslynator.CodeAnalysis.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Roslynator.Formatting.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="System.Collections.Immutable" />
+        <PackageReference Include="System.Interactive" />
+        <PackageReference Include="System.Interactive.Async" />
+        <PackageReference Include="System.Interactive.Async.Providers" />
+        <PackageReference Include="System.Interactive.Providers" />
+        <PackageReference Include="System.Linq.Async" />
+        <PackageReference Include="System.Linq.Async.Queryable" />
+        <PackageReference Include="System.Reactive" />
+    </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.CLSCompliantAttribute">
+            <_Parameter1>false</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
+            <_Parameter1>false</_Parameter1>
+        </AssemblyAttribute>
+        <EmbeddedFiles Include="$(GeneratedAssemblyInfoFile)" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="$(SolutionDir)\logo.png" Pack="true" Visible="false" PackagePath="\"/>
+        <None Include="$(SolutionDir)\README.md" Pack="true" Visible="false" PackagePath="\"/>
+    </ItemGroup>
+    <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
+        <Exec Command="git describe --long --always --dirty --exclude=* --abbrev=8" ConsoleToMSBuild="True" IgnoreExitCode="False">
+            <!--<Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput" />-->
+        </Exec>
+    </Target>
 </Project>

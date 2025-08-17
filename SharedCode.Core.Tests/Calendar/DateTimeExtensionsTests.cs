@@ -26,7 +26,7 @@ namespace SharedCode.Tests.Calendar
 		/// </summary>
 		private DateTime originalDateTime;
 
-		[DataTestMethod]
+		[TestMethod]
 		[DataRow(5, 2022, 12, 11, 2022, 12, 19)]
 		[DataRow(3, 2022, 12, 10, 2022, 12, 15)]
 		public void AddWorkdays_AddsGivenNumberOfWorkdaysAndSkipsWeekends(int workdays, int year, int month, int day, int expectedYear, int expectedMonth, int expectedDay)

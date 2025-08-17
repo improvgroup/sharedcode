@@ -1,6 +1,6 @@
 ﻿namespace SharedCode.Tests.Linq
 {
-	using FluentAssertions;
+	using AwesomeAssertions;
 
 	using SharedCode.Linq;
 

@@ -26,7 +26,6 @@
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="\" />
 		<None Include="share.png">
 			<Pack>True</Pack>
 			<PackagePath>
