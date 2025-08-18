@@ -1,11 +1,6 @@
-﻿
+﻿using SharedCode.Specifications.Exceptions;
+
 namespace SharedCode.Specifications.Builders;
-
-using SharedCode.Specifications;
-using SharedCode.Specifications.Exceptions;
-
-using System.Linq.Expressions;
-
 /// <summary>
 /// The specification builder extensions class.
 /// </summary>

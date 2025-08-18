@@ -1,8 +1,4 @@
 ﻿namespace SharedCode.Domain;
-
-using System;
-using System.Collections.Generic;
-
 /// <summary>
 /// The error result class. Implements the <see cref="Result" />. Implements the <see
 /// cref="IErrorResult" />.

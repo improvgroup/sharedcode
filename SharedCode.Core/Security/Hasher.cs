@@ -1,12 +1,6 @@
-﻿
+﻿using System.Security.Cryptography;
+
 namespace SharedCode.Security;
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Security.Cryptography;
-using System.Text;
-
 /// <summary>
 /// The hasher class
 /// </summary>

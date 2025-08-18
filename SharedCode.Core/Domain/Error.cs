@@ -1,7 +1,4 @@
 ﻿namespace SharedCode.Domain;
-
-using System.Diagnostics.CodeAnalysis;
-
 /// <summary>
 /// The error class.
 /// </summary>

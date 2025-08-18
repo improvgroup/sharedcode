@@ -1,10 +1,4 @@
-﻿
-namespace SharedCode.Specifications.Builders;
-
-using SharedCode.Specifications;
-
-using System.Linq.Expressions;
-
+﻿namespace SharedCode.Specifications.Builders;
 /// <summary>
 /// The includable builder extensions class.
 /// </summary>

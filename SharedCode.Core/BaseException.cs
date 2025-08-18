@@ -1,8 +1,6 @@
-﻿namespace SharedCode;
+﻿using System.Collections;
 
-using System;
-using System.Collections;
-
+namespace SharedCode;
 /// <summary>
 /// The base exception class. Implements the <see cref="Exception" />.
 /// </summary>

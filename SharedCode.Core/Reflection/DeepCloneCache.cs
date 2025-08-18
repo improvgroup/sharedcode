@@ -1,8 +1,6 @@
-﻿namespace SharedCode.Reflection;
+﻿using System.Collections.Concurrent;
 
-using System;
-using System.Collections.Concurrent;
-
+namespace SharedCode.Reflection;
 internal static class DeepCloneCache
 {
 	private static readonly ConcurrentDictionary<Type, object> _structAsObjectCache = new();

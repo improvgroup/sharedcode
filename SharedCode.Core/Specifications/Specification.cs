@@ -1,11 +1,8 @@
 ﻿
-namespace SharedCode.Specifications;
-
 using SharedCode.Specifications.Builders;
 using SharedCode.Specifications.Evaluators;
 
-using System.Linq.Expressions;
-
+namespace SharedCode.Specifications;
 /// <summary>
 /// The specification class. Implements the <see cref="ISpecification{T}" />.
 /// </summary>

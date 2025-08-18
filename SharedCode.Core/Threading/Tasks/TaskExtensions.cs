@@ -1,73 +1,68 @@
-namespace SharedCode.Threading.Tasks
+﻿namespace SharedCode.Threading.Tasks;
+/// <summary>
+/// The extension methods class for <see cref="Task" />.
+/// </summary>
+public static class TaskExtensions
 {
-	using System;
-	using System.Threading.Tasks;
+	/// <summary>
+	/// Safely execute the <see cref="Task" /> without waiting for it to complete before moving
+	/// to the next line of code; commonly known as "Fire And Forget".
+	/// </summary>
+	/// <typeparam name="TException">The type of exception.</typeparam>
+	/// <param name="task">The <see cref="Task" />.</param>
+	/// <param name="continueOnCapturedContext">
+	/// If set to <c>true</c> continue on captured context; this will ensure that the
+	/// Synchronization Context returns to the calling thread. If set to <c>false</c> continue
+	/// on a different context; this will allow the Synchronization Context to continue on a
+	/// different thread.
+	/// </param>
+	/// <param name="onException">
+	/// If an exception is thrown in the <see cref="Task" />, <c>onException</c> will execute.
+	/// If onException is null, the exception will be re-thrown.
+	/// </param>
+	/// <remarks>Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.</remarks>
+	/// <exception cref="ArgumentNullException">task</exception>
+	public static async void SafeFireAndForgetAsync<TException>(this Task task, bool continueOnCapturedContext = true, Action<TException>? onException = null)
+		where TException : Exception
+	{
+		try
+		{
+			_ = task ?? throw new ArgumentNullException(nameof(task));
+			await task.ConfigureAwait(continueOnCapturedContext);
+		}
+		catch (TException ex) when (onException is not null)
+		{
+			onException.Invoke(ex);
+		}
+	}
 
 	/// <summary>
-	/// The extension methods class for <see cref="Task" />.
+	/// Safely execute the <see cref="Task" /> without waiting for it to complete before moving
+	/// to the next line of code; commonly known as "Fire And Forget".
 	/// </summary>
-	public static class TaskExtensions
+	/// <param name="task">The <see cref="Task" />.</param>
+	/// <param name="continueOnCapturedContext">
+	/// If set to <c>true</c> continue on captured context; this will ensure that the
+	/// Synchronization Context returns to the calling thread. If set to <c>false</c> continue
+	/// on a different context; this will allow the Synchronization Context to continue on a
+	/// different thread.
+	/// </param>
+	/// <param name="onException">
+	/// If an exception is thrown in the <see cref="Task" />, <c>onException</c> will execute.
+	/// If onException is null, the exception will be re-thrown.
+	/// </param>
+	/// <remarks>Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.</remarks>
+	/// <exception cref="ArgumentNullException">task</exception>
+	public static async void SafeFireAndForgetAsync(this Task task, bool continueOnCapturedContext = true, Action<Exception>? onException = null)
 	{
-		/// <summary>
-		/// Safely execute the <see cref="Task" /> without waiting for it to complete before moving
-		/// to the next line of code; commonly known as "Fire And Forget".
-		/// </summary>
-		/// <typeparam name="TException">The type of exception.</typeparam>
-		/// <param name="task">The <see cref="Task" />.</param>
-		/// <param name="continueOnCapturedContext">
-		/// If set to <c>true</c> continue on captured context; this will ensure that the
-		/// Synchronization Context returns to the calling thread. If set to <c>false</c> continue
-		/// on a different context; this will allow the Synchronization Context to continue on a
-		/// different thread.
-		/// </param>
-		/// <param name="onException">
-		/// If an exception is thrown in the <see cref="Task" />, <c>onException</c> will execute.
-		/// If onException is null, the exception will be re-thrown.
-		/// </param>
-		/// <remarks>Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.</remarks>
-		/// <exception cref="ArgumentNullException">task</exception>
-		public static async void SafeFireAndForgetAsync<TException>(this Task task, bool continueOnCapturedContext = true, Action<TException>? onException = null)
-			where TException : Exception
+		try
 		{
-			try
-			{
-				_ = task ?? throw new ArgumentNullException(nameof(task));
-				await task.ConfigureAwait(continueOnCapturedContext);
-			}
-			catch (TException ex) when (onException is not null)
-			{
-				onException.Invoke(ex);
-			}
+			_ = task ?? throw new ArgumentNullException(nameof(task));
+			await task.ConfigureAwait(continueOnCapturedContext);
 		}
-
-		/// <summary>
-		/// Safely execute the <see cref="Task" /> without waiting for it to complete before moving
-		/// to the next line of code; commonly known as "Fire And Forget".
-		/// </summary>
-		/// <param name="task">The <see cref="Task" />.</param>
-		/// <param name="continueOnCapturedContext">
-		/// If set to <c>true</c> continue on captured context; this will ensure that the
-		/// Synchronization Context returns to the calling thread. If set to <c>false</c> continue
-		/// on a different context; this will allow the Synchronization Context to continue on a
-		/// different thread.
-		/// </param>
-		/// <param name="onException">
-		/// If an exception is thrown in the <see cref="Task" />, <c>onException</c> will execute.
-		/// If onException is null, the exception will be re-thrown.
-		/// </param>
-		/// <remarks>Inspired by John Thiriet's blog post, "Removing Async Void": https://johnthiriet.com/removing-async-void/.</remarks>
-		/// <exception cref="ArgumentNullException">task</exception>
-		public static async void SafeFireAndForgetAsync(this Task task, bool continueOnCapturedContext = true, Action<Exception>? onException = null)
+		catch (Exception ex) when (onException is not null)
 		{
-			try
-			{
-				_ = task ?? throw new ArgumentNullException(nameof(task));
-				await task.ConfigureAwait(continueOnCapturedContext);
-			}
-			catch (Exception ex) when (onException is not null)
-			{
-				onException.Invoke(ex);
-			}
+			onException.Invoke(ex);
 		}
 	}
 }

@@ -1,8 +1,7 @@
 ﻿
-namespace SharedCode.Specifications.Evaluators;
-
 using SharedCode.Specifications.Builders;
 
+namespace SharedCode.Specifications.Evaluators;
 /// <summary>
 /// Class WhereEvaluator. Implements the <see cref="IEvaluator" />. Implements the <see
 /// cref="IInMemoryEvaluator" />.

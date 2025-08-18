@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode;
-
-using System;
-
+﻿namespace SharedCode;
 /// <summary>
 /// Static class containing Fluent <see cref="DateTime" /> extension methods.
 /// </summary>

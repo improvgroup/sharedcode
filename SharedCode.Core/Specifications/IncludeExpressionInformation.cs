@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications;
-
-using System.Linq.Expressions;
-
+﻿namespace SharedCode.Specifications;
 /// <summary>
 /// The include expression information class.
 /// </summary>

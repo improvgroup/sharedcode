@@ -1,16 +1,10 @@
-﻿namespace SharedCode;
-
+﻿
 using SharedCode.Attributes;
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Linq;
 using System.Reflection;
 
+namespace SharedCode;
 /// <summary>
 /// The enumeration class.
 /// </summary>

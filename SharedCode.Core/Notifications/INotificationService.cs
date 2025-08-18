@@ -1,11 +1,4 @@
-﻿
-
-
-namespace SharedCode.Notifications;
-
-using System;
-using System.Threading.Tasks;
-
+﻿namespace SharedCode.Notifications;
 /// <summary>
 /// The notification service interface. Implements the <see cref="IDisposable" />.
 /// </summary>

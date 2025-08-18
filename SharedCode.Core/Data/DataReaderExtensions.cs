@@ -1,11 +1,6 @@
-﻿
-namespace SharedCode.Data;
+﻿using System.Data;
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics.Contracts;
-using System.Text;
+namespace SharedCode.Data;
 
 /// <summary>
 /// The data reader extensions class
@@ -85,10 +80,13 @@ public static class DataReaderExtensions
 					if (@this.GetFieldType(index) == typeof(string))
 					{
 						// If double quotes are used in value, ensure each are replaced but 2.
-#if NET6_0_OR_GREATER
 						if (value?.Contains('"', StringComparison.Ordinal) == true)
 						{
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 							value = value.Replace("\"", "\"\"", StringComparison.Ordinal);
+#else
+							value = value.Replace("\"", "\"\"");
+#endif
 						}
 
 						// If separtor are is in value, ensure it is put in double quotes.
@@ -96,18 +94,6 @@ public static class DataReaderExtensions
 						{
 							value = $"\"{value}\"";
 						}
-#else
-						if (value?.Contains('"') == true)
-						{
-							value = value.Replace("\"", "\"\"");
-						}
-
-						// If separtor are is in value, ensure it is put in double quotes.
-						if (value?.Contains(separator) == true)
-						{
-							value = $"\"{value}\"";
-						}
-#endif
 					}
 
 					_ = sb.Append(value);
@@ -121,7 +107,7 @@ public static class DataReaderExtensions
 
 			if (!@this.IsDBNull(@this.FieldCount - 1))
 			{
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 				_ = sb.Append(
 					@this
 						.GetValue(@this.FieldCount - 1)

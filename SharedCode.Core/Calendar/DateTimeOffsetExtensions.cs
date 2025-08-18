@@ -1,14 +1,4 @@
 ﻿namespace SharedCode.Calendar;
-
-using SharedCode;
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-
 /// <summary>
 /// The date time extensions class
 /// </summary>

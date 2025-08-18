@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Linq;
-
-using System.Collections.Generic;
-
+﻿namespace SharedCode.Linq;
 /// <summary>
 /// The enumerator extensions class.
 /// </summary>

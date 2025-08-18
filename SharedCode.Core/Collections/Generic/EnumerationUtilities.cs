@@ -1,10 +1,6 @@
-﻿namespace SharedCode.Collections.Generic;
+﻿using SharedCode.Properties;
 
-using SharedCode.Properties;
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+namespace SharedCode.Collections.Generic;
 
 /// <summary>
 /// The enumeration utilities class.
@@ -17,7 +13,7 @@ public static class EnumerationUtilities
 	/// <typeparam name="T">The type of the enumeration.</typeparam>
 	/// <returns>The list of the values in the specified enumeration.</returns>
 	/// <exception cref="ArgumentException">
-	/// The type of the specified enumeration must be derived from the base <see cref="Enum" /> structure.
+	/// The type of the specified enumeration must be derived from the base <see cref="Enum"/> structure.
 	/// </exception>
 	[SuppressMessage("Refactoring", "GCop659:Use 'var' instead of explicit type.", Justification = "Inference does not resolve int properly here.")]
 	public static IList<T> ToList<T>() where T : struct

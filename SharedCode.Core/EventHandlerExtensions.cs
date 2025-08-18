@@ -1,8 +1,4 @@
 ﻿namespace SharedCode;
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-
 /// <summary>
 /// The event handler extension methods class.
 /// </summary>

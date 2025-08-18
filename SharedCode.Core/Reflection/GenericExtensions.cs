@@ -1,8 +1,6 @@
-﻿namespace SharedCode.Reflection;
+﻿using System.Security;
 
-using System;
-using System.Security;
-
+namespace SharedCode.Reflection;
 /// <summary>
 /// The generic extension methods class.
 /// </summary>

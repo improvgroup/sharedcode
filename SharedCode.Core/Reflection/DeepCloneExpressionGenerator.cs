@@ -1,13 +1,10 @@
-﻿namespace SharedCode.Reflection;
-
+﻿
 using SharedCode.Linq;
 
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
+namespace SharedCode.Reflection;
 internal static class DeepCloneExpressionGenerator
 {
 	private static readonly MethodInfo? _fieldSetMethod;

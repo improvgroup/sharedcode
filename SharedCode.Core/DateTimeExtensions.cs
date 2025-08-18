@@ -1,11 +1,4 @@
 ﻿namespace SharedCode;
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Threading;
-
 /// <summary>
 /// DateTime Extensions
 /// </summary>

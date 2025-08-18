@@ -1,10 +1,6 @@
-﻿namespace SharedCode.Reflection;
+﻿using System.Reflection;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
+namespace SharedCode.Reflection;
 /// <summary>
 /// The expression generator class.
 /// </summary>

@@ -1,15 +1,9 @@
-﻿
-
-
-namespace SharedCode.IO;
-
-using System;
-using System.Diagnostics.Contracts;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Runtime.Versioning;
+
+namespace SharedCode.IO;
 
 /// <summary>
 /// The stream extension methods class.
@@ -33,9 +27,17 @@ public static class StreamExtensions
 	[SupportedOSPlatform("windows")]
 #endif
 	[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>")]
+	[SuppressMessage("Design", "GCop179:Do not hardcode numbers, strings or other values. Use constant fields, enums, config files or database as appropriate.", Justification = "<Pending>")]
 	public static MemoryStream FitImage(this Stream stream, int maxWidth = 0, int maxHeight = 0, bool makeSquare = false, long quality = 90L)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(stream);
+#else
+		if (stream is null)
+		{
+			throw new ArgumentNullException(nameof(stream), "The input stream cannot be null.");
+		}
+#endif
 
 		if (stream.CanSeek)
 		{
@@ -104,14 +106,11 @@ public static class StreamExtensions
 
 		var info = Array.Find(
 			ImageCodecInfo.GetImageEncoders(),
-			ici => ici.MimeType?.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) ?? false);
-		if (info is null)
-		{
-			throw new Exception("No encoder found.");
-		}
+			ici => ici.MimeType?.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) ?? false)
+			?? throw new Exception("No encoder found.");
 
 		using var ep = new EncoderParameters();
-		ep.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+		ep.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, quality);
 
 		var memoryStream = new MemoryStream();
 
@@ -194,6 +193,7 @@ public static class StreamExtensions
 	/// <param name="input">This input stream.</param>
 	/// <returns>The byte array.</returns>
 	/// <exception cref="ArgumentNullException">input</exception>
+	[SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>")]
 	public static async Task<byte[]> ToByteArrayAsync(this Stream input)
 	{
 		_ = input ?? throw new ArgumentNullException(nameof(input));
@@ -204,6 +204,16 @@ public static class StreamExtensions
 			return stream.ToArray();
 		}
 
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+		await using var ms = new MemoryStream();
+		if (input.CanSeek)
+		{
+			_ = input.Seek(0, SeekOrigin.Begin);
+		}
+
+		await input.CopyToAsync(ms).ConfigureAwait(continueOnCapturedContext: false);
+		return ms.ToByteArray() ?? [];
+#else
 		using var ms = new MemoryStream();
 		if (input.CanSeek)
 		{
@@ -212,5 +222,6 @@ public static class StreamExtensions
 
 		await input.CopyToAsync(ms).ConfigureAwait(continueOnCapturedContext: false);
 		return ms.ToArray();
+#endif
 	}
 }

@@ -1,13 +1,7 @@
-﻿
-namespace SharedCode.Linq;
-
-using SharedCode.Properties;
-
-using System;
-using System.Collections.Generic;
+﻿using SharedCode.Properties;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
-using System.Linq;
+
+namespace SharedCode.Linq;
 
 /// <summary>
 /// Extensions for the ICollection interface.
@@ -229,7 +223,7 @@ public static partial class CollectionExtensions
 		_ = @this ?? throw new ArgumentNullException(nameof(@this));
 		_ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-		return @this.Count - 1 < 0
+		return @this.Count < 1
 			? throw new ArgumentOutOfRangeException(nameof(@this))
 			: FindLastIndex(@this, @this.Count - 1, predicate);
 	}
@@ -308,8 +302,20 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or action</exception>
 	public static void ForEach<T>(this ICollection<T> @this, Action<T> action)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(@this);
 		ArgumentNullException.ThrowIfNull(action);
+#else
+		if (@this is null)
+		{
+			throw new ArgumentNullException(nameof(@this));
+		}
+
+		if (action is null)
+		{
+			throw new ArgumentNullException(nameof(action));
+		}
+#endif
 
 		foreach (var item in @this)
 		{
@@ -335,9 +341,20 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or match</exception>
 	public static int RemoveAll<T>(this ICollection<T> @this, Predicate<T> match)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(@this);
-
 		ArgumentNullException.ThrowIfNull(match);
+#else
+		if (@this is null)
+		{
+			throw new ArgumentNullException(nameof(@this));
+		}
+
+		if (match is null)
+		{
+			throw new ArgumentNullException(nameof(match));
+		}
+#endif
 
 		var count = 0;
 		for (var i = 0; i < @this.Count; i++)
@@ -367,9 +384,20 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or items</exception>
 	public static IEnumerable<bool> RemoveRange<T>(this ICollection<T> @this, IEnumerable<T> items)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(@this);
-
 		ArgumentNullException.ThrowIfNull(items);
+#else
+		if (@this is null)
+		{
+			throw new ArgumentNullException(nameof(@this));
+		}
+
+		if (items is null)
+		{
+			throw new ArgumentNullException(nameof(items));
+		}
+#endif
 
 		Contract.Ensures(Contract.Result<IEnumerable<bool>>() != null);
 
@@ -388,9 +416,20 @@ public static partial class CollectionExtensions
 	/// <exception cref="ArgumentNullException">collection or items</exception>
 	public static IEnumerable<bool> RemoveRange<T>(this ICollection<T> @this, params T[] items)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(@this);
-
 		ArgumentNullException.ThrowIfNull(items);
+#else
+		if (@this is null)
+		{
+			throw new ArgumentNullException(nameof(@this));
+		}
+
+		if (items is null)
+		{
+			throw new ArgumentNullException(nameof(items));
+		}
+#endif
 
 		Contract.Ensures(Contract.Result<IEnumerable<bool>>() != null);
 
@@ -417,16 +456,34 @@ public static partial class CollectionExtensions
 		 IEnumerable<T> source,
 		 Func<T, TKey> getKey)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(@this);
-
 		ArgumentNullException.ThrowIfNull(source);
+#else
+		if (@this is null)
+		{
+			throw new ArgumentNullException(nameof(@this));
+		}
+
+		if (source is null)
+		{
+			throw new ArgumentNullException(nameof(source));
+		}
+#endif
 
 		if (source.Any(item => Equals(item, default)))
 		{
 			throw new ArgumentNullException(nameof(source));
 		}
 
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(getKey);
+#else
+		if (getKey is null)
+		{
+			throw new ArgumentNullException(nameof(getKey));
+		}
+#endif
 
 		Contract.Ensures(Contract.Result<SyncChanges<T>>() != null);
 
@@ -434,7 +491,7 @@ public static partial class CollectionExtensions
 
 		var keep = new HashSet<TKey>(@this.Select(getKey));
 
-		var sourceArray = source as T[] ?? source.ToArray();
+		var sourceArray = source as T[] ?? [.. source];
 
 		keep.IntersectWith(sourceArray.Select(getKey));
 
@@ -485,19 +542,38 @@ public static partial class CollectionExtensions
 		 Func<T, TKey> getKey,
 		 Func<TKey, T> getObject)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(@this);
-
 		ArgumentNullException.ThrowIfNull(newKeys);
-
 		ArgumentNullException.ThrowIfNull(getKey);
-
 		ArgumentNullException.ThrowIfNull(getObject);
+#else
+		if (@this is null)
+		{
+			throw new ArgumentNullException(nameof(@this));
+		}
+
+		if (newKeys is null)
+		{
+			throw new ArgumentNullException(nameof(newKeys));
+		}
+
+		if (getKey is null)
+		{
+			throw new ArgumentNullException(nameof(getKey));
+		}
+
+		if (getObject is null)
+		{
+			throw new ArgumentNullException(nameof(getObject));
+		}
+#endif
 
 		Contract.Ensures(Contract.Result<SyncChanges<T>>() != null);
 
 		var returnValue = new SyncChanges<T>();
 		var keep = new HashSet<TKey>(@this.Select(getKey));
-		var newKeysArray = newKeys as TKey[] ?? newKeys.ToArray();
+		var newKeysArray = newKeys as TKey[] ?? [.. newKeys];
 
 		keep.IntersectWith(newKeysArray);
 

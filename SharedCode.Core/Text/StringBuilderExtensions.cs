@@ -1,9 +1,4 @@
-﻿
-namespace SharedCode.Text;
-
-using System.Globalization;
-using System.Text;
-
+﻿namespace SharedCode.Text;
 /// <summary>
 /// The string builder extensions class
 /// </summary>

@@ -1,8 +1,7 @@
 ﻿
-namespace SharedCode.Specifications.Evaluators;
-
 using SharedCode.Specifications.Exceptions;
 
+namespace SharedCode.Specifications.Evaluators;
 /// <summary>
 /// The in-memory specification evaluator. Implements the <see
 /// cref="IInMemorySpecificationEvaluator" />.

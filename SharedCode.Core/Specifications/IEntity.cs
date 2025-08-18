@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications;
-
-using System.Diagnostics.CodeAnalysis;
-
+﻿namespace SharedCode.Specifications;
 /// <summary>
 /// The entity interface.
 /// </summary>

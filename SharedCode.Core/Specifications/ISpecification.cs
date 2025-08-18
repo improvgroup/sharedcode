@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications;
-
-using System.Linq.Expressions;
-
+﻿namespace SharedCode.Specifications;
 /// <summary>
 /// Encapsulates query logic for <typeparamref name="T" />.
 /// </summary>

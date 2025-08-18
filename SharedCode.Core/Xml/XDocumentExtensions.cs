@@ -1,28 +1,26 @@
 ﻿
-namespace SharedCode.Xml
+using System.Xml.Linq;
+using System.Xml.Serialization;
+
+namespace SharedCode.Xml;
+/// <summary>
+/// The <see cref="XDocument" /> extensions class.
+/// </summary>
+public static class XDocumentExtensions
 {
-	using System.Xml.Linq;
-	using System.Xml.Serialization;
-
 	/// <summary>
-	/// The <see cref="XDocument" /> extensions class.
+	/// Deserializes the specified XML document.
 	/// </summary>
-	public static class XDocumentExtensions
+	/// <typeparam name="T">The type represented in the XML document.</typeparam>
+	/// <param name="xmlDocument">The XML document.</param>
+	/// <returns>The deserialized object.</returns>
+	/// <exception cref="ArgumentNullException">xmlDocument</exception>
+	public static T? Deserialize<T>(this XDocument xmlDocument)
 	{
-		/// <summary>
-		/// Deserializes the specified XML document.
-		/// </summary>
-		/// <typeparam name="T">The type represented in the XML document.</typeparam>
-		/// <param name="xmlDocument">The XML document.</param>
-		/// <returns>The deserialized object.</returns>
-		/// <exception cref="ArgumentNullException">xmlDocument</exception>
-		public static T? Deserialize<T>(this XDocument xmlDocument)
-		{
-			_ = xmlDocument ?? throw new ArgumentNullException(nameof(xmlDocument));
+		_ = xmlDocument ?? throw new ArgumentNullException(nameof(xmlDocument));
 
-			var xmlSerializer = new XmlSerializer(typeof(T));
-			using var reader = xmlDocument.CreateReader();
-			return (T?)xmlSerializer.Deserialize(reader);
-		}
+		var xmlSerializer = new XmlSerializer(typeof(T));
+		using var reader = xmlDocument.CreateReader();
+		return (T?)xmlSerializer.Deserialize(reader);
 	}
 }

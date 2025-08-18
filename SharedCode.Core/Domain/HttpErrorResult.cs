@@ -1,8 +1,6 @@
-﻿namespace SharedCode.Domain;
+﻿using System.Net;
 
-using System.Collections.Generic;
-using System.Net;
-
+namespace SharedCode.Domain;
 /// <summary>
 /// The HTTP error result class. Implements the <see cref="ErrorResult" />.
 /// </summary>

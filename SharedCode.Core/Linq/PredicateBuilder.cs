@@ -1,10 +1,4 @@
-﻿
-namespace SharedCode.Linq;
-
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-
+﻿namespace SharedCode.Linq;
 /// <summary>
 /// The predicate builder class.
 /// </summary>

@@ -1,9 +1,4 @@
-﻿
-namespace SharedCode;
-
-using System;
-using System.Globalization;
-
+﻿namespace SharedCode;
 /// <summary>
 /// The enumeration extension methods class.
 /// </summary>

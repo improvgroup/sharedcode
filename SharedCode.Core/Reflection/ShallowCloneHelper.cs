@@ -1,7 +1,4 @@
 ﻿namespace SharedCode.Reflection;
-
-using SharedCode;
-
 /// <summary>
 /// The shallow object clone helper class.
 /// </summary>

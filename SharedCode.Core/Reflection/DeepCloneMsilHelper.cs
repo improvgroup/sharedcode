@@ -1,8 +1,6 @@
-﻿namespace SharedCode.Reflection;
+﻿using System.Reflection;
 
-using System;
-using System.Reflection;
-
+namespace SharedCode.Reflection;
 /// <summary>
 /// The deep clone MSIL helper class.
 /// </summary>

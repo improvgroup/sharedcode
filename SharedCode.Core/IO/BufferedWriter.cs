@@ -1,12 +1,4 @@
-﻿
-namespace SharedCode.IO;
-
-using System;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿namespace SharedCode.IO;
 /// <summary>
 /// Provides a base for buffered data writers.
 /// </summary>

@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications.Evaluators;
-
-using SharedCode.Specifications;
-
+﻿namespace SharedCode.Specifications.Evaluators;
 /// <summary>
 /// Evaluates the logic encapsulated by an <see cref="ISpecification{T}" />.
 /// </summary>

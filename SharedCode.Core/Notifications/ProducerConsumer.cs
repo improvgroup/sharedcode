@@ -1,13 +1,10 @@
-﻿
-
-
-namespace SharedCode.Notifications;
-
-using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
+
+
+namespace SharedCode.Notifications;
 /// <summary>
 /// The producer/consumer class.
 /// </summary>

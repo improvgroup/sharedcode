@@ -1,11 +1,7 @@
 ﻿
-namespace SharedCode.Models;
-
 using SharedCode.Events;
 
-using System;
-using System.Diagnostics;
-
+namespace SharedCode.Models;
 /// <summary>
 /// The item class. Implements the <see cref="IEquatable{T}" /> where T is <see cref="Entity{TKey}" />.
 /// </summary>

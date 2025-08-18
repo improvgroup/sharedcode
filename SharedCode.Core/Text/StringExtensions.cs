@@ -1,27 +1,16 @@
-﻿
-
-
-namespace SharedCode.Text;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Net.Mail;
 using System.Reflection;
 using System.Runtime.Versioning;
 using System.Security;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 
+namespace SharedCode.Text;
 /// <summary>
 /// The string extensions class.
 /// </summary>
-public static class StringExtensions
+public static partial class StringExtensions
 {
 	/// <summary>
 	/// Default masking character used in a mask.
@@ -37,6 +26,8 @@ public static class StringExtensions
 	/// The email address regular expression
 	/// </summary>
 	private static readonly Regex EmailAddressRegex = new("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+
+	private static readonly string[] separator = new[] { "-" };
 
 	/// <summary>
 	/// The slug regular expression
@@ -57,8 +48,6 @@ public static class StringExtensions
 	/// The valid IP address (v4) regular expression
 	/// </summary>
 	private static readonly Regex ValidIpRegEx = new(@"\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b");
-	private static readonly string[] separator = new[] { "-" };
-
 	/// <summary>
 	/// Returns a value indicating whether the specified <see cref="string" /> object occurs within
 	/// the <paramref name="this" /> string. A parameter specifies the type of search to use for the
@@ -718,7 +707,11 @@ public static class StringExtensions
 		}
 
 		// Will this simple expression replace all tags???
+#if NET8_0_OR_GREATER
+		var tagsExpression = HtmlTagRegex();
+#else
 		var tagsExpression = new Regex("</?.+?>");
+#endif
 		return tagsExpression.Replace(@this, " ");
 	}
 
@@ -742,7 +735,11 @@ public static class StringExtensions
 	/// <typeparam name="T">The type of enumeration.</typeparam>
 	/// <param name="this">The string value to convert.</param>
 	/// <returns>Returns enumeration value.</returns>
+#if NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
 	public static T ToEnum<T>(this string @this) where T : struct => @this is null ? default : Enum.Parse<T>(@this, ignoreCase: true);
+#else
+	public static T ToEnum<T>(this string @this) where T : struct => @this is null ? default : (T)Enum.Parse(typeof(T), @this, ignoreCase: true);
+#endif
 
 	/// <summary>
 	/// متدی برای تبدیل اعداد انگلیسی به فارسی
@@ -762,7 +759,7 @@ public static class StringExtensions
 		}
 
 		//۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 		return @this.Replace("0", "۰", StringComparison.Ordinal)
 			.Replace("1", "۱", StringComparison.Ordinal)
 			.Replace("2", "۲", StringComparison.Ordinal)
@@ -949,4 +946,9 @@ public static class StringExtensions
 			_ = buffer.Append(char.IsLetterOrDigit(source[i]) ? mask : source[i]);
 		}
 	}
+
+#if NET8_0_OR_GREATER
+	[GeneratedRegex("</?.+?>")]
+	private static partial Regex HtmlTagRegex();
+#endif
 }

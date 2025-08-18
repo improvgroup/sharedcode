@@ -1,11 +1,9 @@
 ﻿
-namespace SharedCode;
-
 using SharedCode.Collections;
 
-using System;
 using System.Reflection;
 
+namespace SharedCode;
 /// <summary>
 /// The assembly extensions class
 /// </summary>

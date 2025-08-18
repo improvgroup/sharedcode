@@ -1,9 +1,7 @@
 ﻿
-namespace SharedCode.Data;
-
 using System.Data;
-using System.Diagnostics.Contracts;
 
+namespace SharedCode.Data;
 /// <summary>
 /// The data row extensions class
 /// </summary>

@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Models;
-
-using System;
-
+﻿namespace SharedCode.Models;
 /// <summary>
 /// The item class. Implements the <see cref="Entity{Guid}" />.
 /// </summary>

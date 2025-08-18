@@ -1,7 +1,4 @@
 ﻿namespace SharedCode.Attributes;
-
-using System;
-
 /// <summary>
 /// Specifies a custom format to use when serializing objects supporting IFormattable.
 /// </summary>

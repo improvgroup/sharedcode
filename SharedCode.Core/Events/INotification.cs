@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Events;
-
-using System.Diagnostics.CodeAnalysis;
-
+﻿namespace SharedCode.Events;
 /// <summary>
 /// The notification interface.
 /// </summary>

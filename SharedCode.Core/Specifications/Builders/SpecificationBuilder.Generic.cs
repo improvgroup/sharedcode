@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications.Builders;
-
-using SharedCode.Specifications;
-
+﻿namespace SharedCode.Specifications.Builders;
 /// <summary>
 /// The specification builder class. Implements the <see cref="ISpecificationBuilder{T}" />.
 /// </summary>

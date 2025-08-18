@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications.Builders;
-
-using SharedCode.Specifications;
-
+﻿namespace SharedCode.Specifications.Builders;
 /// <summary>
 /// The includable specification builder class. Implements the <see
 /// cref="IIncludableSpecificationBuilder{T, TProperty}" />.

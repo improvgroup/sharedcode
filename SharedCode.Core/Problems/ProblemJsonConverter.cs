@@ -1,97 +1,102 @@
-﻿namespace SharedCode.Problems
+﻿using System.Text.Json.Serialization;
+
+namespace SharedCode.Problems;
+
+/// <summary>
+/// Custom JSON converter for Problem class to handle ErrorCode serialization properly
+/// </summary>
+public class ProblemJsonConverter : JsonConverter<Problem>
 {
-	using System;
-	using System.Text.Json.Serialization;
-
-	/// <summary>
-	/// Custom JSON converter for Problem class to handle ErrorCode serialization properly
-	/// </summary>
-	public class ProblemJsonConverter : JsonConverter<Problem>
+	/// <inheritdoc/>
+	public override Problem? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
-		/// <inheritdoc/>
-		public override Problem? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+		if (reader.TokenType != JsonTokenType.StartObject)
+			throw new JsonException("Expected StartObject token");
+
+		var problem = new Problem();
+
+		while (reader.Read())
 		{
-			if (reader.TokenType != JsonTokenType.StartObject)
-				throw new JsonException("Expected StartObject token");
+			if (reader.TokenType == JsonTokenType.EndObject)
+				return problem;
 
-			var problem = new Problem();
-
-			while (reader.Read())
+			if (reader.TokenType == JsonTokenType.PropertyName)
 			{
-				if (reader.TokenType == JsonTokenType.EndObject)
-					return problem;
+				var propertyName = reader.GetString();
+				_ = reader.Read();
 
-				if (reader.TokenType == JsonTokenType.PropertyName)
+				switch (propertyName)
 				{
-					var propertyName = reader.GetString();
-					reader.Read();
+					case "type":
+						problem.Type = reader.GetString() ?? "about:blank";
+						break;
 
-					switch (propertyName)
-					{
-						case "type":
-							problem.Type = reader.GetString() ?? "about:blank";
-							break;
+					case "title":
+						problem.Title = reader.GetString();
+						break;
 
-						case "title":
-							problem.Title = reader.GetString();
-							break;
+					case "status":
+						problem.StatusCode = reader.GetInt32();
+						break;
 
-						case "status":
-							problem.StatusCode = reader.GetInt32();
-							break;
+					case "detail":
+						problem.Detail = reader.GetString();
+						break;
 
-						case "detail":
-							problem.Detail = reader.GetString();
-							break;
+					case "instance":
+						problem.Instance = reader.GetString();
+						break;
 
-						case "instance":
-							problem.Instance = reader.GetString();
-							break;
+					default:
+						// Handle extension data
+						var value = JsonSerializer.Deserialize<object>(ref reader, options);
+						if (propertyName is not null)
+							problem.Extensions[propertyName] = value;
 
-						default:
-							// Handle extension data
-							var value = JsonSerializer.Deserialize<object>(ref reader, options);
-							if (propertyName is not null)
-								problem.Extensions[propertyName] = value;
-
-							break;
-					}
+						break;
 				}
 			}
-
-			throw new JsonException("Unexpected end of JSON input");
 		}
 
-		/// <inheritdoc/>
-		public override void Write(Utf8JsonWriter writer, Problem value, JsonSerializerOptions options)
+		throw new JsonException("Unexpected end of JSON input");
+	}
+
+	/// <inheritdoc/>
+	public override void Write(Utf8JsonWriter writer, Problem value, JsonSerializerOptions options)
+	{
+#if NET6_0_OR_GREATER
+		ArgumentNullException.ThrowIfNull(writer);
+		ArgumentNullException.ThrowIfNull(value);
+#else
+		if (writer is null)
+			throw new ArgumentNullException(nameof(writer));
+		if (value is null)
+			throw new ArgumentNullException(nameof(value));
+#endif
+
+		writer.WriteStartObject();
+
+		writer.WriteString("type", value.Type);
+
+		if (value.Title is not null)
+			writer.WriteString("title", value.Title);
+
+		if (value.StatusCode != 0)
+			writer.WriteNumber("status", value.StatusCode);
+
+		if (value.Detail is not null)
+			writer.WriteString("detail", value.Detail);
+
+		if (value.Instance is not null)
+			writer.WriteString("instance", value.Instance);
+
+		// Write extension data
+		foreach (var kvp in value.Extensions)
 		{
-			ArgumentNullException.ThrowIfNull(writer);
-			ArgumentNullException.ThrowIfNull(value);
-
-			writer.WriteStartObject();
-
-			writer.WriteString("type", value.Type);
-
-			if (value.Title is not null)
-				writer.WriteString("title", value.Title);
-
-			if (value.StatusCode != 0)
-				writer.WriteNumber("status", value.StatusCode);
-
-			if (value.Detail is not null)
-				writer.WriteString("detail", value.Detail);
-
-			if (value.Instance is not null)
-				writer.WriteString("instance", value.Instance);
-
-			// Write extension data
-			foreach (var kvp in value.Extensions)
-			{
-				writer.WritePropertyName(kvp.Key);
-				JsonSerializer.Serialize(writer, kvp.Value, options);
-			}
-
-			writer.WriteEndObject();
+			writer.WritePropertyName(kvp.Key);
+			JsonSerializer.Serialize(writer, kvp.Value, options);
 		}
+
+		writer.WriteEndObject();
 	}
 }

@@ -1,80 +1,79 @@
 ﻿
 
 
-namespace SharedCode.Windows.WPF
+namespace SharedCode.Windows.WPF;
+
+using System;
+using System.Collections.Generic;
+
+/// <summary>
+/// Class Mediator.
+/// </summary>
+public static class Mediator
 {
-	using System;
-	using System.Collections.Generic;
+	/// <summary>
+	/// The page list dictionary
+	/// </summary>
+	private static readonly Dictionary<string, List<Action<object?>>> pageListDictionary = [];
 
 	/// <summary>
-	/// Class Mediator.
+	/// Notifies the specified token.
 	/// </summary>
-	public static class Mediator
+	/// <param name="token">The page token.</param>
+	/// <param name="args">The arguments.</param>
+	public static void Notify(string token, object? args = null)
 	{
-		/// <summary>
-		/// The page list dictionary
-		/// </summary>
-		private static readonly Dictionary<string, List<Action<object?>>> pageListDictionary = [];
-
-		/// <summary>
-		/// Notifies the specified token.
-		/// </summary>
-		/// <param name="token">The page token.</param>
-		/// <param name="args">The arguments.</param>
-		public static void Notify(string token, object? args = null)
+		if (pageListDictionary.TryGetValue(token, out var pageList))
 		{
-			if (pageListDictionary.TryGetValue(token, out var pageList))
+			foreach (var callback in pageList)
 			{
-				foreach (var callback in pageList)
-				{
-					callback(args);
-				}
+				callback(args);
 			}
 		}
+	}
 
-		/// <summary>
-		/// Subscribes the specified token.
-		/// </summary>
-		/// <param name="token">The page token.</param>
-		/// <param name="callback">The callback action.</param>
-		public static void Subscribe(string token, Action<object?> callback)
+	/// <summary>
+	/// Subscribes the specified token.
+	/// </summary>
+	/// <param name="token">The page token.</param>
+	/// <param name="callback">The callback action.</param>
+	public static void Subscribe(string token, Action<object?> callback)
+	{
+		ArgumentNullException.ThrowIfNull(callback);
+
+		if (pageListDictionary.TryGetValue(token, out var value))
 		{
-			ArgumentNullException.ThrowIfNull(callback);
-
-			if (pageListDictionary.TryGetValue(token, out var value))
+			var found = false;
+			foreach (var item in value)
 			{
-				var found = false;
-				foreach (var item in value)
+				if (item.Method.ToString() == callback?.Method.ToString())
 				{
-					if (item.Method.ToString() == callback?.Method.ToString())
-					{
-						found = true;
-					}
-				}
-
-				if (!found)
-				{
-					value.Add(callback!);
+					found = true;
 				}
 			}
-			else
+
+			if (!found)
 			{
-				var list = new List<Action<object?>> { callback };
-				pageListDictionary.Add(token, list);
+				value.Add(callback!);
 			}
 		}
-
-		/// <summary>
-		/// Unsubscribes the specified token.
-		/// </summary>
-		/// <param name="token">The page token.</param>
-		/// <param name="callback">The callback action.</param>
-		public static void Unsubscribe(string token, Action<object?> callback)
+		else
 		{
-			if (pageListDictionary.TryGetValue(token, out var pageList))
-			{
-				_ = pageList.Remove(callback);
-			}
+			var list = new List<Action<object?>> { callback };
+			pageListDictionary.Add(token, list);
+		}
+	}
+
+	/// <summary>
+	/// Unsubscribes the specified token.
+	/// </summary>
+	/// <param name="token">The page token.</param>
+	/// <param name="callback">The callback action.</param>
+	public static void Unsubscribe(string token, Action<object?> callback)
+	{
+		if (pageListDictionary.TryGetValue(token, out var pageList))
+		{
+			_ = pageList.Remove(callback);
 		}
 	}
 }

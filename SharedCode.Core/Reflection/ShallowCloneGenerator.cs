@@ -1,7 +1,4 @@
 ﻿namespace SharedCode.Reflection;
-
-using System;
-
 internal static class ShallowCloneGenerator
 {
 	/// <summary>

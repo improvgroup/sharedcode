@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Collections;
-
-using System.Collections.Generic;
-
+﻿namespace SharedCode.Collections;
 /// <summary>
 /// The list extensions class
 /// </summary>

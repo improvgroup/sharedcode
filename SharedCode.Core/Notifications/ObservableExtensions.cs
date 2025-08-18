@@ -1,11 +1,10 @@
 ﻿
-
-
-namespace SharedCode.Notifications;
-
 using System.Reactive;
 using System.Reactive.Linq;
 
+
+
+namespace SharedCode.Notifications;
 /// <summary>
 /// The observable extension methods class.
 /// </summary>

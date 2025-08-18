@@ -1,11 +1,6 @@
-﻿
+﻿using System.ComponentModel;
+
 namespace SharedCode.Collections;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
-
 /// <summary>
 /// The array extensions class
 /// </summary>

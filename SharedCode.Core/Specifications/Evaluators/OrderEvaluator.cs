@@ -1,9 +1,6 @@
-﻿
+﻿using SharedCode.Specifications.Exceptions;
+
 namespace SharedCode.Specifications.Evaluators;
-
-using SharedCode.Specifications;
-using SharedCode.Specifications.Exceptions;
-
 /// <summary>
 /// The order evaluator class. Implements the <see cref="IEvaluator" />. Implements the <see
 /// cref="IInMemoryEvaluator" />.
@@ -31,7 +28,9 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 	/// <summary>
 	/// Evaluates the specified query.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">
+	/// The type of the items in the query.
+	/// </typeparam>
 	/// <param name="query">The query.</param>
 	/// <param name="specification">The specification.</param>
 	/// <returns>System.Collections.Generic.IEnumerable&lt;T&gt;.</returns>
@@ -72,20 +71,30 @@ public sealed class OrderEvaluator : IEvaluator, IInMemoryEvaluator
 			}
 		}
 
-		return query ?? Enumerable.Empty<T>();
+		return query ?? [];
 	}
 
 	/// <summary>
 	/// Gets the query.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="query">The query.</param>
+	/// <typeparam name="T">
+	/// The type of the items in the query.
+	/// </typeparam>
+	/// <param name="query">The LINQ query.</param>
 	/// <param name="specification">The specification.</param>
 	/// <returns>System.Linq.IQueryable&lt;T&gt;.</returns>
+	/// <exception cref="ArgumentNullException">query</exception>
 	/// <exception cref="DuplicateOrderChainException"></exception>
 	public IQueryable<T> GetQuery<T>(IQueryable<T> query, ISpecification<T> specification) where T : class
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(query);
+#else
+		if (query is null)
+		{
+			throw new ArgumentNullException(nameof(query));
+		}
+#endif
 
 		if (specification?.OrderExpressions is not null)
 		{

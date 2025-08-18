@@ -1,11 +1,9 @@
-﻿namespace SharedCode;
-
+﻿
 using SharedCode.Properties;
 
-using System;
-using System.Linq.Expressions;
 using System.Reflection;
 
+namespace SharedCode;
 ///<summary>
 /// Provides support for extracting property information based on a property expression.
 ///</summary>
@@ -45,7 +43,12 @@ public static class PropertySupport
 	/// </exception>
 	internal static string ExtractPropertyNameFromLambda(LambdaExpression expression)
 	{
+#if NET6_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(expression);
+#else
+		if (expression is null)
+			throw new ArgumentNullException(nameof(expression));
+#endif
 
 		if (expression.Body is not MemberExpression memberExpression)
 			throw new ArgumentException(Resources.PropertySupport_NotMemberAccessExpression_Exception, nameof(expression));

@@ -1,7 +1,7 @@
-﻿namespace SharedCode;
-
+﻿
 using System.Reflection;
 
+namespace SharedCode;
 /// <summary>
 /// The value object class. Implements the <see cref="IEquatable{ValueObject}" />.
 /// </summary>

@@ -1,7 +1,4 @@
 ﻿namespace SharedCode.Domain;
-
-using System.Collections.Generic;
-
 /// <summary>
 /// The error result interface.
 /// </summary>

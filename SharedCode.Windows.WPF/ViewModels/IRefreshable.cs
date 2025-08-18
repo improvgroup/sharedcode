@@ -1,17 +1,16 @@
 ﻿
-namespace SharedCode.Windows.WPF.ViewModels
-{
-	using System.Windows.Input;
+namespace SharedCode.Windows.WPF.ViewModels;
 
+using System.Windows.Input;
+
+/// <summary>
+/// The refreshable interface.
+/// </summary>
+public interface IRefreshable
+{
 	/// <summary>
-	/// The refreshable interface.
+	/// Gets the refresh command.
 	/// </summary>
-	public interface IRefreshable
-	{
-		/// <summary>
-		/// Gets the refresh command.
-		/// </summary>
-		/// <value>The refresh command.</value>
-		ICommand RefreshCommand { get; }
-	}
+	/// <value>The refresh command.</value>
+	ICommand RefreshCommand { get; }
 }

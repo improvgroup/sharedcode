@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Workflow;
-
-using System;
-
+﻿namespace SharedCode.Workflow;
 /// <summary>
 /// The rule class.
 /// </summary>

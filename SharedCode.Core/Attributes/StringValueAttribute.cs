@@ -1,7 +1,4 @@
 ﻿namespace SharedCode.Attributes;
-
-using System;
-
 /// <summary>
 /// The string value attribute class
 /// </summary>

@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications.Evaluators;
-
-using SharedCode.Specifications;
-
+﻿namespace SharedCode.Specifications.Evaluators;
 /// <summary>
 /// The in-memory specification evaluator interface.
 /// </summary>

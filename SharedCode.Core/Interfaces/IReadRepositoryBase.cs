@@ -1,8 +1,7 @@
 ﻿
-namespace SharedCode.Interfaces;
-
 using SharedCode.Specifications;
 
+namespace SharedCode.Interfaces;
 /// <summary>
 /// <para>
 /// A <see cref="IRepositoryBase{T}" /> can be used to query instances of <typeparamref name="T" />.

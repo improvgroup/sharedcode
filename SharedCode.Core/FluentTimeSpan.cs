@@ -1,10 +1,7 @@
-﻿
-namespace SharedCode;
-
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
 
+namespace SharedCode;
 /// <summary>
 /// The fluent time span.
 /// </summary>

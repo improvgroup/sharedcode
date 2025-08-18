@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications.Builders;
-
-using SharedCode.Specifications;
-
+﻿namespace SharedCode.Specifications.Builders;
 /// <summary>
 /// Class OrderedSpecificationBuilder. Implements the <see cref="IOrderedSpecificationBuilder{T}" />.
 /// </summary>

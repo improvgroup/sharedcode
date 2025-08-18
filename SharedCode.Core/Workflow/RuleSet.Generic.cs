@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Workflow;
-
-using System.Collections.Generic;
-
+﻿namespace SharedCode.Workflow;
 /// <summary>
 /// A class that holds a set of rules that can be evaluated.
 /// </summary>

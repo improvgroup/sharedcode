@@ -1,10 +1,4 @@
-﻿
-namespace SharedCode.Linq;
-
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-
+﻿namespace SharedCode.Linq;
 public static partial class CollectionExtensions
 {
 	/// <summary>

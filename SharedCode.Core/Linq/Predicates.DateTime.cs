@@ -1,10 +1,4 @@
-﻿
-namespace SharedCode.Linq;
-
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-
+﻿namespace SharedCode.Linq;
 /// <summary>
 /// The predicates class.
 /// </summary>

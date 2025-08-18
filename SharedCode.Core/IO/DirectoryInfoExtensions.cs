@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.IO;
-
-using System.IO;
-
+﻿namespace SharedCode.IO;
 /// <summary>
 /// The directory information extensions class
 /// </summary>

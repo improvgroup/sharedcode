@@ -1,12 +1,7 @@
-﻿namespace SharedCode.Reflection;
-
-using SharedCode;
-
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Reflection;
 
+namespace SharedCode.Reflection;
 /// <summary>
 /// Safe types are types, which can be copied without real cloning. e.g. simple structs or strings
 /// </summary>
@@ -48,6 +43,7 @@ internal static class DeepCloneSafeTypes
 	/// </returns>
 	public static bool CanReturnSameObject(Type type) => CanReturnSameType(type, null);
 
+	[SuppressMessage("Design", "GCop116:Break this down into smaller methods. If such methods would become meaningless as standalone methods in the context of the class, you can refactor this method into a Stateful Service class", Justification = "<Pending>")]
 	[SuppressMessage("Design", "GCop132:Since the type is inferred, use 'var' instead", Justification = "GCop false positive.")]
 	private static bool CanReturnSameType(Type type, HashSet<Type>? processingTypes)
 	{
@@ -104,7 +100,7 @@ internal static class DeepCloneSafeTypes
 
 		// default comparers should not be cloned due possible comparison
 		// EqualityComparer<T>.Default == comparer
-#if NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 		if (type.FullName?.Contains("EqualityComparer", StringComparison.Ordinal) == true)
 #else
 		if (type.FullName?.Contains("EqualityComparer") == true)
@@ -128,12 +124,12 @@ internal static class DeepCloneSafeTypes
 			return false;
 		}
 
-		processingTypes ??= new HashSet<Type>();
+		processingTypes ??= [];
 
 		// structs cannot have a loops, but check it anyway
 		_ = processingTypes.Add(type);
 
-		List<FieldInfo> fi = new();
+		List<FieldInfo> fi = [];
 		var tp = type;
 		do
 		{

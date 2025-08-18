@@ -1,10 +1,9 @@
 ﻿
+using SharedCode.Properties;
+
 
 
 namespace SharedCode.Notifications;
-
-using SharedCode.Properties;
-
 /// <summary>
 /// The notification base record.
 /// </summary>

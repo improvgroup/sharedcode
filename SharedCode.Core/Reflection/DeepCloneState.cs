@@ -1,8 +1,6 @@
-﻿namespace SharedCode.Reflection;
+﻿using System.Runtime.CompilerServices;
 
-using System;
-using System.Runtime.CompilerServices;
-
+namespace SharedCode.Reflection;
 internal sealed class DeepCloneState
 {
 	private readonly object[] _baseFromTo = new object[6];

@@ -1,8 +1,4 @@
-﻿
-namespace SharedCode.Specifications;
-
-using System.Diagnostics.CodeAnalysis;
-
+﻿namespace SharedCode.Specifications;
 /// <summary>
 /// A marker interface for specifications that are meant to return a single entity. Used to
 /// constrain methods that accept a Specification and return a single result rather than a

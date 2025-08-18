@@ -1,10 +1,6 @@
-﻿namespace SharedCode;
+﻿using System.Reflection;
 
-using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Reflection;
-
+namespace SharedCode;
 /// <summary>
 /// The utilities class
 /// </summary>

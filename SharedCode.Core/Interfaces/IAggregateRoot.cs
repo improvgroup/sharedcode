@@ -1,10 +1,4 @@
-﻿
-
-
-namespace SharedCode.Interfaces;
-
-using System.Diagnostics.CodeAnalysis;
-
+﻿namespace SharedCode.Interfaces;
 /// <summary>
 /// The aggregate root interface.
 /// </summary>
