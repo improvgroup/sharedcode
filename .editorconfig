@@ -150,7 +150,7 @@ dotnet_style_qualification_for_field = true:suggestion
 dotnet_style_qualification_for_method = true:suggestion
 dotnet_style_qualification_for_property = true:suggestion
 dotnet_style_readonly_field = true:suggestion
-dotnet_style_require_accessibility_modifiers = always:suggestion
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
 
 dotnet_diagnostic.CC0022.severity = none
 dotnet_diagnostic.CC0035.severity = none
@@ -164,6 +164,7 @@ dotnet_diagnostic.CC0076.severity = none
 dotnet_diagnostic.CC0079.severity = none
 dotnet_diagnostic.CC0088.severity = none
 dotnet_diagnostic.CC0092.severity = none
+dotnet_diagnostic.GCop119.severity = none
 dotnet_diagnostic.GCop160.severity = none
 dotnet_diagnostic.GCop204.severity = none
 dotnet_diagnostic.GCop209.severity = none
