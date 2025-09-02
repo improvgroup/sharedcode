@@ -10,7 +10,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="protobuf-net" />
+		<!--<PackageReference Include="protobuf-net" />-->
 		<PackageReference Include="System.Drawing.Common" />
 		<PackageReference Include="System.Reflection.Metadata" />
 		<PackageReference Include="System.Text.Json" />
