@@ -12,60 +12,62 @@ using System.Diagnostics.CodeAnalysis;
 /// <seealso cref="IQueryRepository" />
 public interface IQueryRepository<out TEntity> : IQueryRepository where TEntity : Entity
 {
-	/// <summary>
-	/// Gets the specified identifier.
-	/// </summary>
-	/// <param name="id">The identifier.</param>
-	/// <returns>TEntity.</returns>
-	[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
-	new TEntity Get(int id);
+    /// <summary>
+    /// Gets the specified identifier.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <returns>TEntity.</returns>
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
+    new TEntity Get(int id);
 
-	/// <summary>
-	/// Gets the specified page size.
-	/// </summary>
-	/// <param name="pageSize">Size of the page.</param>
-	/// <param name="pageIndex">Index of the page.</param>
-	/// <returns>IQueryResult&lt;TEntity&gt;.</returns>
-	[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
-	new IQueryResult<TEntity> Get(int pageSize, int pageIndex);
+    /// <summary>
+    /// Gets the specified page size.
+    /// </summary>
+    /// <param name="pageSize">Size of the page.</param>
+    /// <param name="pageIndex">Index of the page.</param>
+    /// <returns>IQueryResult&lt;TEntity&gt;.</returns>
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
+    new IQueryResult<TEntity> Get(int pageSize, int pageIndex);
 
-	/// <summary>
-	/// Gets the specified predicate.
-	/// </summary>
-	/// <param name="predicate">The predicate.</param>
-	/// <returns>IQueryResult&lt;TEntity&gt;.</returns>
-	[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
-	IQueryResult<TEntity> Get(Func<TEntity, bool> predicate);
+    /// <summary>
+    /// Gets the specified predicate.
+    /// </summary>
+    /// <param name="predicate">The predicate.</param>
+    /// <returns>IQueryResult&lt;TEntity&gt;.</returns>
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
+    IQueryResult<TEntity> Get(Func<TEntity, bool> predicate);
 
-	/// <summary>
-	/// Gets the specified predicate.
-	/// </summary>
-	/// <param name="predicate">The predicate.</param>
-	/// <param name="pageSize">Size of the page.</param>
-	/// <param name="pageIndex">Index of the page.</param>
-	/// <returns>IQueryResult&lt;TEntity&gt;.</returns>
-	[SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
-	IQueryResult<TEntity> Get(Func<TEntity, bool> predicate, int pageSize, int pageIndex);
+    /// <summary>
+    /// Gets the specified predicate.
+    /// </summary>
+    /// <param name="predicate">The predicate.</param>
+    /// <param name="pageSize">Size of the page.</param>
+    /// <param name="pageIndex">Index of the page.</param>
+    /// <returns>IQueryResult&lt;TEntity&gt;.</returns>
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Normal repository nomenclature.")]
+    IQueryResult<TEntity> Get(Func<TEntity, bool> predicate, int pageSize, int pageIndex);
 
-	/// <summary>
-	/// Gets the specified predicate.
-	/// </summary>
-	/// <param name="predicate">The predicate.</param>
-	/// <returns>IQueryResult&lt;Entity&gt;.</returns>
-	abstract IQueryResult<Entity> IQueryRepository.Get(Func<Entity, bool> predicate);
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Gets the specified predicate.
+    /// </summary>
+    /// <param name="predicate">The predicate.</param>
+    /// <returns>IQueryResult&lt;Entity&gt;.</returns>
+    abstract IQueryResult<Entity> IQueryRepository.Get(Func<Entity, bool> predicate);
 
-	/// <summary>
-	/// Gets the specified predicate.
-	/// </summary>
-	/// <param name="predicate">The predicate.</param>
-	/// <param name="pageSize">Size of the page.</param>
-	/// <param name="pageIndex">Index of the page.</param>
-	/// <returns>IQueryResult&lt;Entity&gt;.</returns>
-	abstract IQueryResult<Entity> IQueryRepository.Get(Func<Entity, bool> predicate, int pageSize, int pageIndex);
+    /// <summary>
+    /// Gets the specified predicate.
+    /// </summary>
+    /// <param name="predicate">The predicate.</param>
+    /// <param name="pageSize">Size of the page.</param>
+    /// <param name="pageIndex">Index of the page.</param>
+    /// <returns>IQueryResult&lt;Entity&gt;.</returns>
+    abstract IQueryResult<Entity> IQueryRepository.Get(Func<Entity, bool> predicate, int pageSize, int pageIndex);
+#endif
 
-	/// <summary>
-	/// Gets all.
-	/// </summary>
-	/// <returns>IQueryResult&lt;TEntity&gt;.</returns>
-	new IQueryResult<TEntity> GetAll();
+    /// <summary>
+    /// Gets all.
+    /// </summary>
+    /// <returns>IQueryResult&lt;TEntity&gt;.</returns>
+    new IQueryResult<TEntity> GetAll();
 }
