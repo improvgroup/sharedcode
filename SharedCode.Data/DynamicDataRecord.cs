@@ -1,44 +1,40 @@
-﻿
+﻿using SharedCode.Data.Exceptions;
 
-
-namespace SharedCode.Data;
-
-using SharedCode.Data.Exceptions;
-
-using System;
 using System.Data;
 using System.Dynamic;
+
+namespace SharedCode.Data;
 
 /// <summary>
 /// The dynamic data record class.
 /// </summary>
-public class DynamicDataRecord : DynamicObject
+/// <remarks>
+/// Initializes a new instance of the <see cref="DynamicDataRecord"/> class.
+/// </remarks>
+/// <param name="record">The data record to be made dynamic.</param>
+public class DynamicDataRecord(IDataRecord record) : DynamicObject
 {
-	/// <summary>
-	/// The record
-	/// </summary>
-	private readonly IDataRecord record;
+    /// <inheritdoc/>
+    public override bool TryGetMember(GetMemberBinder binder, out object? result)
+    {
+#if NET6_0_OR_GREATER
+        ArgumentNullException.ThrowIfNull(binder);
+#else
+        if (binder is null)
+        {
+            throw new ArgumentNullException(nameof(binder));
+        }
+#endif
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="DynamicDataRecord" /> class.
-	/// </summary>
-	/// <param name="record">The record.</param>
-	public DynamicDataRecord(IDataRecord record) => this.record = record;
-
-	/// <inheritdoc/>
-	public override bool TryGetMember(GetMemberBinder binder, out object? result)
-	{
-		ArgumentNullException.ThrowIfNull(binder);
-
-		try
-		{
-			var rawResult = this.record.GetValue(this.record.GetOrdinal(binder.Name));
-			result = rawResult == DBNull.Value ? default : rawResult;
-			return true;
-		}
-		catch (IndexOutOfRangeException)
-		{
-			throw new ColumnIsNotInResultSetException(binder.Name);
-		}
-	}
+        try
+        {
+            var rawResult = record.GetValue(record.GetOrdinal(binder.Name));
+            result = rawResult == DBNull.Value ? default : rawResult;
+            return true;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            throw new ColumnIsNotInResultSetException(binder.Name);
+        }
+    }
 }
