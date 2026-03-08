@@ -1,0 +1,135 @@
+name: Maintain Copilot Instructions
+
+on:
+  # Run automatically when solution structure or shared build config changes
+  push:
+    branches: [main]
+    paths:
+      - '**/*.csproj'
+      - 'SharedCode.sln'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+  # Run on the first day of each month to catch any drift that slipped through
+  schedule:
+    - cron: '0 9 1 * *'
+  # Allow a maintainer to trigger a review at any time
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-instructions:
+    name: Check Copilot Instructions are Up-to-Date
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect projects not documented in copilot-instructions.md
+        id: check
+        shell: bash
+        run: |
+          instructions=".github/copilot-instructions.md"
+
+          # Collect all SharedCode project names from the solution file.
+          # The .sln format uses Windows paths: "SharedCode.<Name>\<Name>.csproj"
+          # so we extract the folder name (everything between the opening quote
+          # and the first backslash).
+          projects=$(grep -oP '"SharedCode\.[^\\"]+(?=\\)' SharedCode.sln \
+            | tr -d '"' | sort -u)
+
+          missing_list=""
+          while IFS= read -r project; do
+            if [[ -z "$project" ]]; then
+              continue
+            fi
+            if ! grep -qF "$project" "$instructions"; then
+              missing_list="${missing_list}\n- \`${project}\`"
+            fi
+          done <<< "$projects"
+
+          if [[ -n "$missing_list" ]]; then
+            echo "has_missing=true"  >> "$GITHUB_OUTPUT"
+          else
+            echo "has_missing=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # Use a heredoc to safely pass multi-line content to GITHUB_OUTPUT
+          {
+            echo "missing_list<<EOF"
+            printf '%b' "$missing_list"
+            echo ""
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open or update a GitHub Issue when instructions are outdated
+        if: steps.check.outputs.has_missing == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const missing = `${{ steps.check.outputs.missing_list }}`;
+
+            const body = [
+              '## Copilot Instructions May Be Outdated',
+              '',
+              'The following projects are present in `SharedCode.sln` but are not yet',
+              'documented in `.github/copilot-instructions.md`:',
+              '',
+              missing,
+              '',
+              '### What to do',
+              '',
+              '1. Open `.github/copilot-instructions.md` and add the missing projects to',
+              '   the module table.',
+              '2. Use the prompt at `.github/prompts/maintain-copilot-instructions.prompt.md`',
+              '   to guide a full review of all Copilot configuration files.',
+              '3. Close this issue once the instructions are up to date.',
+            ].join('\n');
+
+            const label = 'copilot-instructions';
+
+            // Ensure the label exists (create it if not)
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+              });
+            } catch {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+                color: '0075ca',
+                description: 'Tracks updates needed to .github/copilot-instructions.md',
+              });
+            }
+
+            // Update an existing open issue rather than creating duplicates
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+            });
+
+            if (existing.data.length > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.data[0].number,
+                body,
+              });
+              core.info(`Updated existing issue #${existing.data[0].number}`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Update Copilot Instructions',
+                body,
+                labels: [label, 'documentation'],
+              });
+              core.info(`Created issue #${created.data.number}`);
+            }
