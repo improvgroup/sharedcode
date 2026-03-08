@@ -96,7 +96,7 @@ public class NumberExtensionsTests
 	}
 
 	[TestMethod]
-	public void Months_Int_ReturnsFluetTimeSpanWithMonths()
+	public void Months_Int_ReturnsFluentTimeSpanWithMonths()
 	{
 		var result = 3.Months();
 		Assert.AreEqual(3, result.Months);
