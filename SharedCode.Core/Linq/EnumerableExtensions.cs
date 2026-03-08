@@ -35,7 +35,7 @@ public static class EnumerableExtensions
 	/// <param name="aggregateFunction">The aggregate function.</param>
 	/// <returns>The result.</returns>
 	public static T? Aggregate<T>(this IEnumerable<T> @this, T? defaultValue, Func<T?, T?, T?> aggregateFunction) =>
-		@this?.Any() ?? false ? @this.Aggregate(aggregateFunction) : defaultValue;
+		@this?.Any() ?? false ? System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!) : defaultValue;
 
 	/// <summary>
 	/// Starts execution of IQueryable on a ThreadPool thread and returns immediately with a
