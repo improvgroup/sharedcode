@@ -1,6 +1,8 @@
 ﻿
 namespace SharedCode.Data.EntityFramework.Specifications.Evaluators;
 
+using Microsoft.EntityFrameworkCore;
+
 using SharedCode.Specifications;
 using SharedCode.Specifications.Evaluators;
 
@@ -33,7 +35,7 @@ public sealed class AsSplitQueryEvaluator : IEvaluator
 
 		if (specification.AsSplitQuery)
 		{
-			//query = query.AsSplitQuery(); // TODO: Support for split query is not in the current EF Core version. See https://github.com/dotnet/efcore/issues/21234
+			query = query.AsSplitQuery();
 		}
 
 		return query;
