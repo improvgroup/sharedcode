@@ -329,7 +329,7 @@ public static partial class StringExtensions
 	/// <param name="this">The input value.</param>
 	/// <param name="stringValues">Array of string values to compare</param>
 	/// <returns>Return true if any string value matches</returns>
-	public static bool In(this string @this, params string[] stringValues) => stringValues.Any(otherValue => string.CompareOrdinal(@this, otherValue) == 0);
+	public static bool In(this string @this, params string[] stringValues) => stringValues.Any(otherValue => string.Equals(@this, otherValue, StringComparison.Ordinal));
 
 	/// <summary>
 	/// Determines whether the input string can be converted to the target type.
