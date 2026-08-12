@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharedCode.Calendar;
 
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 /// <summary>
 /// The date time extensions tests class
@@ -25,6 +26,16 @@ public class DateTimeExtensionsTests
 	/// The original date time
 	/// </summary>
 	private DateTime originalDateTime;
+
+	/// <summary>
+	/// The original culture before test execution.
+	/// </summary>
+	private CultureInfo? originalCulture;
+
+	/// <summary>
+	/// The original UI culture before test execution.
+	/// </summary>
+	private CultureInfo? originalUiCulture;
 
 	[TestMethod]
 	[DataRow(5, 2022, 12, 11, 2022, 12, 19)]
@@ -61,7 +72,7 @@ public class DateTimeExtensionsTests
 	public void Can_Get_Full_Long_Date_Time_String()
 	{
 		var result = this.originalDateTime.ToStringFormat(() => DateTimeFormat.FullLongDateTime);
-		Assert.AreEqual("Sunday, March 11, 1984 2:30:58 AM", result);
+		Assert.AreEqual("Sunday, March 11, 1984 2:30:58 AM", NormalizeWhitespace(result));
 	}
 
 	/// <summary>
@@ -71,7 +82,7 @@ public class DateTimeExtensionsTests
 	public void Can_Get_Full_Short_Date_Time_String()
 	{
 		var result = this.originalDateTime.ToStringFormat(() => DateTimeFormat.FullShortDateTime);
-		Assert.AreEqual("Sunday, March 11, 1984 2:30 AM", result);
+		Assert.AreEqual("Sunday, March 11, 1984 2:30 AM", NormalizeWhitespace(result));
 	}
 
 	/// <summary>
@@ -81,7 +92,7 @@ public class DateTimeExtensionsTests
 	public void Can_Get_General_Long_Date_Time_String()
 	{
 		var result = this.originalDateTime.ToStringFormat(() => DateTimeFormat.GeneralLongDateTime);
-		Assert.AreEqual("3/11/1984 2:30:58 AM", result);
+		Assert.AreEqual("3/11/1984 2:30:58 AM", NormalizeWhitespace(result));
 	}
 
 	/// <summary>
@@ -91,7 +102,7 @@ public class DateTimeExtensionsTests
 	public void Can_Get_General_Short_Date_Time_String()
 	{
 		var result = this.originalDateTime.ToStringFormat(() => DateTimeFormat.GeneralShortDateTime);
-		Assert.AreEqual("3/11/1984 2:30 AM", result);
+		Assert.AreEqual("3/11/1984 2:30 AM", NormalizeWhitespace(result));
 	}
 
 	/// <summary>
@@ -111,7 +122,7 @@ public class DateTimeExtensionsTests
 	public void Can_Get_Long_Time_String()
 	{
 		var result = this.originalDateTime.ToStringFormat(() => DateTimeFormat.LongTime);
-		Assert.AreEqual("2:30:58 AM", result);
+		Assert.AreEqual("2:30:58 AM", NormalizeWhitespace(result));
 	}
 
 	/// <summary>
@@ -171,7 +182,7 @@ public class DateTimeExtensionsTests
 	public void Can_Get_Short_Time_String()
 	{
 		var result = this.originalDateTime.ToStringFormat(() => DateTimeFormat.ShortTime);
-		Assert.AreEqual("2:30 AM", result);
+		Assert.AreEqual("2:30 AM", NormalizeWhitespace(result));
 	}
 
 	/// <summary>
@@ -219,7 +230,14 @@ public class DateTimeExtensionsTests
 	/// Initializes the test case.
 	/// </summary>
 	[TestInitialize]
-	public void InitTestCase() => this.originalDateTime = new DateTime(Year, Month, Day, Hour, Minute, Second);
+	public void InitTestCase()
+	{
+		this.originalCulture = CultureInfo.CurrentCulture;
+		this.originalUiCulture = CultureInfo.CurrentUICulture;
+		CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+		CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+		this.originalDateTime = new DateTime(Year, Month, Day, Hour, Minute, Second);
+	}
 
 	/// <summary>
 	/// Teardowns the test case.
@@ -232,5 +250,17 @@ public class DateTimeExtensionsTests
 		{
 			GC.SuppressFinalize(this.originalDateTime);
 		}
+
+		if (this.originalCulture is not null)
+		{
+			CultureInfo.CurrentCulture = this.originalCulture;
+		}
+
+		if (this.originalUiCulture is not null)
+		{
+			CultureInfo.CurrentUICulture = this.originalUiCulture;
+		}
 	}
+
+	private static string NormalizeWhitespace(string value) => value.Replace('\u202F', ' ');
 }
