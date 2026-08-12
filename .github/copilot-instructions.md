@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-SharedCode is a multi-project .NET 9 solution that provides reusable utility libraries
+SharedCode is a multi-project .NET solution that provides reusable utility libraries
 published as individual NuGet packages. Each project corresponds to one NuGet package:
 
 | Project | NuGet Package | Purpose |
@@ -34,7 +34,9 @@ dotnet test --logger GitHubActions --verbosity normal SharedCode.sln
 
 ### Language & Framework
 
-- **Target framework**: `net9.0`
+- **Target frameworks**:
+  - Primary/current: `.NET 10` (`net10.0`)
+  - Compatibility targets: `.NET 9` (`net9.0`), `.NET 8` (`net8.0`), and `.NET Standard 2.0/2.1` where applicable
 - **Language version**: `preview` (latest C# features enabled)
 - **Nullable reference types**: enabled (`<Nullable>enable</Nullable>`)
 - **Implicit usings**: enabled
