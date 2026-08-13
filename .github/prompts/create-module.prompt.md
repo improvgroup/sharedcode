@@ -27,7 +27,7 @@ belong here.
     <Description>A library of [short description] shared for free use to help with common scenarios.</Description>
     <PackageTags>shared code, c#, [relevant tags]</PackageTags>
     <RootNamespace>SharedCode.<ModuleName></RootNamespace>
-    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

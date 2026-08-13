@@ -9,18 +9,28 @@
   ],
   "servers": {
     "github": {
-      "command": "docker",
+      "command": "npx",
       "args": [
-        "run",
-        "--interactive",
-        "--rm",
-        "--env",
-        "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "ghcr.io/github/github-mcp-server"
+        "-y",
+        "@github/github-mcp-server"
       ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github-token}"
       }
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "dotnet-skills": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@microsoft/dotnet-mcp-server"
+      ]
     }
   }
 }

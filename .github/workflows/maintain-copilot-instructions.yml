@@ -50,6 +50,22 @@ jobs:
             fi
           done <<< "$projects"
 
+          # Check that required prompt files exist
+          required_prompts=(
+            ".github/prompts/add-extension-method.prompt.md"
+            ".github/prompts/add-specification.prompt.md"
+            ".github/prompts/add-test-class.prompt.md"
+            ".github/prompts/create-module.prompt.md"
+            ".github/prompts/fix-code-analysis.prompt.md"
+            ".github/prompts/improve-coverage.prompt.md"
+            ".github/prompts/maintain-copilot-instructions.prompt.md"
+          )
+          for prompt in "${required_prompts[@]}"; do
+            if [[ ! -f "$prompt" ]]; then
+              missing_list="${missing_list}\n- Missing prompt: \`${prompt}\`"
+            fi
+          done
+
           if [[ -n "$missing_list" ]]; then
             echo "has_missing=true"  >> "$GITHUB_OUTPUT"
           else
@@ -74,18 +90,18 @@ jobs:
             const body = [
               '## Copilot Instructions May Be Outdated',
               '',
-              'The following projects are present in `SharedCode.sln` but are not yet',
-              'documented in `.github/copilot-instructions.md`:',
+              'The following projects or prompt files are missing from the Copilot configuration:',
               '',
               missing,
               '',
               '### What to do',
               '',
-              '1. Open `.github/copilot-instructions.md` and add the missing projects to',
+              '1. Open `.github/copilot-instructions.md` and add any missing projects to',
               '   the module table.',
-              '2. Use the prompt at `.github/prompts/maintain-copilot-instructions.prompt.md`',
+              '2. Ensure all required prompt files exist under `.github/prompts/`.',
+              '3. Use the prompt at `.github/prompts/maintain-copilot-instructions.prompt.md`',
               '   to guide a full review of all Copilot configuration files.',
-              '3. Close this issue once the instructions are up to date.',
+              '4. Close this issue once the instructions are up to date.',
             ].join('\n');
 
             const label = 'copilot-instructions';

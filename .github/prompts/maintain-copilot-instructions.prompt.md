@@ -25,14 +25,16 @@ Run this prompt after adding new modules, changing conventions, or updating the 
 
 - [ ] `add-extension-method.prompt.md` — namespace table is complete and templates compile
 - [ ] `add-specification.prompt.md` — builder API still matches `ISpecificationBuilder<T>`
+- [ ] `add-test-class.prompt.md` — assertion style matches the project's test conventions
 - [ ] `fix-code-analysis.prompt.md` — rule table covers the analyzers actually in use
 - [ ] `create-module.prompt.md` — scaffolding steps still match the solution structure
+- [ ] `improve-coverage.prompt.md` — coverage gap table is accurate
 - [ ] Each prompt's `description` front-matter field is accurate
 
 ### `.vscode/mcp.json`
 
 - [ ] Listed MCP servers are still current and useful
-- [ ] Docker image tags or npx package versions are up to date
+- [ ] npx package versions are up to date
 - [ ] Any new MCP servers that would improve development tasks should be added
 
 ## Process
