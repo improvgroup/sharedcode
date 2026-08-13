@@ -1,215 +1,215 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Tests for the <see cref="FluentTimeSpan"/> struct.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class FluentTimeSpanTests
 {
-	[TestMethod]
-	public void ImplicitConversionToTimeSpan_ReturnsCorrectTimeSpan()
+	[Test]
+	public async Task ImplicitConversionToTimeSpan_ReturnsCorrectTimeSpan()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(2) };
 		TimeSpan ts = fts;
-		Assert.AreEqual(TimeSpan.FromHours(2), ts);
+		await Assert.That(ts).IsEqualTo(TimeSpan.FromHours(2));
 	}
 
-	[TestMethod]
-	public void ImplicitConversionFromTimeSpan_ReturnsFluentTimeSpan()
+	[Test]
+	public async Task ImplicitConversionFromTimeSpan_ReturnsFluentTimeSpan()
 	{
 		FluentTimeSpan fts = TimeSpan.FromDays(3);
-		Assert.AreEqual(TimeSpan.FromDays(3), fts.TimeSpan);
+		await Assert.That(fts.TimeSpan).IsEqualTo(TimeSpan.FromDays(3));
 	}
 
-	[TestMethod]
-	public void Years_ConvertedToTimeSpan_UsesDaysPerYear()
+	[Test]
+	public async Task Years_ConvertedToTimeSpan_UsesDaysPerYear()
 	{
 		FluentTimeSpan fts = new() { Years = 1 };
 		TimeSpan ts = fts;
-		Assert.AreEqual(FluentTimeSpan.DaysPerYear, ts.Days);
+		await Assert.That(ts.Days).IsEqualTo(FluentTimeSpan.DaysPerYear);
 	}
 
-	[TestMethod]
-	public void Months_ConvertedToTimeSpan_Uses30DaysPerMonth()
+	[Test]
+	public async Task Months_ConvertedToTimeSpan_Uses30DaysPerMonth()
 	{
 		FluentTimeSpan fts = new() { Months = 2 };
 		TimeSpan ts = fts;
-		Assert.AreEqual(60, ts.Days);
+		await Assert.That(ts.Days).IsEqualTo(60);
 	}
 
-	[TestMethod]
-	public void Add_TwoFluentTimeSpans_ReturnsSummedFluentTimeSpan()
+	[Test]
+	public async Task Add_TwoFluentTimeSpans_ReturnsSummedFluentTimeSpan()
 	{
 		FluentTimeSpan a = new() { TimeSpan = TimeSpan.FromHours(1), Months = 1, Years = 1 };
 		FluentTimeSpan b = new() { TimeSpan = TimeSpan.FromHours(2), Months = 2, Years = 2 };
 		var result = a + b;
-		Assert.AreEqual(TimeSpan.FromHours(3), result.TimeSpan);
-		Assert.AreEqual(3, result.Months);
-		Assert.AreEqual(3, result.Years);
+		await Assert.That(result.TimeSpan).IsEqualTo(TimeSpan.FromHours(3));
+		await Assert.That(result.Months).IsEqualTo(3);
+		await Assert.That(result.Years).IsEqualTo(3);
 	}
 
-	[TestMethod]
-	public void Subtract_TwoFluentTimeSpans_ReturnsDifference()
+	[Test]
+	public async Task Subtract_TwoFluentTimeSpans_ReturnsDifference()
 	{
 		FluentTimeSpan a = new() { TimeSpan = TimeSpan.FromHours(5), Months = 3, Years = 2 };
 		FluentTimeSpan b = new() { TimeSpan = TimeSpan.FromHours(2), Months = 1, Years = 1 };
 		var result = a - b;
-		Assert.AreEqual(TimeSpan.FromHours(3), result.TimeSpan);
-		Assert.AreEqual(2, result.Months);
-		Assert.AreEqual(1, result.Years);
+		await Assert.That(result.TimeSpan).IsEqualTo(TimeSpan.FromHours(3));
+		await Assert.That(result.Months).IsEqualTo(2);
+		await Assert.That(result.Years).IsEqualTo(1);
 	}
 
-	[TestMethod]
-	public void Negate_ReturnsNegatedFluentTimeSpan()
+	[Test]
+	public async Task Negate_ReturnsNegatedFluentTimeSpan()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(1) };
 		var negated = -fts;
-		Assert.AreEqual(-TimeSpan.FromHours(1), negated.TimeSpan);
+		await Assert.That(negated.TimeSpan).IsEqualTo(-TimeSpan.FromHours(1));
 	}
 
-	[TestMethod]
-	public void Equals_TwoEqualFluentTimeSpans_ReturnsTrue()
+	[Test]
+	public async Task Equals_TwoEqualFluentTimeSpans_ReturnsTrue()
 	{
 		FluentTimeSpan a = new() { TimeSpan = TimeSpan.FromHours(1), Months = 1, Years = 1 };
 		FluentTimeSpan b = new() { TimeSpan = TimeSpan.FromHours(1), Months = 1, Years = 1 };
-		Assert.IsTrue(a == b);
-		Assert.IsFalse(a != b);
-		Assert.IsTrue(a.Equals(b));
+		await Assert.That(a == b).IsTrue();
+		await Assert.That(a != b).IsFalse();
+		await Assert.That(a.Equals(b)).IsTrue();
 	}
 
-	[TestMethod]
-	public void Equals_TwoDifferentFluentTimeSpans_ReturnsFalse()
+	[Test]
+	public async Task Equals_TwoDifferentFluentTimeSpans_ReturnsFalse()
 	{
 		FluentTimeSpan a = new() { TimeSpan = TimeSpan.FromHours(1) };
 		FluentTimeSpan b = new() { TimeSpan = TimeSpan.FromHours(2) };
-		Assert.IsFalse(a == b);
-		Assert.IsTrue(a != b);
+		await Assert.That(a == b).IsFalse();
+		await Assert.That(a != b).IsTrue();
 	}
 
-	[TestMethod]
-	public void LessThan_FluentTimeSpan_ReturnsExpected()
+	[Test]
+	public async Task LessThan_FluentTimeSpan_ReturnsExpected()
 	{
 		FluentTimeSpan small = new() { TimeSpan = TimeSpan.FromHours(1) };
 		FluentTimeSpan large = new() { TimeSpan = TimeSpan.FromHours(2) };
-		Assert.IsTrue(small < large);
-		Assert.IsFalse(large < small);
+		await Assert.That(small < large).IsTrue();
+		await Assert.That(large < small).IsFalse();
 	}
 
-	[TestMethod]
-	public void GreaterThan_FluentTimeSpan_ReturnsExpected()
+	[Test]
+	public async Task GreaterThan_FluentTimeSpan_ReturnsExpected()
 	{
 		FluentTimeSpan small = new() { TimeSpan = TimeSpan.FromHours(1) };
 		FluentTimeSpan large = new() { TimeSpan = TimeSpan.FromHours(2) };
-		Assert.IsTrue(large > small);
-		Assert.IsFalse(small > large);
+		await Assert.That(large > small).IsTrue();
+		await Assert.That(small > large).IsFalse();
 	}
 
-	[TestMethod]
-	public void LessThanOrEqual_FluentTimeSpan_ReturnsExpected()
+	[Test]
+	public async Task LessThanOrEqual_FluentTimeSpan_ReturnsExpected()
 	{
 		FluentTimeSpan a = new() { TimeSpan = TimeSpan.FromHours(1) };
 		FluentTimeSpan b = new() { TimeSpan = TimeSpan.FromHours(1) };
-		Assert.IsTrue(a <= b);
-		Assert.IsTrue(b <= a);
+		await Assert.That(a <= b).IsTrue();
+		await Assert.That(b <= a).IsTrue();
 	}
 
-	[TestMethod]
-	public void GreaterThanOrEqual_FluentTimeSpan_ReturnsExpected()
+	[Test]
+	public async Task GreaterThanOrEqual_FluentTimeSpan_ReturnsExpected()
 	{
 		FluentTimeSpan a = new() { TimeSpan = TimeSpan.FromHours(2) };
 		FluentTimeSpan b = new() { TimeSpan = TimeSpan.FromHours(1) };
-		Assert.IsTrue(a >= b);
-		Assert.IsTrue(b <= a);
+		await Assert.That(a >= b).IsTrue();
+		await Assert.That(b <= a).IsTrue();
 	}
 
-	[TestMethod]
-	public void Clone_ReturnsEqualFluentTimeSpan()
+	[Test]
+	public async Task Clone_ReturnsEqualFluentTimeSpan()
 	{
 		FluentTimeSpan original = new() { TimeSpan = TimeSpan.FromHours(1), Months = 2, Years = 3 };
 		var clone = (FluentTimeSpan)original.Clone();
-		Assert.AreEqual(original, clone);
+		await Assert.That(clone).IsEqualTo(original);
 	}
 
-	[TestMethod]
-	public void ToString_ReturnsTimeSpanString()
+	[Test]
+	public async Task ToString_ReturnsTimeSpanString()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(1) };
-		Assert.AreEqual(TimeSpan.FromHours(1).ToString(), fts.ToString());
+		await Assert.That(fts.ToString()).IsEqualTo(TimeSpan.FromHours(1).ToString());
 	}
 
-	[TestMethod]
-	public void GetHashCode_EqualFluentTimeSpans_ReturnSameHashCode()
+	[Test]
+	public async Task GetHashCode_EqualFluentTimeSpans_ReturnSameHashCode()
 	{
 		FluentTimeSpan a = new() { TimeSpan = TimeSpan.FromHours(1), Months = 2, Years = 3 };
 		FluentTimeSpan b = new() { TimeSpan = TimeSpan.FromHours(1), Months = 2, Years = 3 };
-		Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
+		await Assert.That(b.GetHashCode()).IsEqualTo(a.GetHashCode());
 	}
 
-	[TestMethod]
-	public void CompareTo_TimeSpan_ReturnsExpected()
+	[Test]
+	public async Task CompareTo_TimeSpan_ReturnsExpected()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(1) };
-		Assert.AreEqual(0, fts.CompareTo(TimeSpan.FromHours(1)));
-		Assert.IsTrue(fts.CompareTo(TimeSpan.FromHours(2)) < 0);
-		Assert.IsTrue(fts.CompareTo(TimeSpan.FromMinutes(30)) > 0);
+		await Assert.That(fts.CompareTo(TimeSpan.FromHours(1))).IsEqualTo(0);
+		await Assert.That(fts.CompareTo(TimeSpan.FromHours(2)) < 0).IsTrue();
+		await Assert.That(fts.CompareTo(TimeSpan.FromMinutes(30)) > 0).IsTrue();
 	}
 
-	[TestMethod]
-	public void DaysPerYear_Is365()
+	[Test]
+	public async Task DaysPerYear_Is365()
 	{
-		Assert.AreEqual(365, FluentTimeSpan.DaysPerYear);
+		await Assert.That(FluentTimeSpan.DaysPerYear).IsEqualTo(365);
 	}
 
-	[TestMethod]
-	public void Properties_ReturnCorrectValues()
+	[Test]
+	public async Task Properties_ReturnCorrectValues()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(25).Add(TimeSpan.FromMinutes(30).Add(TimeSpan.FromSeconds(45))) };
-		Assert.AreEqual(1, fts.Days);
-		Assert.AreEqual(1, fts.Hours);
-		Assert.AreEqual(30, fts.Minutes);
-		Assert.AreEqual(45, fts.Seconds);
+		await Assert.That(fts.Days).IsEqualTo(1);
+		await Assert.That(fts.Hours).IsEqualTo(1);
+		await Assert.That(fts.Minutes).IsEqualTo(30);
+		await Assert.That(fts.Seconds).IsEqualTo(45);
 	}
 
-	[TestMethod]
-	public void ToFluentTimeSpan_ReturnsSelf()
+	[Test]
+	public async Task ToFluentTimeSpan_ReturnsSelf()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(1) };
-		Assert.AreEqual(fts, fts.ToFluentTimeSpan());
+		await Assert.That(fts.ToFluentTimeSpan()).IsEqualTo(fts);
 	}
 
-	[TestMethod]
-	public void ToTimeSpan_ReturnsEquivalentTimeSpan()
+	[Test]
+	public async Task ToTimeSpan_ReturnsEquivalentTimeSpan()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(2) };
-		Assert.AreEqual(TimeSpan.FromHours(2), fts.ToTimeSpan());
+		await Assert.That(fts.ToTimeSpan()).IsEqualTo(TimeSpan.FromHours(2));
 	}
 
-	[TestMethod]
-	public void Equals_WithObject_WorksCorrectly()
+	[Test]
+	public async Task Equals_WithObject_WorksCorrectly()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(1) };
 		object boxed = fts;
-		Assert.IsTrue(fts.Equals(boxed));
-		Assert.IsFalse(fts.Equals(null));
-		Assert.IsFalse(fts.Equals("not a time span"));
+		await Assert.That(fts.Equals(boxed)).IsTrue();
+		await Assert.That(fts.Equals(null)).IsFalse();
+		await Assert.That(fts.Equals("not a time span")).IsFalse();
 	}
 
-	[TestMethod]
-	public void CompareTo_Object_InvalidType_ThrowsArgumentException()
+	[Test]
+	public async Task CompareTo_Object_InvalidType_ThrowsArgumentException()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(1) };
-		_ = Assert.ThrowsExactly<ArgumentException>(() => fts.CompareTo("invalid"));
+		await Assert.That(() => fts.CompareTo("invalid")).ThrowsExactly<ArgumentException>();
 	}
 
-	[TestMethod]
-	public void CompareTo_Object_Null_Returns1()
+	[Test]
+	public async Task CompareTo_Object_Null_Returns1()
 	{
 		FluentTimeSpan fts = new() { TimeSpan = TimeSpan.FromHours(1) };
-		Assert.AreEqual(1, fts.CompareTo(null));
+		await Assert.That(fts.CompareTo(null)).IsEqualTo(1);
 	}
 }

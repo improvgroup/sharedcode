@@ -1,68 +1,68 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Tests for the <see cref="IntExtensions"/> class.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class IntExtensionsTests
 {
-	[TestMethod]
-	public void KB_ReturnsValueMultipliedBy1024()
+	[Test]
+	public async Task KB_ReturnsValueMultipliedBy1024()
 	{
-		Assert.AreEqual(1024, 1.KB());
-		Assert.AreEqual(2048, 2.KB());
-		Assert.AreEqual(0, 0.KB());
+		await Assert.That(1.KB()).IsEqualTo(1024);
+		await Assert.That(2.KB()).IsEqualTo(2048);
+		await Assert.That(0.KB()).IsEqualTo(0);
 	}
 
-	[TestMethod]
-	public void MB_ReturnsValueInMegabytes()
+	[Test]
+	public async Task MB_ReturnsValueInMegabytes()
 	{
-		Assert.AreEqual(1024 * 1024, 1.MB());
-		Assert.AreEqual(2 * 1024 * 1024, 2.MB());
+		await Assert.That(1.MB()).IsEqualTo(1024 * 1024);
+		await Assert.That(2.MB()).IsEqualTo(2 * 1024 * 1024);
 	}
 
-	[TestMethod]
-	public void GB_ReturnsValueInGigabytes()
+	[Test]
+	public async Task GB_ReturnsValueInGigabytes()
 	{
-		Assert.AreEqual(1024 * 1024 * 1024, 1.GB());
+		await Assert.That(1.GB()).IsEqualTo(1024 * 1024 * 1024);
 	}
 
-	[TestMethod]
-	public void TB_ReturnsValueInTerabytes()
+	[Test]
+	public async Task TB_ReturnsValueInTerabytes()
 	{
-		Assert.AreEqual(1024L * 1024 * 1024 * 1024, 1.TB());
+		await Assert.That(1.TB()).IsEqualTo(1024L * 1024 * 1024 * 1024);
 	}
 
-	[TestMethod]
-	[DataRow(2, true)]
-	[DataRow(3, true)]
-	[DataRow(5, true)]
-	[DataRow(7, true)]
-	[DataRow(11, true)]
-	[DataRow(13, true)]
-	[DataRow(17, true)]
-	[DataRow(97, true)]
-	[DataRow(1, false)]
-	[DataRow(4, false)]
-	[DataRow(6, false)]
-	[DataRow(9, false)]
-	[DataRow(15, false)]
-	[DataRow(100, false)]
-	public void IsPrime_ReturnsExpectedResult(int number, bool expected)
+	[Test]
+	[Arguments(2, true)]
+	[Arguments(3, true)]
+	[Arguments(5, true)]
+	[Arguments(7, true)]
+	[Arguments(11, true)]
+	[Arguments(13, true)]
+	[Arguments(17, true)]
+	[Arguments(97, true)]
+	[Arguments(1, false)]
+	[Arguments(4, false)]
+	[Arguments(6, false)]
+	[Arguments(9, false)]
+	[Arguments(15, false)]
+	[Arguments(100, false)]
+	public async Task IsPrime_ReturnsExpectedResult(int number, bool expected)
 	{
-		Assert.AreEqual(expected, number.IsPrime());
+		await Assert.That(number.IsPrime()).IsEqualTo(expected);
 	}
 
-	[TestMethod]
-	public void IsPrime_EvenNumberExcept2_ReturnsFalse()
+	[Test]
+	public async Task IsPrime_EvenNumberExcept2_ReturnsFalse()
 	{
-		Assert.IsFalse(8.IsPrime());
-		Assert.IsFalse(100.IsPrime());
-		Assert.IsTrue(2.IsPrime());
+		await Assert.That(8.IsPrime()).IsFalse();
+		await Assert.That(100.IsPrime()).IsFalse();
+		await Assert.That(2.IsPrime()).IsTrue();
 	}
 }

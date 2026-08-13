@@ -1,14 +1,14 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Tests for the <see cref="EnumExtensions"/> class.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class EnumExtensionsTests
 {
 	[Flags]
@@ -20,25 +20,25 @@ public class EnumExtensionsTests
 		C = 4,
 	}
 
-	[TestMethod]
-	public void IsSet_FlagIsSet_ReturnsTrue()
+	[Test]
+	public async Task IsSet_FlagIsSet_ReturnsTrue()
 	{
 		var value = TestFlags.A | TestFlags.B;
-		Assert.IsTrue(value.IsSet(TestFlags.A));
-		Assert.IsTrue(value.IsSet(TestFlags.B));
+		await Assert.That(value.IsSet(TestFlags.A)).IsTrue();
+		await Assert.That(value.IsSet(TestFlags.B)).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsSet_FlagIsNotSet_ReturnsFalse()
+	[Test]
+	public async Task IsSet_FlagIsNotSet_ReturnsFalse()
 	{
 		var value = TestFlags.A | TestFlags.B;
-		Assert.IsFalse(value.IsSet(TestFlags.C));
+		await Assert.That(value.IsSet(TestFlags.C)).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsSet_NoneFlag_ReturnsFalse()
+	[Test]
+	public async Task IsSet_NoneFlag_ReturnsFalse()
 	{
 		var value = TestFlags.A;
-		Assert.IsFalse(value.IsSet(TestFlags.None));
+		await Assert.That(value.IsSet(TestFlags.None)).IsFalse();
 	}
 }

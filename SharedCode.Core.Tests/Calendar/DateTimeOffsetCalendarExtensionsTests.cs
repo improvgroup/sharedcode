@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Calendar;
+﻿namespace SharedCode.Tests.Calendar;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Calendar;
 
@@ -9,183 +11,181 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for the <see cref="DateTimeOffsetExtensions"/> class in the Calendar namespace.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class DateTimeOffsetCalendarExtensionsTests
 {
-	[TestMethod]
-	public void FirstDayOfMonth_ReturnsFirstDayOfTheMonth()
+	[Test]
+	public async Task FirstDayOfMonth_ReturnsFirstDayOfTheMonth()
 	{
 		var date = new DateTimeOffset(2023, 5, 15, 10, 30, 0, TimeSpan.Zero);
 		var result = date.FirstDayOfMonth();
-		Assert.AreEqual(1, result.Day);
-		Assert.AreEqual(5, result.Month);
-		Assert.AreEqual(2023, result.Year);
+		await Assert.That(result.Day).IsEqualTo(1);
+		await Assert.That(result.Month).IsEqualTo(5);
+		await Assert.That(result.Year).IsEqualTo(2023);
 	}
 
-	[TestMethod]
-	public void LastDayOfMonth_ReturnsLastDayOfTheMonth()
+	[Test]
+	public async Task LastDayOfMonth_ReturnsLastDayOfTheMonth()
 	{
 		var date = new DateTimeOffset(2023, 2, 15, 0, 0, 0, TimeSpan.Zero);
 		var result = date.LastDayOfMonth();
-		Assert.AreEqual(28, result.Day);
-		Assert.AreEqual(2, result.Month);
-		Assert.AreEqual(2023, result.Year);
+		await Assert.That(result.Day).IsEqualTo(28);
+		await Assert.That(result.Month).IsEqualTo(2);
+		await Assert.That(result.Year).IsEqualTo(2023);
 	}
 
-	[TestMethod]
-	public void LastDayOfMonth_LeapYear_Returns29()
+	[Test]
+	public async Task LastDayOfMonth_LeapYear_Returns29()
 	{
 		var date = new DateTimeOffset(2024, 2, 1, 0, 0, 0, TimeSpan.Zero);
 		var result = date.LastDayOfMonth();
-		Assert.AreEqual(29, result.Day);
+		await Assert.That(result.Day).IsEqualTo(29);
 	}
 
-	[TestMethod]
-	public void IsWeekend_SaturdayDate_ReturnsTrue()
+	[Test]
+	public async Task IsWeekend_SaturdayDate_ReturnsTrue()
 	{
 		var saturday = new DateTimeOffset(2023, 12, 9, 0, 0, 0, TimeSpan.Zero); // Saturday
-		Assert.IsTrue(saturday.IsWeekend());
+		await Assert.That(saturday.IsWeekend()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsWeekend_SundayDate_ReturnsTrue()
+	[Test]
+	public async Task IsWeekend_SundayDate_ReturnsTrue()
 	{
 		var sunday = new DateTimeOffset(2023, 12, 10, 0, 0, 0, TimeSpan.Zero); // Sunday
-		Assert.IsTrue(sunday.IsWeekend());
+		await Assert.That(sunday.IsWeekend()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsWeekend_MondayDate_ReturnsFalse()
+	[Test]
+	public async Task IsWeekend_MondayDate_ReturnsFalse()
 	{
 		var monday = new DateTimeOffset(2023, 12, 11, 0, 0, 0, TimeSpan.Zero); // Monday
-		Assert.IsFalse(monday.IsWeekend());
+		await Assert.That(monday.IsWeekend()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsBetween_DateInRange_ReturnsTrue()
+	[Test]
+	public async Task IsBetween_DateInRange_ReturnsTrue()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 12, 31, 0, 0, 0, TimeSpan.Zero);
 		var middle = new DateTimeOffset(2023, 6, 15, 0, 0, 0, TimeSpan.Zero);
-		Assert.IsTrue(middle.IsBetween(start, end));
+		await Assert.That(middle.IsBetween(start, end)).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsBetween_DateOutOfRange_ReturnsFalse()
+	[Test]
+	public async Task IsBetween_DateOutOfRange_ReturnsFalse()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 6, 30, 0, 0, 0, TimeSpan.Zero);
 		var outside = new DateTimeOffset(2023, 7, 1, 0, 0, 0, TimeSpan.Zero);
-		Assert.IsFalse(outside.IsBetween(start, end));
+		await Assert.That(outside.IsBetween(start, end)).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsBetween_WithCompareTime_DateInRange_ReturnsTrue()
+	[Test]
+	public async Task IsBetween_WithCompareTime_DateInRange_ReturnsTrue()
 	{
 		var start = new DateTimeOffset(2023, 6, 1, 9, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 6, 1, 17, 0, 0, TimeSpan.Zero);
 		var middle = new DateTimeOffset(2023, 6, 1, 12, 0, 0, TimeSpan.Zero);
-		Assert.IsTrue(middle.IsBetween(start, end, compareTime: true));
+		await Assert.That(middle.IsBetween(start, end, compareTime: true)).IsTrue();
 	}
 
-	[TestMethod]
-	public void Intersects_RangesOverlap_ReturnsTrue()
+	[Test]
+	public async Task Intersects_RangesOverlap_ReturnsTrue()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 6, 30, 0, 0, 0, TimeSpan.Zero);
 		var intersectStart = new DateTimeOffset(2023, 3, 1, 0, 0, 0, TimeSpan.Zero);
 		var intersectEnd = new DateTimeOffset(2023, 9, 30, 0, 0, 0, TimeSpan.Zero);
-		Assert.IsTrue(start.Intersects(end, intersectStart, intersectEnd));
+		await Assert.That(start.Intersects(end, intersectStart, intersectEnd)).IsTrue();
 	}
 
-	[TestMethod]
-	public void Intersects_RangesDoNotOverlap_ReturnsFalse()
+	[Test]
+	public async Task Intersects_RangesDoNotOverlap_ReturnsFalse()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 3, 31, 0, 0, 0, TimeSpan.Zero);
 		var intersectStart = new DateTimeOffset(2023, 5, 1, 0, 0, 0, TimeSpan.Zero);
 		var intersectEnd = new DateTimeOffset(2023, 9, 30, 0, 0, 0, TimeSpan.Zero);
-		Assert.IsFalse(start.Intersects(end, intersectStart, intersectEnd));
+		await Assert.That(start.Intersects(end, intersectStart, intersectEnd)).IsFalse();
 	}
 
-	[TestMethod]
-	public void GetDateRangeTo_ReturnsCorrectNumberOfDates()
+	[Test]
+	public async Task GetDateRangeTo_ReturnsCorrectNumberOfDates()
 	{
 		var from = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var to = new DateTimeOffset(2023, 1, 5, 0, 0, 0, TimeSpan.Zero);
 		var range = from.GetDateRangeTo(to).ToList();
-		Assert.AreEqual(4, range.Count);
+		await Assert.That(range.Count).IsEqualTo(4);
 	}
 
-	[TestMethod]
-	public void DateDiff_DayPart_ReturnsExpectedDays()
+	[Test]
+	public async Task DateDiff_DayPart_ReturnsExpectedDays()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 1, 11, 0, 0, 0, TimeSpan.Zero);
-		Assert.AreEqual(10L, start.DateDiff("day", end));
-		Assert.AreEqual(10L, start.DateDiff("dd", end));
-		Assert.AreEqual(10L, start.DateDiff("d", end));
+		await Assert.That(start.DateDiff("day", end)).IsEqualTo(10L);
+		await Assert.That(start.DateDiff("dd", end)).IsEqualTo(10L);
+		await Assert.That(start.DateDiff("d", end)).IsEqualTo(10L);
 	}
 
-	[TestMethod]
-	public void DateDiff_YearPart_ReturnsExpectedYears()
+	[Test]
+	public async Task DateDiff_YearPart_ReturnsExpectedYears()
 	{
 		var start = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
-		Assert.AreEqual(3L, start.DateDiff("year", end));
-		Assert.AreEqual(3L, start.DateDiff("yy", end));
-		Assert.AreEqual(3L, start.DateDiff("yyyy", end));
+		await Assert.That(start.DateDiff("year", end)).IsEqualTo(3L);
+		await Assert.That(start.DateDiff("yy", end)).IsEqualTo(3L);
+		await Assert.That(start.DateDiff("yyyy", end)).IsEqualTo(3L);
 	}
 
-	[TestMethod]
-	public void DateDiff_MonthPart_ReturnsExpectedMonths()
+	[Test]
+	public async Task DateDiff_MonthPart_ReturnsExpectedMonths()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 4, 1, 0, 0, 0, TimeSpan.Zero);
-		Assert.AreEqual(3L, start.DateDiff("month", end));
-		Assert.AreEqual(3L, start.DateDiff("mm", end));
+		await Assert.That(start.DateDiff("month", end)).IsEqualTo(3L);
+		await Assert.That(start.DateDiff("mm", end)).IsEqualTo(3L);
 	}
 
-	[TestMethod]
-	public void DateDiff_HourPart_ReturnsExpectedHours()
+	[Test]
+	public async Task DateDiff_HourPart_ReturnsExpectedHours()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 1, 1, 3, 0, 0, TimeSpan.Zero);
-		Assert.AreEqual(3L, start.DateDiff("hour", end));
-		Assert.AreEqual(3L, start.DateDiff("hh", end));
+		await Assert.That(start.DateDiff("hour", end)).IsEqualTo(3L);
+		await Assert.That(start.DateDiff("hh", end)).IsEqualTo(3L);
 	}
 
-	[TestMethod]
-	public void DateDiff_UnknownPart_ThrowsException()
+	[Test]
+	public async Task DateDiff_UnknownPart_ThrowsException()
 	{
 		var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
 		var end = new DateTimeOffset(2023, 1, 2, 0, 0, 0, TimeSpan.Zero);
-		_ = Assert.ThrowsExactly<Exception>(() => start.DateDiff("unknown", end));
+		await Assert.That(() => start.DateDiff("unknown", end)).ThrowsExactly<Exception>();
 	}
 
-	[TestMethod]
-	public void ComputeTimeZoneVariance_UtcOffset_ReturnsZero()
+	[Test]
+	public async Task ComputeTimeZoneVariance_UtcOffset_ReturnsZero()
 	{
 		var utcDate = new DateTimeOffset(2023, 6, 1, 12, 0, 0, TimeSpan.Zero);
-		Assert.AreEqual(0, utcDate.ComputeTimeZoneVariance());
+		await Assert.That(utcDate.ComputeTimeZoneVariance()).IsEqualTo(0);
 	}
 
-	[TestMethod]
-	public void ToUnixTimestamp_UnixEpoch_ReturnsZeroOrNearZero()
+	[Test]
+	public async Task ToUnixTimestamp_UnixEpoch_ReturnsZeroOrNearZero()
 	{
 		// Unix epoch: 1970-01-01 00:00:00 UTC (using local offset)
 		var localOffset = DateTimeOffset.UtcNow.Offset;
 		var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, localOffset);
-		Assert.AreEqual(0L, epoch.ToUnixTimestamp());
+		await Assert.That(epoch.ToUnixTimestamp()).IsEqualTo(0L);
 	}
 
-	[TestMethod]
-	public void AddWorkdays_AddsPositiveWorkdays()
+	[Test]
+	public async Task AddWorkdays_AddsPositiveWorkdays()
 	{
 		var monday = new DateTimeOffset(2023, 12, 11, 0, 0, 0, TimeSpan.Zero); // Monday
 		var result = monday.AddWorkdays(5);
-		Assert.AreEqual(DayOfWeek.Monday, result.DayOfWeek);
-		Assert.AreEqual(18, result.Day);
+		await Assert.That(result.DayOfWeek).IsEqualTo(DayOfWeek.Monday);
+		await Assert.That(result.Day).IsEqualTo(18);
 	}
 }

@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Calendar;
+﻿namespace SharedCode.Tests.Calendar;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Calendar;
 
@@ -9,45 +11,43 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for the <see cref="SharedCode.Calendar.DayOfWeekExtensions"/> class.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class DayOfWeekExtensionsTests
 {
-	[TestMethod]
-	[DataRow(DayOfWeek.Monday)]
-	[DataRow(DayOfWeek.Tuesday)]
-	[DataRow(DayOfWeek.Wednesday)]
-	[DataRow(DayOfWeek.Thursday)]
-	[DataRow(DayOfWeek.Friday)]
-	public void IsWeekday_WeekdayDays_ReturnsTrue(DayOfWeek day)
+	[Test]
+	[Arguments(DayOfWeek.Monday)]
+	[Arguments(DayOfWeek.Tuesday)]
+	[Arguments(DayOfWeek.Wednesday)]
+	[Arguments(DayOfWeek.Thursday)]
+	[Arguments(DayOfWeek.Friday)]
+	public async Task IsWeekday_WeekdayDays_ReturnsTrue(DayOfWeek day)
 	{
-		Assert.IsTrue(day.IsWeekday());
+		await Assert.That(day.IsWeekday()).IsTrue();
 	}
 
-	[TestMethod]
-	[DataRow(DayOfWeek.Saturday)]
-	[DataRow(DayOfWeek.Sunday)]
-	public void IsWeekday_WeekendDays_ReturnsFalse(DayOfWeek day)
+	[Test]
+	[Arguments(DayOfWeek.Saturday)]
+	[Arguments(DayOfWeek.Sunday)]
+	public async Task IsWeekday_WeekendDays_ReturnsFalse(DayOfWeek day)
 	{
-		Assert.IsFalse(day.IsWeekday());
+		await Assert.That(day.IsWeekday()).IsFalse();
 	}
 
-	[TestMethod]
-	[DataRow(DayOfWeek.Saturday)]
-	[DataRow(DayOfWeek.Sunday)]
-	public void IsWeekend_WeekendDays_ReturnsTrue(DayOfWeek day)
+	[Test]
+	[Arguments(DayOfWeek.Saturday)]
+	[Arguments(DayOfWeek.Sunday)]
+	public async Task IsWeekend_WeekendDays_ReturnsTrue(DayOfWeek day)
 	{
-		Assert.IsTrue(day.IsWeekend());
+		await Assert.That(day.IsWeekend()).IsTrue();
 	}
 
-	[TestMethod]
-	[DataRow(DayOfWeek.Monday)]
-	[DataRow(DayOfWeek.Tuesday)]
-	[DataRow(DayOfWeek.Wednesday)]
-	[DataRow(DayOfWeek.Thursday)]
-	[DataRow(DayOfWeek.Friday)]
-	public void IsWeekend_WeekdayDays_ReturnsFalse(DayOfWeek day)
+	[Test]
+	[Arguments(DayOfWeek.Monday)]
+	[Arguments(DayOfWeek.Tuesday)]
+	[Arguments(DayOfWeek.Wednesday)]
+	[Arguments(DayOfWeek.Thursday)]
+	[Arguments(DayOfWeek.Friday)]
+	public async Task IsWeekend_WeekdayDays_ReturnsFalse(DayOfWeek day)
 	{
-		Assert.IsFalse(day.IsWeekend());
+		await Assert.That(day.IsWeekend()).IsFalse();
 	}
 }

@@ -1,21 +1,22 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using System.Reflection;
 
 /// <summary>
 /// Tests for <see cref="AssemblyExtensions" />.
 /// </summary>
-[TestClass]
 public class AssemblyExtensionsTests
 {
     /// <summary>
     /// Tests that <see cref="AssemblyExtensions.GetAttribute{T}" /> returns the attribute when it
     /// is present on the assembly.
     /// </summary>
-    [TestMethod]
-    public void GetAttribute_AssemblyHasAttribute_ReturnsAttribute()
+    [Test]
+    public async Task GetAttribute_AssemblyHasAttribute_ReturnsAttribute()
     {
         // Arrange
         var assembly = typeof(AssemblyExtensionsTests).Assembly;
@@ -24,15 +25,15 @@ public class AssemblyExtensionsTests
         var result = assembly.GetAttribute<AssemblyTitleAttribute>();
 
         // Assert
-        Assert.IsNotNull(result);
+        await Assert.That(result is not null).IsTrue();
     }
 
     /// <summary>
     /// Tests that <see cref="AssemblyExtensions.GetAttribute{T}" /> returns null when the
     /// attribute is not present on the assembly.
     /// </summary>
-    [TestMethod]
-    public void GetAttribute_AssemblyMissingAttribute_ReturnsNull()
+    [Test]
+    public async Task GetAttribute_AssemblyMissingAttribute_ReturnsNull()
     {
         // Arrange
         var assembly = typeof(AssemblyExtensionsTests).Assembly;
@@ -41,21 +42,20 @@ public class AssemblyExtensionsTests
         var result = assembly.GetAttribute<ObsoleteAttribute>();
 
         // Assert
-        Assert.IsNull(result);
+        await Assert.That(result is null).IsTrue();
     }
 
     /// <summary>
     /// Tests that <see cref="AssemblyExtensions.GetAttribute{T}" /> throws
     /// <see cref="ArgumentNullException" /> when the assembly is null.
     /// </summary>
-    [TestMethod]
-    public void GetAttribute_NullAssembly_ThrowsArgumentNullException()
+    [Test]
+    public async Task GetAttribute_NullAssembly_ThrowsArgumentNullException()
     {
         // Arrange
         Assembly? assembly = null;
 
         // Act / Assert
-        _ = Assert.ThrowsExactly<ArgumentNullException>(
-            () => assembly!.GetAttribute<AssemblyTitleAttribute>());
+        await Assert.That(() => assembly!.GetAttribute<AssemblyTitleAttribute>()).ThrowsExactly<ArgumentNullException>();
     }
 }

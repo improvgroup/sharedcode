@@ -1,19 +1,20 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 /// <summary>
 /// Tests for <see cref="FunctionExtensions" />.
 /// </summary>
-[TestClass]
 public class FunctionExtensionsTests
 {
     /// <summary>
     /// Tests that <see cref="FunctionExtensions.Memoize{T,TResult}" /> returns the correct result
     /// on the first call (cache miss).
     /// </summary>
-    [TestMethod]
-    public void Memoize_CacheMiss_ReturnsCorrectResult()
+    [Test]
+    public async Task Memoize_CacheMiss_ReturnsCorrectResult()
     {
         // Arrange
         var callCount = 0;
@@ -28,16 +29,16 @@ public class FunctionExtensionsTests
         var result = memoized(5);
 
         // Assert
-        Assert.AreEqual("5", result);
-        Assert.AreEqual(1, callCount);
+        await Assert.That(result).IsEqualTo("5");
+        await Assert.That(callCount).IsEqualTo(1);
     }
 
     /// <summary>
     /// Tests that <see cref="FunctionExtensions.Memoize{T,TResult}" /> returns the cached result
     /// without invoking the original function a second time (cache hit).
     /// </summary>
-    [TestMethod]
-    public void Memoize_CacheHit_DoesNotInvokeFunctionAgain()
+    [Test]
+    public async Task Memoize_CacheHit_DoesNotInvokeFunctionAgain()
     {
         // Arrange
         var callCount = 0;
@@ -53,16 +54,16 @@ public class FunctionExtensionsTests
         var result = memoized(7);
 
         // Assert
-        Assert.AreEqual("7", result);
-        Assert.AreEqual(1, callCount);
+        await Assert.That(result).IsEqualTo("7");
+        await Assert.That(callCount).IsEqualTo(1);
     }
 
     /// <summary>
     /// Tests that <see cref="FunctionExtensions.Memoize{T,TResult}" /> caches different keys
     /// independently.
     /// </summary>
-    [TestMethod]
-    public void Memoize_DifferentKeys_CachedSeparately()
+    [Test]
+    public async Task Memoize_DifferentKeys_CachedSeparately()
     {
         // Arrange
         var callCount = 0;
@@ -78,22 +79,22 @@ public class FunctionExtensionsTests
         var result2 = memoized(2);
 
         // Assert
-        Assert.AreEqual("1", result1);
-        Assert.AreEqual("2", result2);
-        Assert.AreEqual(2, callCount);
+        await Assert.That(result1).IsEqualTo("1");
+        await Assert.That(result2).IsEqualTo("2");
+        await Assert.That(callCount).IsEqualTo(2);
     }
 
     /// <summary>
     /// Tests that <see cref="FunctionExtensions.Memoize{T,TResult}" /> throws
     /// <see cref="ArgumentNullException" /> when the function is null.
     /// </summary>
-    [TestMethod]
-    public void Memoize_NullFunction_ThrowsArgumentNullException()
+    [Test]
+    public async Task Memoize_NullFunction_ThrowsArgumentNullException()
     {
         // Arrange
         Func<int, string>? func = null;
 
         // Act / Assert
-        _ = Assert.ThrowsExactly<ArgumentNullException>(() => func!.Memoize());
+        await Assert.That(() => func!.Memoize()).ThrowsExactly<ArgumentNullException>();
     }
 }

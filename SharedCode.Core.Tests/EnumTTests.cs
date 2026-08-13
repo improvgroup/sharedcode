@@ -1,6 +1,8 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Attributes;
 
@@ -9,8 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for the Enum&lt;T&gt; class.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class EnumTTests
 {
 	private enum TestEnum
@@ -24,18 +24,18 @@ public class EnumTTests
 		Third,
 	}
 
-	[TestMethod]
-	public void ToList_ReturnsAllEnumValues()
+	[Test]
+	public async Task ToList_ReturnsAllEnumValues()
 	{
 		var list = Enum<TestEnum>.ToList();
-		Assert.AreEqual(3, list.Count);
-		Assert.IsTrue(list.Contains(TestEnum.First));
-		Assert.IsTrue(list.Contains(TestEnum.Second));
-		Assert.IsTrue(list.Contains(TestEnum.Third));
+		await Assert.That(list.Count).IsEqualTo(3);
+		await Assert.That(list.Contains(TestEnum.First)).IsTrue();
+		await Assert.That(list.Contains(TestEnum.Second)).IsTrue();
+		await Assert.That(list.Contains(TestEnum.Third)).IsTrue();
 	}
 
-	[TestMethod]
-	public void ToDictionary_ReturnsNameValuePairs()
+	[Test]
+	public async Task ToDictionary_ReturnsNameValuePairs()
 	{
 		// Note: this method uses (int?)values.GetValue(i) which may throw InvalidCastException
 		// for enum types that are not int. This is a known limitation. 
@@ -43,7 +43,7 @@ public class EnumTTests
 		try
 		{
 			var dict = Enum<TestEnum>.ToDictionary();
-			Assert.AreEqual(3, dict.Count);
+			await Assert.That(dict.Count).IsEqualTo(3);
 		}
 		catch (InvalidCastException)
 		{
@@ -52,110 +52,109 @@ public class EnumTTests
 		}
 	}
 
-	[TestMethod]
-	public void GetStringValue_Enum_ReturnsStringValueAttribute()
+	[Test]
+	public async Task GetStringValue_Enum_ReturnsStringValueAttribute()
 	{
 		var result = Enum<TestEnum>.GetStringValue(TestEnum.First);
-		Assert.AreEqual("first-value", result);
+		await Assert.That(result).IsEqualTo("first-value");
 	}
 
-	[TestMethod]
-	public void GetStringValue_Enum_NoAttribute_ReturnsNull()
+	[Test]
+	public async Task GetStringValue_Enum_NoAttribute_ReturnsNull()
 	{
 		var result = Enum<TestEnum>.GetStringValue(TestEnum.Third);
-		Assert.IsNull(result);
+		await Assert.That(result is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void GetStringValue_ByName_ReturnsStringValueAttribute()
+	[Test]
+	public async Task GetStringValue_ByName_ReturnsStringValueAttribute()
 	{
 		var result = Enum<TestEnum>.GetStringValue("First");
-		Assert.AreEqual("first-value", result);
+		await Assert.That(result).IsEqualTo("first-value");
 	}
 
-	[TestMethod]
-	public void GetStringValue_ByInvalidName_ReturnsNull()
+	[Test]
+	public async Task GetStringValue_ByInvalidName_ReturnsNull()
 	{
 		var result = Enum<TestEnum>.GetStringValue("NonExistent");
-		Assert.IsNull(result);
+		await Assert.That(result is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void GetStringValues_ReturnsAllStringValues()
+	[Test]
+	public async Task GetStringValues_ReturnsAllStringValues()
 	{
 		var values = Enum<TestEnum>.GetStringValues();
-		Assert.AreEqual(2, values.Length);
+		await Assert.That(values.Length).IsEqualTo(2);
 	}
 
-	[TestMethod]
-	public void Parse_WithStringValue_ReturnsEnumValue()
+	[Test]
+	public async Task Parse_WithStringValue_ReturnsEnumValue()
 	{
 		var result = Enum<TestEnum>.Parse(typeof(TestEnum), "first-value");
-		Assert.AreEqual(TestEnum.First, result);
+		await Assert.That(result).IsEqualTo(TestEnum.First);
 	}
 
-	[TestMethod]
-	public void Parse_CaseInsensitive_ReturnsEnumValue()
+	[Test]
+	public async Task Parse_CaseInsensitive_ReturnsEnumValue()
 	{
 		var result = Enum<TestEnum>.Parse(typeof(TestEnum), "FIRST-VALUE", ignoreCase: true);
-		Assert.AreEqual(TestEnum.First, result);
+		await Assert.That(result).IsEqualTo(TestEnum.First);
 	}
 
-	[TestMethod]
-	public void Parse_UnknownStringValue_ReturnsNull()
+	[Test]
+	public async Task Parse_UnknownStringValue_ReturnsNull()
 	{
 		var result = Enum<TestEnum>.Parse(typeof(TestEnum), "unknown-value");
-		Assert.IsNull(result);
+		await Assert.That(result is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void Parse_NullType_ThrowsArgumentNullException()
+	[Test]
+	public async Task Parse_NullType_ThrowsArgumentNullException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => Enum<TestEnum>.Parse(null!, "test"));
+		await Assert.That(() => Enum<TestEnum>.Parse(null!, "test")).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void Parse_NullStringValue_ThrowsArgumentNullException()
+	[Test]
+	public async Task Parse_NullStringValue_ThrowsArgumentNullException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => Enum<TestEnum>.Parse(typeof(TestEnum), null!));
+		await Assert.That(() => Enum<TestEnum>.Parse(typeof(TestEnum), null!)).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void Parse_NonEnumType_ThrowsArgumentException()
+	[Test]
+	public async Task Parse_NonEnumType_ThrowsArgumentException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentException>(() => Enum<TestEnum>.Parse(typeof(string), "test"));
+		await Assert.That(() => Enum<TestEnum>.Parse(typeof(string), "test")).ThrowsExactly<ArgumentException>();
 	}
 
-	[TestMethod]
-	public void IsStringDefined_DefinedString_ReturnsTrue()
+	[Test]
+	public async Task IsStringDefined_DefinedString_ReturnsTrue()
 	{
-		Assert.IsTrue(Enum<TestEnum>.IsStringDefined("First"));
+		await Assert.That(Enum<TestEnum>.IsStringDefined("First")).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsStringDefined_WithType_DefinedStringValue_ReturnsTrue()
+	[Test]
+	public async Task IsStringDefined_WithType_DefinedStringValue_ReturnsTrue()
 	{
 		// IsStringDefined looks up StringValue attribute values, not field names
-		Assert.IsTrue(Enum<TestEnum>.IsStringDefined(typeof(TestEnum), "first-value"));
+		await Assert.That(Enum<TestEnum>.IsStringDefined(typeof(TestEnum), "first-value")).IsTrue();
 	}
 
-	[TestMethod]
-	public void GetListValues_ReturnsValuesWithStringAttributes()
+	[Test]
+	public async Task GetListValues_ReturnsValuesWithStringAttributes()
 	{
 		var list = Enum<TestEnum>.GetListValues();
-		Assert.IsNotNull(list);
-		Assert.IsTrue(list.Count >= 2);
+		await Assert.That((list?.Count ?? 0) >= 2).IsTrue();
 	}
 
-	[TestMethod]
-	public void EnumType_ReturnsTypeOfT()
+	[Test]
+	public async Task EnumType_ReturnsTypeOfT()
 	{
-		Assert.AreEqual(typeof(TestEnum), Enum<TestEnum>.EnumType);
+		await Assert.That(Enum<TestEnum>.EnumType).IsEqualTo(typeof(TestEnum));
 	}
 
-	[TestMethod]
-	public void GetStringValue_NullEnum_ThrowsArgumentNullException()
+	[Test]
+	public async Task GetStringValue_NullEnum_ThrowsArgumentNullException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => Enum<TestEnum>.GetStringValue((System.Enum)null!));
+		await Assert.That(() => Enum<TestEnum>.GetStringValue((System.Enum)null!)).ThrowsExactly<ArgumentNullException>();
 	}
 }

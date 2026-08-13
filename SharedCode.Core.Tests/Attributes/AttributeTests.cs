@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Attributes;
+﻿namespace SharedCode.Tests.Attributes;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Attributes;
 
@@ -9,52 +11,50 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for the attribute classes.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class AttributeTests
 {
-	[TestMethod]
-	public void StringValueAttribute_StoresValue()
+	[Test]
+	public async Task StringValueAttribute_StoresValue()
 	{
 		var attr = new StringValueAttribute("my-value");
-		Assert.AreEqual("my-value", attr.Value);
+		await Assert.That(attr.Value).IsEqualTo("my-value");
 	}
 
-	[TestMethod]
-	public void StringValueAttribute_NullValue_ThrowsArgumentNullException()
+	[Test]
+	public async Task StringValueAttribute_NullValue_ThrowsArgumentNullException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => new StringValueAttribute(null!));
+		await Assert.That(() => new StringValueAttribute(null!)).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void DataFormatAttribute_StoresFormat()
+	[Test]
+	public async Task DataFormatAttribute_StoresFormat()
 	{
 		var attr = new DataFormatAttribute("yyyy-MM-dd");
-		Assert.AreEqual("yyyy-MM-dd", attr.Format);
+		await Assert.That(attr.Format).IsEqualTo("yyyy-MM-dd");
 	}
 
-	[TestMethod]
-	public void DataFormatAttribute_NullFormat_ThrowsArgumentNullException()
+	[Test]
+	public async Task DataFormatAttribute_NullFormat_ThrowsArgumentNullException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => new DataFormatAttribute(null!));
+		await Assert.That(() => new DataFormatAttribute(null!)).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void DataWidthAttribute_StoresWidth()
+	[Test]
+	public async Task DataWidthAttribute_StoresWidth()
 	{
 		var attr = new DataWidthAttribute(10);
-		Assert.AreEqual(10, attr.Width);
+		await Assert.That(attr.Width).IsEqualTo(10);
 	}
 
-	[TestMethod]
-	public void DataWidthAttribute_ZeroWidth_ThrowsArgumentException()
+	[Test]
+	public async Task DataWidthAttribute_ZeroWidth_ThrowsArgumentException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentException>(() => new DataWidthAttribute(0));
+		await Assert.That(() => new DataWidthAttribute(0)).ThrowsExactly<ArgumentException>();
 	}
 
-	[TestMethod]
-	public void DataWidthAttribute_NegativeWidth_ThrowsArgumentException()
+	[Test]
+	public async Task DataWidthAttribute_NegativeWidth_ThrowsArgumentException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentException>(() => new DataWidthAttribute(-5));
+		await Assert.That(() => new DataWidthAttribute(-5)).ThrowsExactly<ArgumentException>();
 	}
 }

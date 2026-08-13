@@ -1,14 +1,14 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Tests for the <see cref="ValueObject"/> class.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class ValueObjectTests
 {
 	private sealed class MoneyValue : ValueObject
@@ -35,113 +35,113 @@ public class ValueObjectTests
 		public string City { get; }
 	}
 
-	[TestMethod]
-	public void Equals_SameValues_ReturnsTrue()
+	[Test]
+	public async Task Equals_SameValues_ReturnsTrue()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(100m, "USD");
-		Assert.IsTrue(a.Equals(b));
+		await Assert.That(a.Equals(b)).IsTrue();
 	}
 
-	[TestMethod]
-	public void Equals_DifferentValues_ReturnsFalse()
+	[Test]
+	public async Task Equals_DifferentValues_ReturnsFalse()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(200m, "USD");
-		Assert.IsFalse(a.Equals(b));
+		await Assert.That(a.Equals(b)).IsFalse();
 	}
 
-	[TestMethod]
-	public void Equals_DifferentCurrency_ReturnsFalse()
+	[Test]
+	public async Task Equals_DifferentCurrency_ReturnsFalse()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(100m, "EUR");
-		Assert.IsFalse(a.Equals(b));
+		await Assert.That(a.Equals(b)).IsFalse();
 	}
 
-	[TestMethod]
+	[Test]
 	[SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Testing null handling of Equals.")]
-	public void Equals_Null_ReturnsFalse()
+	public async Task Equals_Null_ReturnsFalse()
 	{
 		var a = new MoneyValue(100m, "USD");
-		Assert.IsFalse(a.Equals((ValueObject?)null));
+		await Assert.That(a.Equals((ValueObject?)null)).IsFalse();
 	}
 
-	[TestMethod]
-	public void Equals_DifferentType_ReturnsFalse()
+	[Test]
+	public async Task Equals_DifferentType_ReturnsFalse()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new Address("123 Main St", "Springfield");
-		Assert.IsFalse(a.Equals(b));
+		await Assert.That(a.Equals(b)).IsFalse();
 	}
 
-	[TestMethod]
-	public void OperatorEquals_SameValues_ReturnsTrue()
+	[Test]
+	public async Task OperatorEquals_SameValues_ReturnsTrue()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(100m, "USD");
-		Assert.IsTrue(a == b);
+		await Assert.That(a == b).IsTrue();
 	}
 
-	[TestMethod]
-	public void OperatorEquals_DifferentValues_ReturnsFalse()
+	[Test]
+	public async Task OperatorEquals_DifferentValues_ReturnsFalse()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(200m, "USD");
-		Assert.IsFalse(a == b);
+		await Assert.That(a == b).IsFalse();
 	}
 
-	[TestMethod]
-	public void OperatorNotEquals_SameValues_ReturnsFalse()
+	[Test]
+	public async Task OperatorNotEquals_SameValues_ReturnsFalse()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(100m, "USD");
-		Assert.IsFalse(a != b);
+		await Assert.That(a != b).IsFalse();
 	}
 
-	[TestMethod]
-	public void OperatorNotEquals_DifferentValues_ReturnsTrue()
+	[Test]
+	public async Task OperatorNotEquals_DifferentValues_ReturnsTrue()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(200m, "USD");
-		Assert.IsTrue(a != b);
+		await Assert.That(a != b).IsTrue();
 	}
 
-	[TestMethod]
-	public void GetHashCode_SameValues_ReturnsSameHashCode()
+	[Test]
+	public async Task GetHashCode_SameValues_ReturnsSameHashCode()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(100m, "USD");
-		Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
+		await Assert.That(b.GetHashCode()).IsEqualTo(a.GetHashCode());
 	}
 
-	[TestMethod]
-	public void GetHashCode_DifferentValues_ReturnsDifferentHashCode()
+	[Test]
+	public async Task GetHashCode_DifferentValues_ReturnsDifferentHashCode()
 	{
 		var a = new MoneyValue(100m, "USD");
 		var b = new MoneyValue(200m, "USD");
-		Assert.AreNotEqual(a.GetHashCode(), b.GetHashCode());
+		await Assert.That(b.GetHashCode()).IsNotEqualTo(a.GetHashCode());
 	}
 
-	[TestMethod]
+	[Test]
 	[SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Testing null handling of operator==.")]
-	public void OperatorEquals_BothNull_ReturnsTrue()
+	public async Task OperatorEquals_BothNull_ReturnsTrue()
 	{
 		MoneyValue? a = null;
 		MoneyValue? b = null;
 #pragma warning disable CS8604 // Possible null reference argument.
-		Assert.IsTrue(a == b);
+		await Assert.That(a == b).IsTrue();
 #pragma warning restore CS8604
 	}
 
-	[TestMethod]
+	[Test]
 	[SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Testing null handling of operator==.")]
-	public void OperatorEquals_OneNull_ReturnsFalse()
+	public async Task OperatorEquals_OneNull_ReturnsFalse()
 	{
 		MoneyValue? a = new(100m, "USD");
 		MoneyValue? b = null;
 #pragma warning disable CS8604 // Possible null reference argument.
-		Assert.IsFalse(a == b);
+		await Assert.That(a == b).IsFalse();
 #pragma warning restore CS8604
 	}
 }

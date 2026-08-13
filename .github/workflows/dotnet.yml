@@ -2,6 +2,7 @@ name: .NET Continuous Integration
 
 permissions:
   contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -21,13 +22,48 @@ jobs:
       with:
         dotnet-version: 10.0.x
 
-    - name: Run tests
-      run: dotnet test --logger GitHubActions --collect:"XPlat Code Coverage" SharedCode.sln
+    - name: Restore tools
+      run: dotnet tool restore
 
-    - name: Upload coverage reports
+    - name: Restore dependencies
+      run: dotnet restore SharedCode.sln
+
+    - name: Build
+      run: dotnet build --no-restore --configuration Release SharedCode.sln
+
+    - name: Run tests with coverage
+      shell: pwsh
+      run: >
+        dotnet tool run dotnet-coverage collect
+        --output coverage.xml
+        --output-format cobertura
+        --
+        pwsh -NoLogo -NoProfile -File ./.github/scripts/run-tunit-tests.ps1
+
+    - name: Generate coverage report
+      if: always()
+      run: >
+        dotnet tool run reportgenerator
+        -reports:coverage.xml
+        -targetdir:coverage-report
+        "-reporttypes:Html;MarkdownSummaryGithub;Cobertura"
+
+    - name: Write coverage summary to workflow
+      if: always()
+      run: cat coverage-report/SummaryGithub.md >> $env:GITHUB_STEP_SUMMARY
+      shell: pwsh
+
+    - name: Post coverage comment on PR
+      if: always() && github.event_name == 'pull_request'
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        header: coverage
+        path: coverage-report/SummaryGithub.md
+
+    - name: Upload coverage report
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-reports
-        path: '**/coverage.cobertura.xml'
+        name: coverage-report
+        path: coverage-report/
         if-no-files-found: ignore
