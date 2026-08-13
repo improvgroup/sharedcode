@@ -1,125 +1,125 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Tests for the <see cref="NumberExtensions"/> class.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class NumberExtensionsTests
 {
-	[TestMethod]
-	public void Days_Int_ReturnsDaysTimeSpan()
+	[Test]
+	public async Task Days_Int_ReturnsDaysTimeSpan()
 	{
 		var result = 3.Days();
-		Assert.AreEqual(TimeSpan.FromDays(3), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromDays(3));
 	}
 
-	[TestMethod]
-	public void Days_Double_ReturnsDaysTimeSpan()
+	[Test]
+	public async Task Days_Double_ReturnsDaysTimeSpan()
 	{
 		var result = 1.5.Days();
-		Assert.AreEqual(TimeSpan.FromDays(1.5), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromDays(1.5));
 	}
 
-	[TestMethod]
-	public void Hours_Int_ReturnsHoursTimeSpan()
+	[Test]
+	public async Task Hours_Int_ReturnsHoursTimeSpan()
 	{
 		var result = 2.Hours();
-		Assert.AreEqual(TimeSpan.FromHours(2), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromHours(2));
 	}
 
-	[TestMethod]
-	public void Hours_Double_ReturnsHoursTimeSpan()
+	[Test]
+	public async Task Hours_Double_ReturnsHoursTimeSpan()
 	{
 		var result = 2.5.Hours();
-		Assert.AreEqual(TimeSpan.FromHours(2.5), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromHours(2.5));
 	}
 
-	[TestMethod]
-	public void Minutes_Int_ReturnsMinutesTimeSpan()
+	[Test]
+	public async Task Minutes_Int_ReturnsMinutesTimeSpan()
 	{
 		var result = 30.Minutes();
-		Assert.AreEqual(TimeSpan.FromMinutes(30), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromMinutes(30));
 	}
 
-	[TestMethod]
-	public void Minutes_Double_ReturnsMinutesTimeSpan()
+	[Test]
+	public async Task Minutes_Double_ReturnsMinutesTimeSpan()
 	{
 		var result = 30.5.Minutes();
-		Assert.AreEqual(TimeSpan.FromMinutes(30.5), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromMinutes(30.5));
 	}
 
-	[TestMethod]
-	public void Seconds_Int_ReturnsSecondsTimeSpan()
+	[Test]
+	public async Task Seconds_Int_ReturnsSecondsTimeSpan()
 	{
 		var result = 45.Seconds();
-		Assert.AreEqual(TimeSpan.FromSeconds(45), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromSeconds(45));
 	}
 
-	[TestMethod]
-	public void Seconds_Double_ReturnsSecondsTimeSpan()
+	[Test]
+	public async Task Seconds_Double_ReturnsSecondsTimeSpan()
 	{
 		var result = 45.5.Seconds();
-		Assert.AreEqual(TimeSpan.FromSeconds(45.5), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromSeconds(45.5));
 	}
 
-	[TestMethod]
-	public void Milliseconds_Int_ReturnsMillisecondsTimeSpan()
+	[Test]
+	public async Task Milliseconds_Int_ReturnsMillisecondsTimeSpan()
 	{
 		var result = 500.Milliseconds();
-		Assert.AreEqual(TimeSpan.FromMilliseconds(500), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromMilliseconds(500));
 	}
 
-	[TestMethod]
-	public void Milliseconds_Double_ReturnsMillisecondsTimeSpan()
+	[Test]
+	public async Task Milliseconds_Double_ReturnsMillisecondsTimeSpan()
 	{
 		var result = 500.5.Milliseconds();
-		Assert.AreEqual(TimeSpan.FromMilliseconds(500.5), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromMilliseconds(500.5));
 	}
 
-	[TestMethod]
-	public void Weeks_Int_ReturnsWeeksAsSevenDaysTimeSpan()
+	[Test]
+	public async Task Weeks_Int_ReturnsWeeksAsSevenDaysTimeSpan()
 	{
 		var result = 2.Weeks();
-		Assert.AreEqual(TimeSpan.FromDays(14), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromDays(14));
 	}
 
-	[TestMethod]
-	public void Weeks_Double_ReturnsWeeksAsSevenDaysTimeSpan()
+	[Test]
+	public async Task Weeks_Double_ReturnsWeeksAsSevenDaysTimeSpan()
 	{
 		var result = 1.5.Weeks();
-		Assert.AreEqual(TimeSpan.FromDays(10.5), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromDays(10.5));
 	}
 
-	[TestMethod]
-	public void Months_Int_ReturnsFluentTimeSpanWithMonths()
+	[Test]
+	public async Task Months_Int_ReturnsFluentTimeSpanWithMonths()
 	{
 		var result = 3.Months();
-		Assert.AreEqual(3, result.Months);
+		await Assert.That(result.Months).IsEqualTo(3);
 	}
 
-	[TestMethod]
-	public void Years_Int_ReturnsFluentTimeSpanWithYears()
+	[Test]
+	public async Task Years_Int_ReturnsFluentTimeSpanWithYears()
 	{
 		var result = 2.Years();
-		Assert.AreEqual(2, result.Years);
+		await Assert.That(result.Years).IsEqualTo(2);
 	}
 
-	[TestMethod]
-	public void Ticks_Int_ReturnsTicksTimeSpan()
+	[Test]
+	public async Task Ticks_Int_ReturnsTicksTimeSpan()
 	{
 		var result = 1000.Ticks();
-		Assert.AreEqual(TimeSpan.FromTicks(1000), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromTicks(1000));
 	}
 
-	[TestMethod]
-	public void Ticks_Long_ReturnsTicksTimeSpan()
+	[Test]
+	public async Task Ticks_Long_ReturnsTicksTimeSpan()
 	{
 		var result = 1000L.Ticks();
-		Assert.AreEqual(TimeSpan.FromTicks(1000L), (TimeSpan)result);
+		await Assert.That((TimeSpan)result).IsEqualTo(TimeSpan.FromTicks(1000L));
 	}
 }

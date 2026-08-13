@@ -1,35 +1,40 @@
-﻿
-namespace SharedCode.Tests;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿namespace SharedCode.Tests;
 
 using System.Collections;
+using System.Threading.Tasks;
+
+using TUnit.Assertions;
 
 /// <summary>
 /// The assert extensions class.
 /// </summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public static class AssertExtensions
 {
-	/// <summary>
-	/// Asserts that the expected and actual values are equal using the specified comparer.
-	/// </summary>
-	/// <typeparam name="T">The type being compared.</typeparam>
-	/// <param name="_">The assert class.</param>
-	/// <param name="expected">The expected value.</param>
-	/// <param name="actual">The actual value.</param>
-	/// <param name="comparer">The comparer class.</param>
-	public static void AreEqual<T>(this Assert _, T expected, T actual, IComparer comparer) =>
-		CollectionAssert.AreEqual(new[] { expected }, new[] { actual }, comparer, $"\nExpected: <{expected}>.\nActual: <{actual}>.");
+    /// <summary>
+    /// Asserts that the expected and actual values are equal using the specified comparer.
+    /// </summary>
+    /// <typeparam name="T">The type being compared.</typeparam>
+    /// <param name="expected">The expected value.</param>
+    /// <param name="actual">The actual value.</param>
+    /// <param name="comparer">The comparer class.</param>
+    public static async Task AreEqual<T>(T expected, T actual, IComparer comparer)
+    {
+        _ = comparer ?? throw new ArgumentNullException(nameof(comparer));
 
-	/// <summary>
-	/// Asserts that the expected and actual values are equal using the specified comparer.
-	/// </summary>
-	/// <typeparam name="T">The type being compared.</typeparam>
-	/// <param name="_">The assert class.</param>
-	/// <param name="expected">The expected value.</param>
-	/// <param name="actual">The actual value.</param>
-	/// <param name="compareFunction">The compare function.</param>
-	public static void AreEqual<T>(this Assert _, T expected, T actual, CompareFunc<T> compareFunction) =>
-		CollectionAssert.AreEqual(new[] { expected }, new[] { actual }, new LambdaComparer<T>(compareFunction), $"\nExpected: <{expected}>.\nActual: <{actual}>.");
+        await Assert.That(comparer.Compare(expected, actual)).IsEqualTo(0);
+    }
+
+    /// <summary>
+    /// Asserts that the expected and actual values are equal using the specified comparer.
+    /// </summary>
+    /// <typeparam name="T">The type being compared.</typeparam>
+    /// <param name="expected">The expected value.</param>
+    /// <param name="actual">The actual value.</param>
+    /// <param name="compareFunction">The compare function.</param>
+    public static async Task AreEqual<T>(T expected, T actual, CompareFunc<T> compareFunction)
+    {
+        _ = compareFunction ?? throw new ArgumentNullException(nameof(compareFunction));
+
+        await Assert.That(compareFunction(expected, actual)).IsTrue();
+    }
 }

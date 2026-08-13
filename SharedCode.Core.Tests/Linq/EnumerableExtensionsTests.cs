@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Linq;
+﻿namespace SharedCode.Tests.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Linq;
 
@@ -10,72 +12,70 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for <see cref="EnumerableExtensions"/> in the SharedCode.Linq namespace.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class EnumerableExtensionsTests
 {
-	[TestMethod]
-	public void Aggregate_WithItems_ReturnsAggregatedResult()
+	[Test]
+	public async Task Aggregate_WithItems_ReturnsAggregatedResult()
 	{
 		var items = new[] { 1, 2, 3, 4, 5 };
 		var result = items.Aggregate((a, b) => a + b);
-		Assert.AreEqual(15, result);
+		await Assert.That(result).IsEqualTo(15);
 	}
 
-	[TestMethod]
-	public void Aggregate_EmptyList_ReturnsDefault()
+	[Test]
+	public async Task Aggregate_EmptyList_ReturnsDefault()
 	{
 		var items = Array.Empty<int>();
 		var result = items.Aggregate((a, b) => a + b);
-		Assert.AreEqual(default, result);
+		await Assert.That(result).IsEqualTo(default);
 	}
 
-	[TestMethod]
-	public void Aggregate_WithDefaultValue_EmptyList_ReturnsDefault()
+	[Test]
+	public async Task Aggregate_WithDefaultValue_EmptyList_ReturnsDefault()
 	{
 		var items = Array.Empty<int>();
 		var result = items.Aggregate(42, (a, b) => a + b);
-		Assert.AreEqual(42, result);
+		await Assert.That(result).IsEqualTo(42);
 	}
 
-	[TestMethod]
+	[Test]
 	[SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Testing null handling explicitly.")]
-	public void IsNullOrEmpty_NullEnumerable_ReturnsTrue()
+	public async Task IsNullOrEmpty_NullEnumerable_ReturnsTrue()
 	{
 		IEnumerable<int>? items = null;
-		Assert.IsTrue(items!.IsNullOrEmpty());
+		await Assert.That(items!.IsNullOrEmpty()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNullOrEmpty_EmptyEnumerable_ReturnsTrue()
+	[Test]
+	public async Task IsNullOrEmpty_EmptyEnumerable_ReturnsTrue()
 	{
 		var items = Array.Empty<int>();
-		Assert.IsTrue(items.IsNullOrEmpty());
+		await Assert.That(items.IsNullOrEmpty()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNullOrEmpty_NonEmptyEnumerable_ReturnsFalse()
+	[Test]
+	public async Task IsNullOrEmpty_NonEmptyEnumerable_ReturnsFalse()
 	{
 		var items = new[] { 1, 2, 3 };
-		Assert.IsFalse(items.IsNullOrEmpty());
+		await Assert.That(items.IsNullOrEmpty()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsNotNullOrEmpty_NonEmptyEnumerable_ReturnsTrue()
+	[Test]
+	public async Task IsNotNullOrEmpty_NonEmptyEnumerable_ReturnsTrue()
 	{
 		var items = new[] { 1 };
-		Assert.IsTrue(items.IsNotNullOrEmpty());
+		await Assert.That(items.IsNotNullOrEmpty()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNotNullOrEmpty_EmptyEnumerable_ReturnsFalse()
+	[Test]
+	public async Task IsNotNullOrEmpty_EmptyEnumerable_ReturnsFalse()
 	{
 		var items = Array.Empty<int>();
-		Assert.IsFalse(items.IsNotNullOrEmpty());
+		await Assert.That(items.IsNotNullOrEmpty()).IsFalse();
 	}
 
-	[TestMethod]
-	public void Distinct_ByKey_ReturnsUniqueItems()
+	[Test]
+	public async Task Distinct_ByKey_ReturnsUniqueItems()
 	{
 		var items = new[]
 		{
@@ -84,108 +84,108 @@ public class EnumerableExtensionsTests
 			new { Id = 1, Name = "C" },
 		};
 		var result = items.Distinct(x => x.Id).ToList();
-		Assert.AreEqual(2, result.Count);
+		await Assert.That(result.Count).IsEqualTo(2);
 	}
 
-	[TestMethod]
-	public void ForEach_ExecutesActionOnEachItem()
+	[Test]
+	public async Task ForEach_ExecutesActionOnEachItem()
 	{
 		var items = new[] { 1, 2, 3 };
 		var sum = 0;
 		items.ForEach((Action<int>)(x => sum += x));
-		Assert.AreEqual(6, sum);
+		await Assert.That(sum).IsEqualTo(6);
 	}
 
-	[TestMethod]
-	public void IndexOf_ItemExists_ReturnsIndex()
+	[Test]
+	public async Task IndexOf_ItemExists_ReturnsIndex()
 	{
 		var items = new[] { "a", "b", "c" };
-		Assert.AreEqual(1, items.IndexOf("b"));
+		await Assert.That(items.IndexOf("b")).IsEqualTo(1);
 	}
 
-	[TestMethod]
-	public void IndexOf_ItemDoesNotExist_ReturnsMinusOne()
+	[Test]
+	public async Task IndexOf_ItemDoesNotExist_ReturnsMinusOne()
 	{
 		var items = new[] { "a", "b", "c" };
-		Assert.AreEqual(-1, items.IndexOf("z"));
+		await Assert.That(items.IndexOf("z")).IsEqualTo(-1);
 	}
 
-	[TestMethod]
-	public void Randomize_ReturnsAllItemsInSomeOrder()
+	[Test]
+	public async Task Randomize_ReturnsAllItemsInSomeOrder()
 	{
 		var items = new[] { 1, 2, 3, 4, 5 };
 		var result = items.Randomize().ToList();
-		Assert.AreEqual(5, result.Count);
-		Assert.IsTrue(items.All(i => result.Contains(i)));
+		await Assert.That(result.Count).IsEqualTo(5);
+		await Assert.That(items.All(i => result.Contains(i))).IsTrue();
 	}
 
-	[TestMethod]
-	public void ToCollection_ReturnsCollectionWithAllItems()
+	[Test]
+	public async Task ToCollection_ReturnsCollectionWithAllItems()
 	{
 		var items = new[] { 1, 2, 3 };
 		var collection = items.ToCollection();
-		Assert.AreEqual(3, collection.Count);
+		await Assert.That(collection.Count).IsEqualTo(3);
 	}
 
-	[TestMethod]
-	public void OrderBy_ByKeyDescending_ReturnsDescendingOrder()
+	[Test]
+	public async Task OrderBy_ByKeyDescending_ReturnsDescendingOrder()
 	{
 		var items = new[] { 3, 1, 4, 1, 5, 9, 2 };
 		var result = items.OrderBy(x => x, descending: true).ToList();
-		Assert.AreEqual(9, result[0]);
-		Assert.AreEqual(5, result[1]);
+		await Assert.That(result[0]).IsEqualTo(9);
+		await Assert.That(result[1]).IsEqualTo(5);
 	}
 
-	[TestMethod]
-	public void OrderBy_ByKeyAscending_ReturnsAscendingOrder()
+	[Test]
+	public async Task OrderBy_ByKeyAscending_ReturnsAscendingOrder()
 	{
 		var items = new[] { 3, 1, 4, 1, 5 };
 		var result = items.OrderBy(x => x, descending: false).ToList();
-		Assert.AreEqual(1, result[0]);
-		Assert.AreEqual(5, result[^1]);
+		await Assert.That(result[0]).IsEqualTo(1);
+		await Assert.That(result[^1]).IsEqualTo(5);
 	}
 
-	[TestMethod]
-	public void Slice_ReturnsSubset()
+	[Test]
+	public async Task Slice_ReturnsSubset()
 	{
 		var items = new[] { 1, 2, 3, 4, 5 };
 		var result = items.Slice(1, 4).ToList();
-		Assert.AreEqual(3, result.Count);
-		Assert.AreEqual(2, result[0]);
-		Assert.AreEqual(4, result[2]);
+		await Assert.That(result.Count).IsEqualTo(3);
+		await Assert.That(result[0]).IsEqualTo(2);
+		await Assert.That(result[2]).IsEqualTo(4);
 	}
 
-	[TestMethod]
-	public void StdDev_IntEnumerable_ReturnsExpectedDeviation()
+	[Test]
+	public async Task StdDev_IntEnumerable_ReturnsExpectedDeviation()
 	{
 		// Sample standard deviation (n-1): sqrt(32/7) ≈ 2.138
 		var values = new[] { 2, 4, 4, 4, 5, 5, 7, 9 };
 		var stdDev = values.StdDev();
-		Assert.AreEqual(2.138, stdDev, 0.001);
+		await Assert.That(Math.Round(stdDev, 3)).IsEqualTo(2.138);
 	}
 
-	[TestMethod]
-	public void StdDev_DoubleEnumerable_ReturnsExpectedDeviation()
+	[Test]
+	public async Task StdDev_DoubleEnumerable_ReturnsExpectedDeviation()
 	{
 		// Sample standard deviation (n-1): sqrt(32/7) ≈ 2.138
 		var values = new[] { 2.0, 4.0, 4.0, 4.0, 5.0, 5.0, 7.0, 9.0 };
 		var stdDev = values.StdDev();
-		Assert.AreEqual(2.138, stdDev, 0.001);
+		await Assert.That(Math.Round(stdDev, 3)).IsEqualTo(2.138);
 	}
 
-	[TestMethod]
-	public void SelectRandom_NonEmptyList_ReturnsItemFromList()
+	[Test]
+	public async Task SelectRandom_NonEmptyList_ReturnsItemFromList()
 	{
 		var items = new[] { 1, 2, 3, 4, 5 };
 		var result = items.SelectRandom();
-		Assert.IsTrue(items.Contains(result));
+		await Assert.That(items.Contains(result)).IsTrue();
 	}
 
-	[TestMethod]
-	public void Cache_ReturnsAllItems()
+	[Test]
+	public async Task Cache_ReturnsAllItems()
 	{
 		var items = new[] { 1, 2, 3 };
 		var cached = items.Cache().ToList();
-		Assert.AreEqual(3, cached.Count);
+		await Assert.That(cached.Count).IsEqualTo(3);
 	}
 }

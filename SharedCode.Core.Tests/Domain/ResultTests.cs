@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Domain;
+﻿namespace SharedCode.Tests.Domain;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Domain;
 
@@ -9,143 +11,140 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for the Domain result types.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class ResultTests
 {
-	[TestMethod]
-	public void Result_ParameterlessConstructor_HasFalseSuccess()
+	[Test]
+	public async Task Result_ParameterlessConstructor_HasFalseSuccess()
 	{
 		// Note: for readonly record struct, new Result() calls the parameterless struct
 		// constructor which zero-initializes all fields. To get Success=true, you must
 		// pass the parameter explicitly.
 		var result = new Result();
-		Assert.IsFalse(result.Success);
+		await Assert.That(result.Success).IsFalse();
 	}
 
-	[TestMethod]
-	public void Result_SuccessTrue_IsSuccessful()
+	[Test]
+	public async Task Result_SuccessTrue_IsSuccessful()
 	{
 		var result = new Result(Success: true);
-		Assert.IsTrue(result.Success);
+		await Assert.That(result.Success).IsTrue();
 	}
 
-	[TestMethod]
-	public void Result_SuccessFalse_IsNotSuccessful()
+	[Test]
+	public async Task Result_SuccessFalse_IsNotSuccessful()
 	{
 		var result = new Result(Success: false);
-		Assert.IsFalse(result.Success);
+		await Assert.That(result.Success).IsFalse();
 	}
 
-	[TestMethod]
-	public void ResultT_WithValue_IsSuccessful()
+	[Test]
+	public async Task ResultT_WithValue_IsSuccessful()
 	{
 		var result = new Result<string>("hello");
-		Assert.IsTrue(result.Success);
-		Assert.AreEqual("hello", result.Value);
+		await Assert.That(result.Success).IsTrue();
+		await Assert.That(result.Value).IsEqualTo("hello");
 	}
 
-	[TestMethod]
-	public void ResultT_DirectConstructorWithNullValue_UsesDefaultSuccessTrue()
+	[Test]
+	public async Task ResultT_DirectConstructorWithNullValue_UsesDefaultSuccessTrue()
 	{
 		// When calling the constructor directly with null, the default success=true is used
 		var result = new Result<string>((string?)null);
-		Assert.IsTrue(result.Success);
-		Assert.IsNull(result.Value);
+		await Assert.That(result.Success).IsTrue();
+		await Assert.That(result.Value is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void ResultT_ToResult_NullValue_ReturnsFailed()
+	[Test]
+	public async Task ResultT_ToResult_NullValue_ReturnsFailed()
 	{
 		var result = Result<string>.ToResult(null);
-		Assert.IsFalse(result.Success);
-		Assert.IsNull(result.Value);
+		await Assert.That(result.Success).IsFalse();
+		await Assert.That(result.Value is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void ResultT_ImplicitConversion_FromValue_IsSuccessful()
+	[Test]
+	public async Task ResultT_ImplicitConversion_FromValue_IsSuccessful()
 	{
 		Result<int> result = 42;
-		Assert.IsTrue(result.Success);
-		Assert.AreEqual(42, result.Value);
+		await Assert.That(result.Success).IsTrue();
+		await Assert.That(result.Value).IsEqualTo(42);
 	}
 
-	[TestMethod]
-	public void ResultT_ToResult_NonNullValue_ReturnsSuccess()
+	[Test]
+	public async Task ResultT_ToResult_NonNullValue_ReturnsSuccess()
 	{
 		var result = Result<string>.ToResult("value");
-		Assert.IsTrue(result.Success);
-		Assert.AreEqual("value", result.Value);
+		await Assert.That(result.Success).IsTrue();
+		await Assert.That(result.Value).IsEqualTo("value");
 	}
 
-	[TestMethod]
-	public void ResultT_ExplicitFailure_IsNotSuccessful()
+	[Test]
+	public async Task ResultT_ExplicitFailure_IsNotSuccessful()
 	{
 		var result = new Result<string>("value", success: false);
-		Assert.IsFalse(result.Success);
+		await Assert.That(result.Success).IsFalse();
 	}
 
-	[TestMethod]
-	public void Error_WithCodeAndDetails_SetsProperties()
+	[Test]
+	public async Task Error_WithCodeAndDetails_SetsProperties()
 	{
 		var error = new Error("E001", "Something went wrong");
-		Assert.AreEqual("E001", error.Code);
-		Assert.AreEqual("Something went wrong", error.Details);
+		await Assert.That(error.Code).IsEqualTo("E001");
+		await Assert.That(error.Details).IsEqualTo("Something went wrong");
 	}
 
-	[TestMethod]
-	public void Error_WithDetailsOnly_CodeIsNull()
+	[Test]
+	public async Task Error_WithDetailsOnly_CodeIsNull()
 	{
 		var error = new Error("Something went wrong");
-		Assert.IsNull(error.Code);
-		Assert.AreEqual("Something went wrong", error.Details);
+		await Assert.That(error.Code is null).IsTrue();
+		await Assert.That(error.Details).IsEqualTo("Something went wrong");
 	}
 
-	[TestMethod]
-	public void ValidationError_SetsPropertyName()
+	[Test]
+	public async Task ValidationError_SetsPropertyName()
 	{
 		var error = new ValidationError("Name", "Name is required");
-		Assert.AreEqual("Name", error.PropertyName);
-		Assert.AreEqual("Name", error.Code);
-		Assert.AreEqual("Name is required", error.Details);
+		await Assert.That(error.PropertyName).IsEqualTo("Name");
+		await Assert.That(error.Code).IsEqualTo("Name");
+		await Assert.That(error.Details).IsEqualTo("Name is required");
 	}
 
-	[TestMethod]
-	public void ErrorResult_WithMessage_IsNotSuccessful()
+	[Test]
+	public async Task ErrorResult_WithMessage_IsNotSuccessful()
 	{
 		var result = new ErrorResult("An error occurred");
-		Assert.IsFalse(result.Success);
-		Assert.AreEqual("An error occurred", result.Message);
-		Assert.AreEqual(0, result.Errors.Count);
+		await Assert.That(result.Success).IsFalse();
+		await Assert.That(result.Message).IsEqualTo("An error occurred");
+		await Assert.That(result.Errors.Count).IsEqualTo(0);
 	}
 
-	[TestMethod]
-	public void ErrorResult_WithErrors_ContainsErrors()
+	[Test]
+	public async Task ErrorResult_WithErrors_ContainsErrors()
 	{
 		var errors = new List<Error> { new("E001", "Error 1"), new("E002", "Error 2") };
 		var result = new ErrorResult("Multiple errors", errors);
-		Assert.IsFalse(result.Success);
-		Assert.AreEqual(2, result.Errors.Count);
+		await Assert.That(result.Success).IsFalse();
+		await Assert.That(result.Errors.Count).IsEqualTo(2);
 	}
 
-	[TestMethod]
-	public void ErrorResult_NullErrors_UsesEmptyCollection()
+	[Test]
+	public async Task ErrorResult_NullErrors_UsesEmptyCollection()
 	{
 		var result = new ErrorResult("An error", null!);
-		Assert.IsNotNull(result.Errors);
-		Assert.AreEqual(0, result.Errors.Count);
+		await Assert.That(result.Errors.Count).IsEqualTo(0);
 	}
 
-	[TestMethod]
-	public void ValidationErrorResult_WithMessage_IsNotSuccessful()
+	[Test]
+	public async Task ValidationErrorResult_WithMessage_IsNotSuccessful()
 	{
 		var result = new ValidationErrorResult("Validation failed");
-		Assert.IsFalse(result.Success);
-		Assert.AreEqual("Validation failed", result.Message);
+		await Assert.That(result.Success).IsFalse();
+		await Assert.That(result.Message).IsEqualTo("Validation failed");
 	}
 
-	[TestMethod]
-	public void ValidationErrorResult_WithValidationErrors_ContainsErrors()
+	[Test]
+	public async Task ValidationErrorResult_WithValidationErrors_ContainsErrors()
 	{
 		var errors = new List<ValidationError>
 		{
@@ -153,6 +152,6 @@ public class ResultTests
 			new("Email", "Invalid email"),
 		};
 		var result = new ValidationErrorResult("Validation failed", errors);
-		Assert.AreEqual(2, result.Errors.Count);
+		await Assert.That(result.Errors.Count).IsEqualTo(2);
 	}
 }

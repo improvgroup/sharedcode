@@ -1,19 +1,20 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 /// <summary>
 /// Tests for <see cref="EventHandlerExtensions" />.
 /// </summary>
-[TestClass]
 public class EventHandlerExtensionsTests
 {
     /// <summary>
     /// Tests that <see cref="EventHandlerExtensions.Raise(EventHandler, object)" /> invokes the
     /// handler with <see cref="EventArgs.Empty" />.
     /// </summary>
-    [TestMethod]
-    public void EventHandler_InvokesHandlerWithEmptyArgs()
+    [Test]
+    public async Task EventHandler_InvokesHandlerWithEmptyArgs()
     {
         // Arrange
         object? capturedSender = null;
@@ -29,16 +30,16 @@ public class EventHandlerExtensionsTests
         handler.Raise(sender);
 
         // Assert
-        Assert.AreSame(sender, capturedSender);
-        Assert.AreSame(EventArgs.Empty, capturedArgs);
+        await Assert.That(capturedSender).IsSameReferenceAs(sender);
+        await Assert.That(capturedArgs).IsSameReferenceAs(EventArgs.Empty);
     }
 
     /// <summary>
     /// Tests that <see cref="EventHandlerExtensions.Raise(EventHandler, object)" /> does not
     /// throw when the handler is null.
     /// </summary>
-    [TestMethod]
-    public void EventHandler_NullHandler_DoesNotThrow()
+    [Test]
+    public async Task EventHandler_NullHandler_DoesNotThrow()
     {
         // Arrange
         EventHandler? handler = null;
@@ -47,14 +48,16 @@ public class EventHandlerExtensionsTests
 #pragma warning disable CS8604 // Possible null reference argument — intentional null test
         handler!.Raise(new object());
 #pragma warning restore CS8604
+
+        await Assert.That(true).IsTrue();
     }
 
     /// <summary>
     /// Tests that <see cref="EventHandlerExtensions.Raise{T}(EventHandler{EventArgs{T}}, object, T)" />
     /// invokes the handler with the expected value wrapped in <see cref="EventArgs{T}" />.
     /// </summary>
-    [TestMethod]
-    public void EventHandlerOfEventArgsT_InvokesHandlerWithWrappedValue()
+    [Test]
+    public async Task EventHandlerOfEventArgsT_InvokesHandlerWithWrappedValue()
     {
         // Arrange
         int? capturedValue = null;
@@ -65,15 +68,15 @@ public class EventHandlerExtensionsTests
         handler.Raise(sender, 42);
 
         // Assert
-        Assert.AreEqual(42, capturedValue);
+        await Assert.That(capturedValue).IsEqualTo(42);
     }
 
     /// <summary>
     /// Tests that <see cref="EventHandlerExtensions.Raise{T}(EventHandler{T}, object, T)" />
     /// invokes the handler with the supplied <see cref="EventArgs" />.
     /// </summary>
-    [TestMethod]
-    public void EventHandlerOfT_InvokesHandlerWithSuppliedArgs()
+    [Test]
+    public async Task EventHandlerOfT_InvokesHandlerWithSuppliedArgs()
     {
         // Arrange
         EventArgs? capturedArgs = null;
@@ -84,6 +87,6 @@ public class EventHandlerExtensionsTests
         handler.Raise(new object(), args);
 
         // Assert
-        Assert.AreSame(args, capturedArgs);
+        await Assert.That(capturedArgs).IsSameReferenceAs(args);
     }
 }

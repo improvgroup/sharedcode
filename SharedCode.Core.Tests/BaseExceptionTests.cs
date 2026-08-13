@@ -1,6 +1,8 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
@@ -8,60 +10,57 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for the <see cref="BaseException"/> class.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class BaseExceptionTests
 {
-	[TestMethod]
-	public void DefaultConstructor_CreatesException()
+	[Test]
+	public async Task DefaultConstructor_CreatesException()
 	{
 		var ex = new BaseException();
-		Assert.IsNotNull(ex);
-		Assert.IsNull(ex.InnerException);
+		await Assert.That(ex.InnerException is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void MessageConstructor_SetsMessage()
+	[Test]
+	public async Task MessageConstructor_SetsMessage()
 	{
 		var ex = new BaseException("test message");
-		Assert.AreEqual("test message", ex.Message);
+		await Assert.That(ex.Message).IsEqualTo("test message");
 	}
 
-	[TestMethod]
-	public void MessageAndInnerExceptionConstructor_SetsMessageAndInner()
+	[Test]
+	public async Task MessageAndInnerExceptionConstructor_SetsMessageAndInner()
 	{
 		var inner = new InvalidOperationException("inner error");
 		var ex = new BaseException("outer message", inner);
-		Assert.AreEqual("outer message", ex.Message);
-		Assert.AreSame(inner, ex.InnerException);
+		await Assert.That(ex.Message).IsEqualTo("outer message");
+		await Assert.That(ex.InnerException).IsSameReferenceAs(inner);
 	}
 
-	[TestMethod]
-	public void InnerExceptionAndDataConstructor_SetsMessageFromInnerAndData()
+	[Test]
+	public async Task InnerExceptionAndDataConstructor_SetsMessageFromInnerAndData()
 	{
 		var inner = new InvalidOperationException("inner error");
 		var data = new Hashtable { { "key", "value" } };
 		var ex = new BaseException(inner, data);
-		Assert.AreEqual("inner error", ex.Message);
-		Assert.AreSame(inner, ex.InnerException);
-		Assert.IsTrue(ex.Data.Contains("key"));
+		await Assert.That(ex.Message).IsEqualTo("inner error");
+		await Assert.That(ex.InnerException).IsSameReferenceAs(inner);
+		await Assert.That(ex.Data.Contains("key")).IsTrue();
 	}
 
-	[TestMethod]
-	public void MessageInnerExceptionAndDataConstructor_SetsAll()
+	[Test]
+	public async Task MessageInnerExceptionAndDataConstructor_SetsAll()
 	{
 		var inner = new InvalidOperationException("inner");
 		var data = new Hashtable { { "errorCode", "42" } };
 		var ex = new BaseException("outer message", inner, data);
-		Assert.AreEqual("outer message", ex.Message);
-		Assert.AreSame(inner, ex.InnerException);
-		Assert.IsTrue(ex.Data.Contains("errorCode"));
+		await Assert.That(ex.Message).IsEqualTo("outer message");
+		await Assert.That(ex.InnerException).IsSameReferenceAs(inner);
+		await Assert.That(ex.Data.Contains("errorCode")).IsTrue();
 	}
 
-	[TestMethod]
-	public void BaseException_IsException()
+	[Test]
+	public async Task BaseException_IsException()
 	{
 		var ex = new BaseException("test");
-		Assert.IsInstanceOfType<Exception>(ex);
+		await Assert.That(ex).IsTypeOf<Exception>();
 	}
 }

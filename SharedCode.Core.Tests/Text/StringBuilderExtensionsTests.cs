@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Text;
+﻿namespace SharedCode.Tests.Text;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Text;
 
@@ -10,71 +12,69 @@ using System.Text;
 /// <summary>
 /// Tests for <see cref="StringBuilderExtensions"/>.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class StringBuilderExtensionsTests
 {
-	[TestMethod]
-	public void AppendIf_ConditionTrue_AppendsValue()
+	[Test]
+	public async Task AppendIf_ConditionTrue_AppendsValue()
 	{
 		var sb = new StringBuilder();
 		var result = sb.AppendIf("hello", condition: true);
-		Assert.AreEqual("hello", sb.ToString());
-		Assert.AreSame(sb, result);
+		await Assert.That(sb.ToString()).IsEqualTo("hello");
+		await Assert.That(result).IsSameReferenceAs(sb);
 	}
 
-	[TestMethod]
-	public void AppendIf_ConditionFalse_DoesNotAppend()
+	[Test]
+	public async Task AppendIf_ConditionFalse_DoesNotAppend()
 	{
 		var sb = new StringBuilder();
 		var result = sb.AppendIf("hello", condition: false);
-		Assert.AreEqual(string.Empty, sb.ToString());
-		Assert.AreSame(sb, result);
+		await Assert.That(sb.ToString()).IsEqualTo(string.Empty);
+		await Assert.That(result).IsSameReferenceAs(sb);
 	}
 
-	[TestMethod]
-	public void AppendIf_NullValue_ConditionTrue_AppendNothing()
+	[Test]
+	public async Task AppendIf_NullValue_ConditionTrue_AppendNothing()
 	{
 		var sb = new StringBuilder("prefix");
 		_ = sb.AppendIf(null, condition: true);
-		Assert.AreEqual("prefix", sb.ToString());
+		await Assert.That(sb.ToString()).IsEqualTo("prefix");
 	}
 
-	[TestMethod]
-	public void AppendIf_NullBuilder_ThrowsArgumentNullException()
+	[Test]
+	public async Task AppendIf_NullBuilder_ThrowsArgumentNullException()
 	{
 		StringBuilder? sb = null;
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => sb!.AppendIf("value", condition: true));
+		await Assert.That(() => sb!.AppendIf("value", condition: true)).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void AppendLineFormat_AppendsFormattedLine()
+	[Test]
+	public async Task AppendLineFormat_AppendsFormattedLine()
 	{
 		var sb = new StringBuilder();
 		var result = sb.AppendLineFormat("Hello {0}, you are {1} years old", "Alice", 30);
-		Assert.IsNotNull(result);
+		await Assert.That(result is not null).IsTrue();
 		var content = sb.ToString();
-		Assert.IsTrue(content.Contains("Hello Alice, you are 30 years old", StringComparison.OrdinalIgnoreCase));
+		await Assert.That(content.Contains("Hello Alice, you are 30 years old", StringComparison.OrdinalIgnoreCase)).IsTrue();
 	}
 
-	[TestMethod]
-	public void AppendLineFormat_NullBuilder_ThrowsArgumentNullException()
+	[Test]
+	public async Task AppendLineFormat_NullBuilder_ThrowsArgumentNullException()
 	{
 		StringBuilder? sb = null;
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => sb!.AppendLineFormat("format {0}", "arg"));
+		await Assert.That(() => sb!.AppendLineFormat("format {0}", "arg")).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void AppendLineFormat_NullFormat_ThrowsArgumentNullException()
+	[Test]
+	public async Task AppendLineFormat_NullFormat_ThrowsArgumentNullException()
 	{
 		var sb = new StringBuilder();
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => sb.AppendLineFormat(null!, "arg"));
+		await Assert.That(() => sb.AppendLineFormat(null!, "arg")).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void AppendLineFormat_NullArguments_ThrowsArgumentNullException()
+	[Test]
+	public async Task AppendLineFormat_NullArguments_ThrowsArgumentNullException()
 	{
 		var sb = new StringBuilder();
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => sb.AppendLineFormat("format", null!));
+		await Assert.That(() => sb.AppendLineFormat("format", null!)).ThrowsExactly<ArgumentNullException>();
 	}
 }

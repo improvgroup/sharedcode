@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Text;
+﻿namespace SharedCode.Tests.Text;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Text;
 
@@ -9,347 +11,345 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for <see cref="StringExtensions"/>.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class StringExtensionsTests
 {
 	private static readonly char[] ExclamationChar = ['!'];
 	private static readonly char[] ExclamationAndAt = ['!', '@'];
 
-	[TestMethod]
-	public void Contains_CaseSensitive_FindsSubstring()
+	[Test]
+	public async Task Contains_CaseSensitive_FindsSubstring()
 	{
-		Assert.IsTrue("Hello World".Contains("World", StringComparison.Ordinal));
-		Assert.IsFalse("Hello World".Contains("world", StringComparison.Ordinal));
+		await Assert.That("Hello World".Contains("World", StringComparison.Ordinal)).IsTrue();
+		await Assert.That("Hello World".Contains("world", StringComparison.Ordinal)).IsFalse();
 	}
 
-	[TestMethod]
-	public void Contains_CaseInsensitive_FindsSubstring()
+	[Test]
+	public async Task Contains_CaseInsensitive_FindsSubstring()
 	{
-		Assert.IsTrue("Hello World".Contains("world", StringComparison.OrdinalIgnoreCase));
+		await Assert.That("Hello World".Contains("world", StringComparison.OrdinalIgnoreCase)).IsTrue();
 	}
 
-	[TestMethod]
-	public void ContainsAny_CharacterPresent_ReturnsTrue()
+	[Test]
+	public async Task ContainsAny_CharacterPresent_ReturnsTrue()
 	{
-		Assert.IsTrue("Hello!".ContainsAny(ExclamationChar));
+		await Assert.That("Hello!".ContainsAny(ExclamationChar)).IsTrue();
 	}
 
-	[TestMethod]
-	public void ContainsAny_CharacterNotPresent_ReturnsFalse()
+	[Test]
+	public async Task ContainsAny_CharacterNotPresent_ReturnsFalse()
 	{
-		Assert.IsFalse("Hello".ContainsAny(ExclamationAndAt));
+		await Assert.That("Hello".ContainsAny(ExclamationAndAt)).IsFalse();
 	}
 
-	[TestMethod]
-	public void ContainsAny_NullCharacters_ThrowsArgumentNullException()
+	[Test]
+	public async Task ContainsAny_NullCharacters_ThrowsArgumentNullException()
 	{
-		_ = Assert.ThrowsExactly<ArgumentNullException>(() => "Hello".ContainsAny(null!));
+		await Assert.That(() => "Hello".ContainsAny(null!)).ThrowsExactly<ArgumentNullException>();
 	}
 
-	[TestMethod]
-	public void In_ValueInArray_ReturnsTrue()
+	[Test]
+	public async Task In_ValueInArray_ReturnsTrue()
 	{
-		Assert.IsTrue("apple".In("apple", "banana", "cherry"));
+		await Assert.That("apple".In("apple", "banana", "cherry")).IsTrue();
 	}
 
-	[TestMethod]
-	public void In_ValueNotInArray_ReturnsFalse()
+	[Test]
+	public async Task In_ValueNotInArray_ReturnsFalse()
 	{
-		Assert.IsFalse("grape".In("apple", "banana", "cherry"));
+		await Assert.That("grape".In("apple", "banana", "cherry")).IsFalse();
 	}
 
-	[TestMethod]
-	public void In_CaseSensitive_ReturnsFalseForWrongCase()
+	[Test]
+	public async Task In_CaseSensitive_ReturnsFalseForWrongCase()
 	{
-		Assert.IsFalse("Apple".In("apple", "banana"));
+		await Assert.That("Apple".In("apple", "banana")).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsNullOrEmpty_NullString_ReturnsTrue()
+	[Test]
+	public async Task IsNullOrEmpty_NullString_ReturnsTrue()
 	{
-		Assert.IsTrue(((string?)null)!.IsNullOrEmpty());
+		await Assert.That(((string?)null)!.IsNullOrEmpty()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNullOrEmpty_EmptyString_ReturnsTrue()
+	[Test]
+	public async Task IsNullOrEmpty_EmptyString_ReturnsTrue()
 	{
-		Assert.IsTrue(string.Empty.IsNullOrEmpty());
+		await Assert.That(string.Empty.IsNullOrEmpty()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNullOrEmpty_NonEmptyString_ReturnsFalse()
+	[Test]
+	public async Task IsNullOrEmpty_NonEmptyString_ReturnsFalse()
 	{
-		Assert.IsFalse("hello".IsNullOrEmpty());
+		await Assert.That("hello".IsNullOrEmpty()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsNotNullOrEmpty_NonEmptyString_ReturnsTrue()
+	[Test]
+	public async Task IsNotNullOrEmpty_NonEmptyString_ReturnsTrue()
 	{
-		Assert.IsTrue("hello".IsNotNullOrEmpty());
+		await Assert.That("hello".IsNotNullOrEmpty()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNotNullOrEmpty_EmptyString_ReturnsFalse()
+	[Test]
+	public async Task IsNotNullOrEmpty_EmptyString_ReturnsFalse()
 	{
-		Assert.IsFalse(string.Empty.IsNotNullOrEmpty());
+		await Assert.That(string.Empty.IsNotNullOrEmpty()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsNullOrWhiteSpace_WhitespaceString_ReturnsTrue()
+	[Test]
+	public async Task IsNullOrWhiteSpace_WhitespaceString_ReturnsTrue()
 	{
-		Assert.IsTrue("   ".IsNullOrWhiteSpace());
+		await Assert.That("   ".IsNullOrWhiteSpace()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNullOrWhiteSpace_NonWhitespaceString_ReturnsFalse()
+	[Test]
+	public async Task IsNullOrWhiteSpace_NonWhitespaceString_ReturnsFalse()
 	{
-		Assert.IsFalse("hello".IsNullOrWhiteSpace());
+		await Assert.That("hello".IsNullOrWhiteSpace()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsNotNullOrWhiteSpace_NonWhitespaceString_ReturnsTrue()
+	[Test]
+	public async Task IsNotNullOrWhiteSpace_NonWhitespaceString_ReturnsTrue()
 	{
-		Assert.IsTrue("hello".IsNotNullOrWhiteSpace());
+		await Assert.That("hello".IsNotNullOrWhiteSpace()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNumeric_NumericString_ReturnsTrue()
+	[Test]
+	public async Task IsNumeric_NumericString_ReturnsTrue()
 	{
-		Assert.IsTrue("12345".IsNumeric());
-		Assert.IsTrue("-100".IsNumeric());
+		await Assert.That("12345".IsNumeric()).IsTrue();
+		await Assert.That("-100".IsNumeric()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsNumeric_NonNumericString_ReturnsFalse()
+	[Test]
+	public async Task IsNumeric_NonNumericString_ReturnsFalse()
 	{
-		Assert.IsFalse("12.34".IsNumeric());
-		Assert.IsFalse("abc".IsNumeric());
+		await Assert.That("12.34".IsNumeric()).IsFalse();
+		await Assert.That("abc".IsNumeric()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsValidEmailAddress_ValidEmail_ReturnsTrue()
+	[Test]
+	public async Task IsValidEmailAddress_ValidEmail_ReturnsTrue()
 	{
-		Assert.IsTrue("user@example.com".IsValidEmailAddress());
+		await Assert.That("user@example.com".IsValidEmailAddress()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsValidEmailAddress_InvalidEmail_ReturnsFalse()
+	[Test]
+	public async Task IsValidEmailAddress_InvalidEmail_ReturnsFalse()
 	{
-		Assert.IsFalse("not-an-email".IsValidEmailAddress());
-		Assert.IsFalse("@nodomain".IsValidEmailAddress());
+		await Assert.That("not-an-email".IsValidEmailAddress()).IsFalse();
+		await Assert.That("@nodomain".IsValidEmailAddress()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsValidIPAddress_ValidIPv4_ReturnsTrue()
+	[Test]
+	public async Task IsValidIPAddress_ValidIPv4_ReturnsTrue()
 	{
-		Assert.IsTrue("192.168.1.1".IsValidIPAddress());
+		await Assert.That("192.168.1.1".IsValidIPAddress()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsValidIPAddress_InvalidIP_ReturnsFalse()
+	[Test]
+	public async Task IsValidIPAddress_InvalidIP_ReturnsFalse()
 	{
-		Assert.IsFalse("999.999.999.999".IsValidIPAddress());
-		Assert.IsFalse("not-an-ip".IsValidIPAddress());
+		await Assert.That("999.999.999.999".IsValidIPAddress()).IsFalse();
+		await Assert.That("not-an-ip".IsValidIPAddress()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsValidUrl_ValidUrl_ReturnsTrue()
+	[Test]
+	public async Task IsValidUrl_ValidUrl_ReturnsTrue()
 	{
-		Assert.IsTrue("http://www.example.com".IsValidUrl());
-		Assert.IsTrue("https://example.com/path?q=1".IsValidUrl());
+		await Assert.That("http://www.example.com".IsValidUrl()).IsTrue();
+		await Assert.That("https://example.com/path?q=1".IsValidUrl()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsValidUrl_InvalidUrl_ReturnsFalse()
+	[Test]
+	public async Task IsValidUrl_InvalidUrl_ReturnsFalse()
 	{
-		Assert.IsFalse("not a url".IsValidUrl());
+		await Assert.That("not a url".IsValidUrl()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsValidUri_ValidUri_ReturnsTrue()
+	[Test]
+	public async Task IsValidUri_ValidUri_ReturnsTrue()
 	{
-		Assert.IsTrue("http://www.example.com".IsValidUri());
-		Assert.IsTrue("/relative/path".IsValidUri());
+		await Assert.That("http://www.example.com".IsValidUri()).IsTrue();
+		await Assert.That("/relative/path".IsValidUri()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsDate_ValidDateString_ReturnsTrue()
+	[Test]
+	public async Task IsDate_ValidDateString_ReturnsTrue()
 	{
-		Assert.IsTrue("2023-01-15".IsDate());
-		Assert.IsTrue("January 15, 2023".IsDate());
+		await Assert.That("2023-01-15".IsDate()).IsTrue();
+		await Assert.That("January 15, 2023".IsDate()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsDate_InvalidDateString_ReturnsFalse()
+	[Test]
+	public async Task IsDate_InvalidDateString_ReturnsFalse()
 	{
-		Assert.IsFalse("not a date".IsDate());
-		Assert.IsFalse(string.Empty.IsDate());
+		await Assert.That("not a date".IsDate()).IsFalse();
+		await Assert.That(string.Empty.IsDate()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsGuid_ValidGuid_ReturnsTrue()
+	[Test]
+	public async Task IsGuid_ValidGuid_ReturnsTrue()
 	{
-		Assert.IsTrue("a8098c1a-f86e-11da-bd1a-00112444be1e".IsGuid());
+		await Assert.That("a8098c1a-f86e-11da-bd1a-00112444be1e".IsGuid()).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsGuid_InvalidGuid_ReturnsFalse()
+	[Test]
+	public async Task IsGuid_InvalidGuid_ReturnsFalse()
 	{
-		Assert.IsFalse("not-a-guid".IsGuid());
+		await Assert.That("not-a-guid".IsGuid()).IsFalse();
 	}
 
-	[TestMethod]
-	public void IsLengthAtLeast_LongEnough_ReturnsTrue()
+	[Test]
+	public async Task IsLengthAtLeast_LongEnough_ReturnsTrue()
 	{
-		Assert.IsTrue("hello".IsLengthAtLeast(5));
-		Assert.IsTrue("hello world".IsLengthAtLeast(5));
+		await Assert.That("hello".IsLengthAtLeast(5)).IsTrue();
+		await Assert.That("hello world".IsLengthAtLeast(5)).IsTrue();
 	}
 
-	[TestMethod]
-	public void IsLengthAtLeast_TooShort_ReturnsFalse()
+	[Test]
+	public async Task IsLengthAtLeast_TooShort_ReturnsFalse()
 	{
-		Assert.IsFalse("hi".IsLengthAtLeast(5));
+		await Assert.That("hi".IsLengthAtLeast(5)).IsFalse();
 	}
 
-	[TestMethod]
-	public void NullIfEmpty_EmptyString_ReturnsNull()
+	[Test]
+	public async Task NullIfEmpty_EmptyString_ReturnsNull()
 	{
-		Assert.IsNull(string.Empty.NullIfEmpty());
+		await Assert.That(string.Empty.NullIfEmpty() is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void NullIfEmpty_NonEmptyString_ReturnsString()
+	[Test]
+	public async Task NullIfEmpty_NonEmptyString_ReturnsString()
 	{
-		Assert.AreEqual("hello", "hello".NullIfEmpty());
+		await Assert.That("hello".NullIfEmpty()).IsEqualTo("hello");
 	}
 
-	[TestMethod]
-	public void NullIfWhiteSpace_WhitespaceString_ReturnsNull()
+	[Test]
+	public async Task NullIfWhiteSpace_WhitespaceString_ReturnsNull()
 	{
-		Assert.IsNull("   ".NullIfWhiteSpace());
+		await Assert.That("   ".NullIfWhiteSpace() is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void NullIfWhiteSpace_NonWhitespaceString_ReturnsString()
+	[Test]
+	public async Task NullIfWhiteSpace_NonWhitespaceString_ReturnsString()
 	{
-		Assert.AreEqual("hello", "hello".NullIfWhiteSpace());
+		await Assert.That("hello".NullIfWhiteSpace()).IsEqualTo("hello");
 	}
 
-	[TestMethod]
-	public void Left_ReturnsLeftNCharacters()
+	[Test]
+	public async Task Left_ReturnsLeftNCharacters()
 	{
-		Assert.AreEqual("He", "Hello".Left(2));
+		await Assert.That("Hello".Left(2)).IsEqualTo("He");
 	}
 
-	[TestMethod]
-	public void Left_LengthGreaterThanString_ReturnsFullString()
+	[Test]
+	public async Task Left_LengthGreaterThanString_ReturnsFullString()
 	{
-		Assert.AreEqual("Hi", "Hi".Left(10));
+		await Assert.That("Hi".Left(10)).IsEqualTo("Hi");
 	}
 
-	[TestMethod]
-	public void Right_ReturnsRightNCharacters()
+	[Test]
+	public async Task Right_ReturnsRightNCharacters()
 	{
-		Assert.AreEqual("lo", "Hello".Right(2));
+		await Assert.That("Hello".Right(2)).IsEqualTo("lo");
 	}
 
-	[TestMethod]
-	public void Right_LengthGreaterThanString_ReturnsFullString()
+	[Test]
+	public async Task Right_LengthGreaterThanString_ReturnsFullString()
 	{
-		Assert.AreEqual("Hi", "Hi".Right(10));
+		await Assert.That("Hi".Right(10)).IsEqualTo("Hi");
 	}
 
-	[TestMethod]
-	public void DefaultIfEmpty_EmptyString_ReturnsDefault()
+	[Test]
+	public async Task DefaultIfEmpty_EmptyString_ReturnsDefault()
 	{
-		Assert.AreEqual("default", string.Empty.DefaultIfEmpty("default"));
+		await Assert.That(string.Empty.DefaultIfEmpty("default")).IsEqualTo("default");
 	}
 
-	[TestMethod]
-	public void DefaultIfEmpty_NonEmptyString_ReturnsOriginal()
+	[Test]
+	public async Task DefaultIfEmpty_NonEmptyString_ReturnsOriginal()
 	{
-		Assert.AreEqual("hello", "hello".DefaultIfEmpty("default"));
+		await Assert.That("hello".DefaultIfEmpty("default")).IsEqualTo("hello");
 	}
 
-	[TestMethod]
-	public void DefaultIfEmpty_WhitespaceAndConsiderWhitespace_ReturnsDefault()
+	[Test]
+	public async Task DefaultIfEmpty_WhitespaceAndConsiderWhitespace_ReturnsDefault()
 	{
-		Assert.AreEqual("default", "   ".DefaultIfEmpty("default", considerWhiteSpaceIsEmpty: true));
+		await Assert.That("   ".DefaultIfEmpty("default", considerWhiteSpaceIsEmpty: true)).IsEqualTo("default");
 	}
 
-	[TestMethod]
-	public void Mask_DefaultMask_MasksAllCharacters()
+	[Test]
+	public async Task Mask_DefaultMask_MasksAllCharacters()
 	{
 		var result = "secret".Mask();
-		Assert.AreEqual("******", result);
+		await Assert.That(result).IsEqualTo("******");
 	}
 
-	[TestMethod]
-	public void Mask_WithMaskStyle_MasksCharacters()
+	[Test]
+	public async Task Mask_WithMaskStyle_MasksCharacters()
 	{
 		var result = "secret123".Mask(MaskStyle.AlphaNumericOnly);
-		Assert.IsNotNull(result);
-		Assert.AreEqual(9, result!.Length);
+		await Assert.That(result is not null).IsTrue();
+		await Assert.That(result!.Length).IsEqualTo(9);
 	}
 
-	[TestMethod]
-	public void Fill_FormatsStringWithArgument()
+	[Test]
+	public async Task Fill_FormatsStringWithArgument()
 	{
 		var result = "Hello {0}".Fill("World");
-		Assert.AreEqual("Hello World", result);
+		await Assert.That(result).IsEqualTo("Hello World");
 	}
 
-	[TestMethod]
-	public void FillInvariant_FormatsStringWithArgument()
+	[Test]
+	public async Task FillInvariant_FormatsStringWithArgument()
 	{
 		var result = "Value: {0}".FillInvariant(42);
-		Assert.AreEqual("Value: 42", result);
+		await Assert.That(result).IsEqualTo("Value: 42");
 	}
 
-	[TestMethod]
-	public void ToDateTime_ValidDateString_ReturnsParsedDate()
+	[Test]
+	public async Task ToDateTime_ValidDateString_ReturnsParsedDate()
 	{
 		var result = "2023-01-15".ToDateTime();
-		Assert.IsNotNull(result);
-		Assert.AreEqual(2023, result!.Value.Year);
-		Assert.AreEqual(1, result.Value.Month);
-		Assert.AreEqual(15, result.Value.Day);
+		await Assert.That(result is not null).IsTrue();
+		await Assert.That(result!.Value.Year).IsEqualTo(2023);
+		await Assert.That(result.Value.Month).IsEqualTo(1);
+		await Assert.That(result.Value.Day).IsEqualTo(15);
 	}
 
-	[TestMethod]
-	public void ToDateTime_InvalidDateString_ReturnsNull()
+	[Test]
+	public async Task ToDateTime_InvalidDateString_ReturnsNull()
 	{
 		var result = "not a date".ToDateTime();
-		Assert.IsNull(result);
+		await Assert.That(result is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void ToDateTimeOffset_ValidDateString_ReturnsParsedDateTimeOffset()
+	[Test]
+	public async Task ToDateTimeOffset_ValidDateString_ReturnsParsedDateTimeOffset()
 	{
 		var result = "2023-01-15T12:00:00+00:00".ToDateTimeOffset();
-		Assert.IsNotNull(result);
-		Assert.AreEqual(2023, result!.Value.Year);
+		await Assert.That(result is not null).IsTrue();
+		await Assert.That(result!.Value.Year).IsEqualTo(2023);
 	}
 
-	[TestMethod]
-	public void ToDateTimeOffset_InvalidDateString_ReturnsNull()
+	[Test]
+	public async Task ToDateTimeOffset_InvalidDateString_ReturnsNull()
 	{
 		var result = "invalid".ToDateTimeOffset();
-		Assert.IsNull(result);
+		await Assert.That(result is null).IsTrue();
 	}
 
-	[TestMethod]
-	public void ToEnum_ValidEnumString_ReturnsEnumValue()
+	[Test]
+	public async Task ToEnum_ValidEnumString_ReturnsEnumValue()
 	{
 		var result = "Monday".ToEnum<DayOfWeek>();
-		Assert.AreEqual(DayOfWeek.Monday, result);
+		await Assert.That(result).IsEqualTo(DayOfWeek.Monday);
 	}
 
-	[TestMethod]
-	public void ToEnum_NullString_ReturnsDefault()
+	[Test]
+	public async Task ToEnum_NullString_ReturnsDefault()
 	{
 		var result = ((string?)null)!.ToEnum<DayOfWeek>();
-		Assert.AreEqual(default(DayOfWeek), result);
+		await Assert.That(result).IsEqualTo(default(DayOfWeek));
 	}
 }

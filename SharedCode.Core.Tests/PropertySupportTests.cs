@@ -1,19 +1,20 @@
-namespace SharedCode.Tests;
+﻿namespace SharedCode.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 /// <summary>
 /// Tests for <see cref="PropertySupport" />.
 /// </summary>
-[TestClass]
 public class PropertySupportTests
 {
     /// <summary>
     /// Tests that <see cref="PropertySupport.ExtractPropertyName{T}" /> returns the correct
     /// property name from a valid property expression.
     /// </summary>
-    [TestMethod]
-    public void ExtractPropertyName_ValidPropertyExpression_ReturnsPropertyName()
+    [Test]
+    public async Task ExtractPropertyName_ValidPropertyExpression_ReturnsPropertyName()
     {
         // Arrange
         var target = new SampleClass();
@@ -22,19 +23,18 @@ public class PropertySupportTests
         var result = PropertySupport.ExtractPropertyName(() => target.Name);
 
         // Assert
-        Assert.AreEqual(nameof(SampleClass.Name), result);
+        await Assert.That(result).IsEqualTo(nameof(SampleClass.Name));
     }
 
     /// <summary>
     /// Tests that <see cref="PropertySupport.ExtractPropertyName{T}" /> throws
     /// <see cref="ArgumentNullException" /> when the expression is null.
     /// </summary>
-    [TestMethod]
-    public void ExtractPropertyName_NullExpression_ThrowsArgumentNullException()
+    [Test]
+    public async Task ExtractPropertyName_NullExpression_ThrowsArgumentNullException()
     {
         // Act / Assert
-        _ = Assert.ThrowsExactly<ArgumentNullException>(
-            () => PropertySupport.ExtractPropertyName<string>(null!));
+        await Assert.That(() => PropertySupport.ExtractPropertyName<string>(null!)).ThrowsExactly<ArgumentNullException>();
     }
 
     /// <summary>

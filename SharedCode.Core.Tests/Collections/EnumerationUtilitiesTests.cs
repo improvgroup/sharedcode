@@ -1,6 +1,8 @@
-namespace SharedCode.Tests.Collections;
+﻿namespace SharedCode.Tests.Collections;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Collections.Generic;
 
@@ -9,8 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Tests for <see cref="EnumerationUtilities"/>.
 /// </summary>
-[TestClass]
-[SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
 public class EnumerationUtilitiesTests
 {
 	private enum TestEnum
@@ -20,20 +20,20 @@ public class EnumerationUtilitiesTests
 		Third,
 	}
 
-	[TestMethod]
-	public void ToList_ReturnsAllEnumValues()
+	[Test]
+	public async Task ToList_ReturnsAllEnumValues()
 	{
 		var list = EnumerationUtilities.ToList<TestEnum>();
-		Assert.AreEqual(3, list.Count);
-		Assert.IsTrue(list.Contains(TestEnum.First));
-		Assert.IsTrue(list.Contains(TestEnum.Second));
-		Assert.IsTrue(list.Contains(TestEnum.Third));
+		await Assert.That(list.Count).IsEqualTo(3);
+		await Assert.That(list.Contains(TestEnum.First)).IsTrue();
+		await Assert.That(list.Contains(TestEnum.Second)).IsTrue();
+		await Assert.That(list.Contains(TestEnum.Third)).IsTrue();
 	}
 
-	[TestMethod]
-	public void ToList_DayOfWeek_ReturnsAllSevenDays()
+	[Test]
+	public async Task ToList_DayOfWeek_ReturnsAllSevenDays()
 	{
 		var list = EnumerationUtilities.ToList<DayOfWeek>();
-		Assert.AreEqual(7, list.Count);
+		await Assert.That(list.Count).IsEqualTo(7);
 	}
 }

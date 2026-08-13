@@ -1,94 +1,96 @@
 ﻿namespace SharedCode.Tests.Linq;
 
-using AwesomeAssertions;
+using System.Threading.Tasks;
+using TUnit.Assertions;
+using TUnit.Core;
 
 using SharedCode.Linq;
 
 using System;
 
-using Xunit;
-
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>")]
+/// <summary>
+/// Tests for <see cref="Predicates" />.
+/// </summary>
 public class PredicatesTests
 {
-	[Fact]
-	public void AfterShouldReturnTheProperValueForDateTimeOffsets()
+	[Test]
+	public async Task AfterShouldReturnTheProperValueForDateTimeOffsets()
 	{
 		var testDateTimeOffset = DateTimeOffset.Now;
 		var afterDateTimeOffset = testDateTimeOffset.AddMilliseconds(1);
 
 		// testDateTime should not be after afterDateTime
 		var resultDateTimeOffset = Predicates.After(afterDateTimeOffset).Compile().Invoke(testDateTimeOffset);
-		_ = resultDateTimeOffset.Should().BeFalse();
+		await Assert.That(resultDateTimeOffset).IsFalse();
 
 		// afterDateTime should be after testDateTime
 		resultDateTimeOffset = Predicates.After(testDateTimeOffset).Compile().Invoke(afterDateTimeOffset);
-		_ = resultDateTimeOffset.Should().BeTrue();
+		await Assert.That(resultDateTimeOffset).IsTrue();
 
 		// single value should not be after itself
 		resultDateTimeOffset = Predicates.After(testDateTimeOffset).Compile().Invoke(testDateTimeOffset);
-		_ = resultDateTimeOffset.Should().BeFalse();
+		await Assert.That(resultDateTimeOffset).IsFalse();
 	}
 
-	[Fact]
-	public void AfterShouldReturnTheProperValueForDateTimes()
+	[Test]
+	public async Task AfterShouldReturnTheProperValueForDateTimes()
 	{
 		var testDateTime = DateTime.Now;
 		var afterDateTime = testDateTime.AddMilliseconds(1);
 
 		// testDateTime should not be after afterDateTime
 		var resultDateTime = Predicates.After(afterDateTime).Compile().Invoke(testDateTime);
-		_ = resultDateTime.Should().BeFalse();
+		await Assert.That(resultDateTime).IsFalse();
 
 		// afterDateTime should be after testDateTime
 		resultDateTime = Predicates.After(testDateTime).Compile().Invoke(afterDateTime);
-		_ = resultDateTime.Should().BeTrue();
+		await Assert.That(resultDateTime).IsTrue();
 
 		// single value should not be after itself
 		resultDateTime = Predicates.After(testDateTime).Compile().Invoke(testDateTime);
-		_ = resultDateTime.Should().BeFalse();
+		await Assert.That(resultDateTime).IsFalse();
 	}
 
-	[Fact]
-	public void BeforeShouldReturnTheProperValueForDateTimeOffsets()
+	[Test]
+	public async Task BeforeShouldReturnTheProperValueForDateTimeOffsets()
 	{
 		var testDateTimeOffset = DateTimeOffset.Now;
 		var beforeDateTimeOffset = testDateTimeOffset.AddMilliseconds(-1);
 
 		// testDateTime should not be before beforeDateTime
 		var resultDateTimeOffset = Predicates.Before(beforeDateTimeOffset).Compile().Invoke(testDateTimeOffset);
-		_ = resultDateTimeOffset.Should().BeFalse();
+		await Assert.That(resultDateTimeOffset).IsFalse();
 
 		// beforeDateTime should be before testDateTime
 		resultDateTimeOffset = Predicates.Before(testDateTimeOffset).Compile().Invoke(beforeDateTimeOffset);
-		_ = resultDateTimeOffset.Should().BeTrue();
+		await Assert.That(resultDateTimeOffset).IsTrue();
 
 		// single value should not be before itself
 		resultDateTimeOffset = Predicates.Before(testDateTimeOffset).Compile().Invoke(testDateTimeOffset);
-		_ = resultDateTimeOffset.Should().BeFalse();
+		await Assert.That(resultDateTimeOffset).IsFalse();
 	}
 
-	[Fact]
-	public void BeforeShouldReturnTheProperValueForDateTimes()
+	[Test]
+	public async Task BeforeShouldReturnTheProperValueForDateTimes()
 	{
 		var testDateTime = DateTime.Now;
 		var beforeDateTime = testDateTime.AddMilliseconds(-1);
 
 		// testDateTime should not be before beforeDateTime
 		var resultDateTime = Predicates.Before(beforeDateTime).Compile().Invoke(testDateTime);
-		_ = resultDateTime.Should().BeFalse();
+		await Assert.That(resultDateTime).IsFalse();
 
 		// beforeDateTime should be before testDateTime
 		resultDateTime = Predicates.Before(testDateTime).Compile().Invoke(beforeDateTime);
-		_ = resultDateTime.Should().BeTrue();
+		await Assert.That(resultDateTime).IsTrue();
 
 		// single value should not be before itself
 		resultDateTime = Predicates.Before(testDateTime).Compile().Invoke(testDateTime);
-		_ = resultDateTime.Should().BeFalse();
+		await Assert.That(resultDateTime).IsFalse();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusiveProperlyForEdgesOfDateRange()
+	[Test]
+	public async Task BetweenShouldHandleInclusiveProperlyForEdgesOfDateRange()
 	{
 		var start = DateTime.Now;
 		var end = start.AddHours(1);
@@ -98,21 +100,21 @@ public class PredicatesTests
 		var betweenStartAndEndExclusiveEdgeStart = Predicates.Between(start, end, false).Compile().Invoke(start);
 		var betweenStartAndEndExclusiveImplicitEdgeStart = Predicates.Between(start, end).Compile().Invoke(start);
 
-		_ = betweenStartAndEndInclusiveEdgeStart.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveEdgeStart.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveImplicitEdgeStart.Should().BeTrue();
+		await Assert.That(betweenStartAndEndInclusiveEdgeStart).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveEdgeStart).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveImplicitEdgeStart).IsTrue();
 
 		var betweenStartAndEndInclusiveEdgeEnd = Predicates.Between(start, end, true).Compile().Invoke(end);
 		var betweenStartAndEndExclusiveEdgeEnd = Predicates.Between(start, end, false).Compile().Invoke(end);
 		var betweenStartAndEndExclusiveImplicitEdgeEnd = Predicates.Between(start, end).Compile().Invoke(end);
 
-		_ = betweenStartAndEndInclusiveEdgeEnd.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveEdgeEnd.Should().BeFalse();
-		_ = betweenStartAndEndExclusiveImplicitEdgeEnd.Should().BeFalse();
+		await Assert.That(betweenStartAndEndInclusiveEdgeEnd).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveEdgeEnd).IsFalse();
+		await Assert.That(betweenStartAndEndExclusiveImplicitEdgeEnd).IsFalse();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusiveProperlyForEdgesOfDateTimeOffsetRange()
+	[Test]
+	public async Task BetweenShouldHandleInclusiveProperlyForEdgesOfDateTimeOffsetRange()
 	{
 		var start = DateTimeOffset.Now;
 		var end = start.AddHours(1);
@@ -122,45 +124,45 @@ public class PredicatesTests
 		var betweenStartAndEndExclusiveEdgeStart = Predicates.Between(start, end, false).Compile().Invoke(start);
 		var betweenStartAndEndExclusiveImplicitEdgeStart = Predicates.Between(start, end).Compile().Invoke(start);
 
-		_ = betweenStartAndEndInclusiveEdgeStart.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveEdgeStart.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveImplicitEdgeStart.Should().BeTrue();
+		await Assert.That(betweenStartAndEndInclusiveEdgeStart).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveEdgeStart).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveImplicitEdgeStart).IsTrue();
 
 		var betweenStartAndEndInclusiveEdgeEnd = Predicates.Between(start, end, true).Compile().Invoke(end);
 		var betweenStartAndEndExclusiveEdgeEnd = Predicates.Between(start, end, false).Compile().Invoke(end);
 		var betweenStartAndEndExclusiveImplicitEdgeEnd = Predicates.Between(start, end).Compile().Invoke(end);
 
-		_ = betweenStartAndEndInclusiveEdgeEnd.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveEdgeEnd.Should().BeFalse();
-		_ = betweenStartAndEndExclusiveImplicitEdgeEnd.Should().BeFalse();
+		await Assert.That(betweenStartAndEndInclusiveEdgeEnd).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveEdgeEnd).IsFalse();
+		await Assert.That(betweenStartAndEndExclusiveImplicitEdgeEnd).IsFalse();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusiveProperlyForEqualStartAndEndDates()
+	[Test]
+	public async Task BetweenShouldHandleInclusiveProperlyForEqualStartAndEndDates()
 	{
 		var date = DateTime.Now;
 
 		var inclusiveResult = Predicates.Between(date, date, true).Compile().Invoke(date);
 		var exclusiveResult = Predicates.Between(date, date, false).Compile().Invoke(date);
 
-		_ = inclusiveResult.Should().BeTrue();
-		_ = exclusiveResult.Should().BeFalse();
+		await Assert.That(inclusiveResult).IsTrue();
+		await Assert.That(exclusiveResult).IsFalse();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusiveProperlyForEqualStartAndEndDateTimeOffsets()
+	[Test]
+	public async Task BetweenShouldHandleInclusiveProperlyForEqualStartAndEndDateTimeOffsets()
 	{
 		var date = DateTimeOffset.Now;
 
 		var inclusiveResult = Predicates.Between(date, date, true).Compile().Invoke(date);
 		var exclusiveResult = Predicates.Between(date, date, false).Compile().Invoke(date);
 
-		_ = inclusiveResult.Should().BeTrue();
-		_ = exclusiveResult.Should().BeFalse();
+		await Assert.That(inclusiveResult).IsTrue();
+		await Assert.That(exclusiveResult).IsFalse();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusiveProperlyForValuesBetweenTheStartAndEndDatesWhenEndIsBeforeStart()
+	[Test]
+	public async Task BetweenShouldHandleInclusiveProperlyForValuesBetweenTheStartAndEndDatesWhenEndIsBeforeStart()
 	{
 		var start = DateTime.Now;
 		var end = start.AddHours(1);
@@ -170,13 +172,13 @@ public class PredicatesTests
 		var betweenEndAndStartExclusive = Predicates.Between(end, start, false).Compile().Invoke(test);
 		var betweenEndAndStartExclusiveImplicit = Predicates.Between(end, start).Compile().Invoke(test);
 
-		_ = betweenEndAndStartInclusive.Should().BeTrue();
-		_ = betweenEndAndStartExclusive.Should().BeTrue();
-		_ = betweenEndAndStartExclusiveImplicit.Should().BeTrue();
+		await Assert.That(betweenEndAndStartInclusive).IsTrue();
+		await Assert.That(betweenEndAndStartExclusive).IsTrue();
+		await Assert.That(betweenEndAndStartExclusiveImplicit).IsTrue();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusiveProperlyForValuesBetweenTheStartAndEndDateTimeOffsetsWhenEndIsBeforeStart()
+	[Test]
+	public async Task BetweenShouldHandleInclusiveProperlyForValuesBetweenTheStartAndEndDateTimeOffsetsWhenEndIsBeforeStart()
 	{
 		var start = DateTimeOffset.Now;
 		var end = start.AddHours(1);
@@ -186,13 +188,13 @@ public class PredicatesTests
 		var betweenEndAndStartExclusive = Predicates.Between(end, start, false).Compile().Invoke(test);
 		var betweenEndAndStartExclusiveImplicit = Predicates.Between(end, start).Compile().Invoke(test);
 
-		_ = betweenEndAndStartInclusive.Should().BeTrue();
-		_ = betweenEndAndStartExclusive.Should().BeTrue();
-		_ = betweenEndAndStartExclusiveImplicit.Should().BeTrue();
+		await Assert.That(betweenEndAndStartInclusive).IsTrue();
+		await Assert.That(betweenEndAndStartExclusive).IsTrue();
+		await Assert.That(betweenEndAndStartExclusiveImplicit).IsTrue();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusivePropertyForValuesBetweenTheStartAndEndDate()
+	[Test]
+	public async Task BetweenShouldHandleInclusivePropertyForValuesBetweenTheStartAndEndDate()
 	{
 		var start = DateTime.Now;
 		var end = start.AddHours(1);
@@ -202,13 +204,13 @@ public class PredicatesTests
 		var betweenStartAndEndExclusive = Predicates.Between(start, end, false).Compile().Invoke(test);
 		var betweenStartAndEndExclusiveImplicit = Predicates.Between(start, end).Compile().Invoke(test);
 
-		_ = betweenStartAndEndInclusive.Should().BeTrue();
-		_ = betweenStartAndEndExclusive.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveImplicit.Should().BeTrue();
+		await Assert.That(betweenStartAndEndInclusive).IsTrue();
+		await Assert.That(betweenStartAndEndExclusive).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveImplicit).IsTrue();
 	}
 
-	[Fact]
-	public void BetweenShouldHandleInclusivePropertyForValuesBetweenTheStartAndEndDateTimeOffset()
+	[Test]
+	public async Task BetweenShouldHandleInclusivePropertyForValuesBetweenTheStartAndEndDateTimeOffset()
 	{
 		var start = DateTimeOffset.Now;
 		var end = start.AddHours(1);
@@ -218,8 +220,8 @@ public class PredicatesTests
 		var betweenStartAndEndExclusive = Predicates.Between(start, end, false).Compile().Invoke(test);
 		var betweenStartAndEndExclusiveImplicit = Predicates.Between(start, end).Compile().Invoke(test);
 
-		_ = betweenStartAndEndInclusive.Should().BeTrue();
-		_ = betweenStartAndEndExclusive.Should().BeTrue();
-		_ = betweenStartAndEndExclusiveImplicit.Should().BeTrue();
+		await Assert.That(betweenStartAndEndInclusive).IsTrue();
+		await Assert.That(betweenStartAndEndExclusive).IsTrue();
+		await Assert.That(betweenStartAndEndExclusiveImplicit).IsTrue();
 	}
 }
