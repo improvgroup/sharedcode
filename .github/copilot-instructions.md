@@ -170,7 +170,7 @@ Unit tests live in `SharedCode.Core.Tests/` and `SharedCode.Data.Tests/` and fol
 - **Pattern**: Arrange / Act / Assert with blank lines separating each block
 - **File location**: mirror the source structure
   (e.g., `Calendar/DateTimeExtensionsTests.cs` for `Calendar/DateTimeExtensions.cs`)
-- Suppress `CA1515` on test classes — MSTest requires them to be `public`
+- `CA1515` (`public` types as internal) is suppressed at the test-project level via `.editorconfig` — MSTest requires test classes to be `public`
 
 ### `SharedCode.Data.Tests`
 

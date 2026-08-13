@@ -29,7 +29,7 @@ Add a new MSTest test class that exercises a source file in the SharedCode libra
 
 4. **Write the test class** following these rules:
    - Annotate with `[TestClass]`
-   - Suppress `CA1515` — MSTest requires `public` test classes
+   - Do **not** add a per-class `CA1515` suppression — it is already disabled at the project level via `.editorconfig`
    - Use `[TestMethod]` for single-scenario tests
    - Use `[DataTestMethod]` + `[DataRow(...)]` for parameterized tests
    - Follow the **Arrange / Act / Assert** pattern with blank lines separating each block
@@ -45,16 +45,10 @@ namespace SharedCode.Tests.<Folder>;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using System.Diagnostics.CodeAnalysis;
-
 /// <summary>
 /// Tests for <see cref="<TypeUnderTest>" />.
 /// </summary>
 [TestClass]
-[SuppressMessage(
-    "Maintainability",
-    "CA1515:Consider making public types internal",
-    Justification = "MSTest requires public test classes.")]
 public class <TypeUnderTest>Tests
 {
     /// <summary>
@@ -81,7 +75,7 @@ public class <TypeUnderTest>Tests
 /// <summary>
 /// Tests that <Member> returns the expected result for various inputs.
 /// </summary>
-[TestMethod]
+[DataTestMethod]
 [DataRow(<input1>, <expected1>)]
 [DataRow(<input2>, <expected2>)]
 public void <Member>_<Scenario>_<ExpectedOutcome>(<InputType> input, <ExpectedType> expected)
@@ -93,7 +87,7 @@ public void <Member>_<Scenario>_<ExpectedOutcome>(<InputType> input, <ExpectedTy
     var result = sut.<Member>(input);
 
     // Assert
-    result.Should().Be(expected);
+    Assert.AreEqual(expected, result);
 }
 ```
 
