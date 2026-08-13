@@ -31,8 +31,8 @@ Cover members in this order:
 
 Follow the conventions in `add-test-class.prompt.md`:
 - `[TestMethod]` for single scenarios
-- `[DataTestMethod]` + `[DataRow]` for parameterized scenarios
-- AwesomeAssertions (`result.Should().Be(...)`)
+- `[DataRow]` for parameterized scenarios
+- MSTest assertions (`Assert.AreEqual`, `Assert.IsTrue`, `Assert.ThrowsExactly`)
 - Arrange / Act / Assert blocks separated by blank lines
 
 ### 4 — Verify

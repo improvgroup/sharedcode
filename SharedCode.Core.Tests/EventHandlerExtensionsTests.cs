@@ -13,7 +13,7 @@ public class EventHandlerExtensionsTests
     /// handler with <see cref="EventArgs.Empty" />.
     /// </summary>
     [TestMethod]
-    public void RaiseNonGeneric_HandlerIsNotNull_InvokesHandler()
+    public void EventHandler_InvokesHandlerWithEmptyArgs()
     {
         // Arrange
         object? capturedSender = null;
@@ -38,7 +38,7 @@ public class EventHandlerExtensionsTests
     /// throw when the handler is null.
     /// </summary>
     [TestMethod]
-    public void RaiseNonGeneric_HandlerIsNull_DoesNotThrow()
+    public void EventHandler_NullHandler_DoesNotThrow()
     {
         // Arrange
         EventHandler? handler = null;
@@ -54,7 +54,7 @@ public class EventHandlerExtensionsTests
     /// invokes the handler with the expected value wrapped in <see cref="EventArgs{T}" />.
     /// </summary>
     [TestMethod]
-    public void RaiseGenericValue_HandlerIsNotNull_InvokesHandlerWithValue()
+    public void EventHandlerOfEventArgsT_InvokesHandlerWithWrappedValue()
     {
         // Arrange
         int? capturedValue = null;
@@ -73,7 +73,7 @@ public class EventHandlerExtensionsTests
     /// invokes the handler with the supplied <see cref="EventArgs" />.
     /// </summary>
     [TestMethod]
-    public void RaiseGenericEventArgs_HandlerIsNotNull_InvokesHandler()
+    public void EventHandlerOfT_InvokesHandlerWithSuppliedArgs()
     {
         // Arrange
         EventArgs? capturedArgs = null;
