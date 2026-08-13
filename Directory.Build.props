@@ -24,7 +24,7 @@
         <IncludeSymbols>true</IncludeSymbols>
         <LangVersion>preview</LangVersion>
         <NeutralLanguage>en-US</NeutralLanguage>
-        <NoWarn>$(NoWarn);CA1014</NoWarn>
+        <NoWarn>$(NoWarn);CA1014;NU1510</NoWarn>
         <Nullable>enable</Nullable>
         <PackageIcon>share.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -100,6 +100,12 @@
         <None Include="$(SolutionDir)\logo.png" Pack="true" Visible="false" PackagePath="\"/>
         <None Include="$(SolutionDir)\README.md" Pack="true" Visible="false" PackagePath="\"/>
     </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0' OR '$(TargetFramework)' == 'net10.0-windows10.0.22621.0'">
+        <PackageReference Update="GCop.All.Common" ExcludeAssets="analyzers" />
+    </ItemGroup>
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0' OR '$(TargetFramework)' == 'net10.0-windows10.0.22621.0'">
+        <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    </PropertyGroup>
     <Target Name="SetSourceRevisionId" BeforeTargets="InitializeSourceControlInformation">
         <Exec Command="git describe --long --always --dirty --exclude=* --abbrev=8" ConsoleToMSBuild="True" IgnoreExitCode="False">
             <!--<Output PropertyName="SourceRevisionId" TaskParameter="ConsoleOutput" />-->

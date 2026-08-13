@@ -42,19 +42,20 @@ in only what you need.
 
 | Package | NuGet | Target Frameworks | Description |
 |---|---|---|---|
-| `SharedCode.Core` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Core.svg)](https://www.nuget.org/packages/SharedCode.Core) | `netstandard2.0`, `netstandard2.1`, `net8.0`, `net9.0` | Core utilities: extensions, specifications, domain primitives, security, threading, reactive |
-| `SharedCode.Data` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.svg)](https://www.nuget.org/packages/SharedCode.Data) | `netstandard2.0`, `netstandard2.1`, `net8.0`, `net9.0` | Framework-agnostic data access abstractions: repository pattern, paging, query results |
-| `SharedCode.Data.CosmosDb` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.CosmosDb.svg)](https://www.nuget.org/packages/SharedCode.Data.CosmosDb) | `net8.0`, `net9.0` | Azure Cosmos DB integration and helpers |
-| `SharedCode.Data.EntityFramework` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.EntityFramework.svg)](https://www.nuget.org/packages/SharedCode.Data.EntityFramework) | `net8.0`, `net9.0` | Entity Framework Core integration: auditable contexts, EF repository, specifications |
-| `SharedCode.DependencyInjection` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.DependencyInjection.svg)](https://www.nuget.org/packages/SharedCode.DependencyInjection) | `netstandard2.0`, `netstandard2.1`, `net8.0`, `net9.0` | DI assembly scanning and auto-registration via `IDependencyRegister` |
-| `SharedCode.MediatR` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.MediatR.svg)](https://www.nuget.org/packages/SharedCode.MediatR) | `net8.0`, `net9.0` | MediatR command/query abstractions and pipeline helpers |
-| `SharedCode.Web` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Web.svg)](https://www.nuget.org/packages/SharedCode.Web) | `net9.0` | ASP.NET Core helpers: base controller, resilient HTTP client setup, health checks |
-| `SharedCode.Windows.WPF` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Windows.WPF.svg)](https://www.nuget.org/packages/SharedCode.Windows.WPF) | `net9.0-windows10.0.22621.0` | WPF helpers: `BindableBase`, value converters, attached properties, MVVM mediator |
+| `SharedCode.Core` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Core.svg)](https://www.nuget.org/packages/SharedCode.Core) | `netstandard2.0`, `netstandard2.1`, `net8.0`, `net9.0`, `net10.0` | Core utilities: extensions, specifications, domain primitives, security, threading, reactive |
+| `SharedCode.Data` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.svg)](https://www.nuget.org/packages/SharedCode.Data) | `netstandard2.0`, `netstandard2.1`, `net8.0`, `net9.0`, `net10.0` | Framework-agnostic data access abstractions: repository pattern, paging, query results |
+| `SharedCode.Data.CosmosDb` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.CosmosDb.svg)](https://www.nuget.org/packages/SharedCode.Data.CosmosDb) | `net8.0`, `net9.0`, `net10.0` | Azure Cosmos DB integration and helpers |
+| `SharedCode.Data.EntityFramework` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.EntityFramework.svg)](https://www.nuget.org/packages/SharedCode.Data.EntityFramework) | `net8.0`, `net9.0`, `net10.0` | Entity Framework Core integration: auditable contexts, EF repository, specifications |
+| `SharedCode.DependencyInjection` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.DependencyInjection.svg)](https://www.nuget.org/packages/SharedCode.DependencyInjection) | `netstandard2.0`, `netstandard2.1`, `net8.0`, `net9.0`, `net10.0` | DI assembly scanning and auto-registration via `IDependencyRegister` |
+| `SharedCode.MediatR` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.MediatR.svg)](https://www.nuget.org/packages/SharedCode.MediatR) | `net8.0`, `net9.0`, `net10.0` | MediatR command/query abstractions and pipeline helpers |
+| `SharedCode.Web` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Web.svg)](https://www.nuget.org/packages/SharedCode.Web) | `net9.0`, `net10.0` | ASP.NET Core helpers: base controller, resilient HTTP client setup, health checks |
+| `SharedCode.Windows.WPF` | [![NuGet](https://img.shields.io/nuget/v/SharedCode.Windows.WPF.svg)](https://www.nuget.org/packages/SharedCode.Windows.WPF) | `net9.0-windows10.0.22621.0`, `net10.0-windows10.0.22621.0` | WPF helpers: `BindableBase`, value converters, attached properties, MVVM mediator |
 
 ---
 
 ## Requirements
 
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (for `net10.0` targets)
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) (for `net9.0` targets)
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (for `net8.0` targets)
 - .NET Standard 2.0 / 2.1 targets are compatible with .NET Framework 4.6.1+ and .NET Core 2.0+
@@ -100,7 +101,7 @@ Install-Package SharedCode.Windows.WPF
 [![NuGet](https://img.shields.io/nuget/v/SharedCode.Core.svg)](https://www.nuget.org/packages/SharedCode.Core)
 
 Core utilities and domain primitives that are shared across all other packages. Targets
-`netstandard2.0`, `netstandard2.1`, `net8.0`, and `net9.0`.
+`netstandard2.0`, `netstandard2.1`, `net8.0`, `net9.0`, and `net10.0`.
 
 **Highlights**
 
@@ -137,7 +138,7 @@ public sealed class ActiveUsersSpec : Specification<User>
 [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.svg)](https://www.nuget.org/packages/SharedCode.Data)
 
 Framework-agnostic data access abstractions. Targets `netstandard2.0`, `netstandard2.1`,
-`net8.0`, and `net9.0`.
+`net8.0`, `net9.0`, and `net10.0`.
 
 **Highlights**
 
@@ -170,7 +171,7 @@ public class UserService
 
 Azure Cosmos DB integration built on top of the official
 [Microsoft.Azure.Cosmos](https://www.nuget.org/packages/Microsoft.Azure.Cosmos) SDK.
-Targets `net8.0` and `net9.0`.
+Targets `net8.0`, `net9.0`, and `net10.0`.
 
 **Highlights**
 
@@ -183,7 +184,7 @@ Targets `net8.0` and `net9.0`.
 
 [![NuGet](https://img.shields.io/nuget/v/SharedCode.Data.EntityFramework.svg)](https://www.nuget.org/packages/SharedCode.Data.EntityFramework)
 
-Entity Framework Core integration. Targets `net8.0` and `net9.0`.
+Entity Framework Core integration. Targets `net8.0`, `net9.0`, and `net10.0`.
 
 **Highlights**
 
@@ -213,7 +214,7 @@ services.AddDbContext<AppDbContext>(options =>
 [![NuGet](https://img.shields.io/nuget/v/SharedCode.DependencyInjection.svg)](https://www.nuget.org/packages/SharedCode.DependencyInjection)
 
 Assembly scanning and automatic service registration. Targets `netstandard2.0`,
-`netstandard2.1`, `net8.0`, and `net9.0`.
+`netstandard2.1`, `net8.0`, `net9.0`, and `net10.0`.
 
 **Highlights**
 
@@ -241,8 +242,8 @@ public class MyServiceRegistrar : IDependencyRegister
 
 [![NuGet](https://img.shields.io/nuget/v/SharedCode.MediatR.svg)](https://www.nuget.org/packages/SharedCode.MediatR)
 
-[MediatR](https://github.com/jbogard/MediatR) pipeline abstractions. Targets `net8.0` and
-`net9.0`.
+[MediatR](https://github.com/jbogard/MediatR) pipeline abstractions. Targets `net8.0`,
+`net9.0`, and `net10.0`.
 
 **Highlights**
 
@@ -277,7 +278,7 @@ services.AddSharedCodeMediatR(typeof(Program).Assembly);
 
 [![NuGet](https://img.shields.io/nuget/v/SharedCode.Web.svg)](https://www.nuget.org/packages/SharedCode.Web)
 
-ASP.NET Core helpers. Targets `net9.0`.
+ASP.NET Core helpers. Targets `net9.0` and `net10.0`.
 
 **Highlights**
 
@@ -303,7 +304,7 @@ public class UsersController : BaseController
 
 [![NuGet](https://img.shields.io/nuget/v/SharedCode.Windows.WPF.svg)](https://www.nuget.org/packages/SharedCode.Windows.WPF)
 
-WPF helpers targeting `net9.0-windows10.0.22621.0`.
+WPF helpers targeting `net9.0-windows10.0.22621.0` and `net10.0-windows10.0.22621.0`.
 
 **Highlights**
 
@@ -334,8 +335,9 @@ dotnet build SharedCode.sln
 dotnet test SharedCode.sln
 ```
 
-The solution targets **.NET 9** for the library projects. The WPF project additionally requires
-Windows 10 SDK version 10.0.19041.0 or later.
+The solution targets **.NET 8, .NET 9, and .NET 10** for library projects (plus .NET Standard
+2.0/2.1 compatibility for selected packages). The WPF project additionally requires Windows 10 SDK
+version 10.0.19041.0 or later.
 
 ---
 
