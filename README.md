@@ -358,4 +358,4 @@ contributing.
 ## License
 
 This project is licensed under the [MIT License](LICENSE).  
-Copyright © 2025 [improvGroup, LLC](https://github.com/improvgroup) and contributors.
+Copyright © 2026 [improvGroup, LLC](https://github.com/improvgroup) and contributors.

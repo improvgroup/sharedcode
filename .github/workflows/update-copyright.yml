@@ -1,0 +1,50 @@
+name: Update Copyright Year
+
+on:
+  schedule:
+    - cron: '0 0 1 1 *'  # January 1st at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-copyright:
+    name: Update Copyright Year
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update copyright year
+        id: update
+        shell: pwsh
+        run: |
+          $year = (Get-Date).Year
+          $files = @("Directory.Build.props", "README.md")
+          $changed = $false
+          foreach ($file in $files) {
+            $content = Get-Content $file -Raw
+            $updated = $content -replace 'Copyright © \d{4}', "Copyright © $year"
+            if ($updated -ne $content) {
+              Set-Content $file -Value $updated -NoNewline
+              $changed = $true
+              Write-Output "Updated $file"
+            }
+          }
+          echo "changed=$changed" >> $env:GITHUB_OUTPUT
+
+      - name: Create pull request
+        if: steps.update.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: update copyright year"
+          branch: chore/update-copyright-year
+          title: "chore: update copyright year"
+          body: |
+            Automated annual copyright year update.
+
+            This pull request was created by the `update-copyright` workflow.
+          labels: automated
