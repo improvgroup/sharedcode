@@ -89,7 +89,8 @@ jobs:
     name: Publish to Nuget
     runs-on: windows-latest
     permissions:
-      packages: write
+      contents: read
+      id-token: write
     steps:
     - name: Download built project
       uses: actions/download-artifact@v5
@@ -101,5 +102,11 @@ jobs:
       with:
         dotnet-version: 10.0.x
 
+    - name: Authenticate with NuGet.org
+      id: login
+      uses: NuGet/login@v1
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - name: Push Package to NuGet
-      run: dotnet nuget push --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" *.nupkg
+      run: dotnet nuget push --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json" *.nupkg
