@@ -127,12 +127,10 @@ public class ExceptionExtensionsTests
 	}
 
 	[Test]
-	public async Task ThrowIfContainsErrors_WithoutData_DoesNotThrow()
+	public void ThrowIfContainsErrors_WithoutData_DoesNotThrow()
 	{
 		var ex = new InvalidOperationException("test");
 		ex.ThrowIfContainsErrors(); // Should not throw
-
-		await Assert.That(true).IsTrue();
 	}
 
 	[Test]

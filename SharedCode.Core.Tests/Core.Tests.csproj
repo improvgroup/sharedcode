@@ -21,7 +21,7 @@
         <PackageReference Include="AwesomeAssertions.Json" />
         <PackageReference Include="GCop.All.Common">
             <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; buildtransitive</IncludeAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="TUnit" />

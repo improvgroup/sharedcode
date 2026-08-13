@@ -39,7 +39,7 @@ public class EventHandlerExtensionsTests
     /// throw when the handler is null.
     /// </summary>
     [Test]
-    public async Task EventHandler_NullHandler_DoesNotThrow()
+    public void EventHandler_NullHandler_DoesNotThrow()
     {
         // Arrange
         EventHandler? handler = null;
@@ -48,8 +48,6 @@ public class EventHandlerExtensionsTests
 #pragma warning disable CS8604 // Possible null reference argument — intentional null test
         handler!.Raise(new object());
 #pragma warning restore CS8604
-
-        await Assert.That(true).IsTrue();
     }
 
     /// <summary>
