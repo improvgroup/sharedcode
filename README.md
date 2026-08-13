@@ -332,7 +332,7 @@ cd sharedcode
 dotnet build SharedCode.sln
 
 # Run all tests
-dotnet test SharedCode.sln
+dotnet test --solution SharedCode.sln
 ```
 
 The solution targets **.NET 8, .NET 9, and .NET 10** for library projects (plus .NET Standard
@@ -346,7 +346,7 @@ version 10.0.19041.0 or later.
 Contributions are welcome! Please follow these steps:
 
 1. Fork the repository and create a feature branch.
-2. Make your changes, ensuring all existing tests pass (`dotnet test SharedCode.sln`).
+2. Make your changes, ensuring all existing tests pass (`dotnet test --solution SharedCode.sln`).
 3. Add or update tests as appropriate.
 4. Open a pull request against the `main` branch.
 
