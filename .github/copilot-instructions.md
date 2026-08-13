@@ -27,8 +27,8 @@ dotnet build SharedCode.sln
 # Run all tests
 dotnet test SharedCode.sln
 
-# Run tests with verbose output and GitHub Actions logging
-dotnet test --logger GitHubActions --verbosity normal SharedCode.sln
+# Run tests with verbose output
+dotnet test SharedCode.sln --verbosity normal
 ```
 
 ## Code Conventions

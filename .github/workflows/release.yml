@@ -26,7 +26,7 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Run Tests
-      run: dotnet test --logger GitHubActions --verbosity normal SharedCode.sln
+      run: dotnet test SharedCode.sln --verbosity normal
 
   semantic-release:
     needs: test
