@@ -34,7 +34,7 @@ jobs:
               Write-Output "Updated $file"
             }
           }
-          echo "changed=$changed" >> $env:GITHUB_OUTPUT
+          echo "changed=$($changed.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
           echo "year=$year" >> $env:GITHUB_OUTPUT
 
       - name: Create pull request
