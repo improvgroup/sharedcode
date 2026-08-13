@@ -46,7 +46,7 @@ jobs:
         dotnet tool run reportgenerator
         -reports:coverage.xml
         -targetdir:coverage-report
-        -reporttypes:Html;MarkdownSummaryGithub;Cobertura
+        "-reporttypes:Html;MarkdownSummaryGithub;Cobertura"
 
     - name: Write coverage summary to workflow
       if: always()
