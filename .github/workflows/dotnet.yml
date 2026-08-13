@@ -34,7 +34,7 @@ jobs:
     - name: Run tests with coverage
       shell: pwsh
       run: >
-        dotnet-coverage collect
+        dotnet tool run dotnet-coverage collect
         --output coverage.xml
         --output-format cobertura
         --
@@ -43,7 +43,7 @@ jobs:
     - name: Generate coverage report
       if: always()
       run: >
-        reportgenerator
+        dotnet tool run reportgenerator
         -reports:coverage.xml
         -targetdir:coverage-report
         -reporttypes:Html;MarkdownSummaryGithub;Cobertura
