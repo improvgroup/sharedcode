@@ -25,10 +25,10 @@ published as individual NuGet packages. Each project corresponds to one NuGet pa
 dotnet build SharedCode.sln
 
 # Run all tests
-dotnet test --solution SharedCode.sln
+dotnet test SharedCode.sln
 
 # Run tests with verbose output
-dotnet test --solution SharedCode.sln --verbosity normal
+dotnet test SharedCode.sln --verbosity normal
 ```
 
 ## Code Conventions

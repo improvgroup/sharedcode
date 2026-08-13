@@ -38,7 +38,7 @@ Follow the conventions in `add-test-class.prompt.md`:
 ### 4 — Verify
 
 ```bash
-dotnet test --solution SharedCode.sln
+dotnet test SharedCode.sln
 ```
 
 Zero failures required before merging.
