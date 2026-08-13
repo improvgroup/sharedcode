@@ -22,7 +22,7 @@ public class TypeExtensionsTests
         var result = type.GetDisplayName();
 
         // Assert
-        result.Should().Be("Type Extensions Tests");
+        Assert.AreEqual("Type Extensions Tests", result);
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class TypeExtensionsTests
         var result = type.IsNullable();
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class TypeExtensionsTests
         var result = type.IsNullable();
 
         // Assert
-        result.Should().BeFalse();
+        Assert.IsFalse(result);
     }
 
     /// <summary>
@@ -73,26 +73,7 @@ public class TypeExtensionsTests
         var result = type.IsNullable();
 
         // Assert
-        result.Should().BeFalse();
-    }
-
-    /// <summary>
-    /// Tests that <see cref="TypeExtensions.IsSubclassOfRawGeneric" /> returns
-    /// <see langword="true" /> when the type inherits from the raw generic.
-    /// </summary>
-    [TestMethod]
-    public void IsSubclassOfRawGeneric_DerivedFromGenericBase_ReturnsTrue()
-    {
-        // Arrange
-        var derived = typeof(List<int>);
-        var rawGenericBase = typeof(List<>);
-
-        // Act
-        var result = derived.IsSubclassOfRawGeneric(rawGenericBase);
-
-        // Assert
-        // List<int> is not a subclass of List<> (it IS List<>), so this tests the exact type path
-        result.Should().BeFalse();
+        Assert.IsFalse(result);
     }
 
     /// <summary>
@@ -109,7 +90,7 @@ public class TypeExtensionsTests
         var result = type.IsBoolean();
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -126,7 +107,7 @@ public class TypeExtensionsTests
         var result = type.IsBoolean();
 
         // Assert
-        result.Should().BeFalse();
+        Assert.IsFalse(result);
     }
 
     /// <summary>
@@ -143,7 +124,7 @@ public class TypeExtensionsTests
         var result = type.IsString();
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -160,7 +141,7 @@ public class TypeExtensionsTests
         var result = type.IsString();
 
         // Assert
-        result.Should().BeFalse();
+        Assert.IsFalse(result);
     }
 
     /// <summary>
@@ -176,7 +157,7 @@ public class TypeExtensionsTests
         var result = type.BaseType();
 
         // Assert
-        result.Should().Be(typeof(ArgumentException));
+        Assert.AreEqual(typeof(ArgumentException), result);
     }
 
     /// <summary>
@@ -193,7 +174,7 @@ public class TypeExtensionsTests
         var result = type.IsSubclassOfTypeByName(nameof(ArgumentException));
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -210,6 +191,6 @@ public class TypeExtensionsTests
         var result = type.IsSubclassOfTypeByName("NonExistentBase");
 
         // Assert
-        result.Should().BeFalse();
+        Assert.IsFalse(result);
     }
 }

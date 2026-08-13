@@ -28,8 +28,8 @@ public class FunctionExtensionsTests
         var result = memoized(5);
 
         // Assert
-        result.Should().Be("5");
-        callCount.Should().Be(1);
+        Assert.AreEqual("5", result);
+        Assert.AreEqual(1, callCount);
     }
 
     /// <summary>
@@ -53,8 +53,8 @@ public class FunctionExtensionsTests
         var result = memoized(7);
 
         // Assert
-        result.Should().Be("7");
-        callCount.Should().Be(1);
+        Assert.AreEqual("7", result);
+        Assert.AreEqual(1, callCount);
     }
 
     /// <summary>
@@ -78,9 +78,9 @@ public class FunctionExtensionsTests
         var result2 = memoized(2);
 
         // Assert
-        result1.Should().Be("1");
-        result2.Should().Be("2");
-        callCount.Should().Be(2);
+        Assert.AreEqual("1", result1);
+        Assert.AreEqual("2", result2);
+        Assert.AreEqual(2, callCount);
     }
 
     /// <summary>
@@ -93,10 +93,7 @@ public class FunctionExtensionsTests
         // Arrange
         Func<int, string>? func = null;
 
-        // Act
-        var act = () => func!.Memoize();
-
-        // Assert
-        act.Should().Throw<ArgumentNullException>();
+        // Act / Assert
+        _ = Assert.ThrowsExactly<ArgumentNullException>(() => func!.Memoize());
     }
 }

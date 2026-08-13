@@ -24,7 +24,7 @@ public class AssemblyExtensionsTests
         var result = assembly.GetAttribute<AssemblyTitleAttribute>();
 
         // Assert
-        result.Should().NotBeNull();
+        Assert.IsNotNull(result);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class AssemblyExtensionsTests
         var result = assembly.GetAttribute<ObsoleteAttribute>();
 
         // Assert
-        result.Should().BeNull();
+        Assert.IsNull(result);
     }
 
     /// <summary>
@@ -54,10 +54,8 @@ public class AssemblyExtensionsTests
         // Arrange
         Assembly? assembly = null;
 
-        // Act
-        var act = () => assembly!.GetAttribute<AssemblyTitleAttribute>();
-
-        // Assert
-        act.Should().Throw<ArgumentNullException>();
+        // Act / Assert
+        _ = Assert.ThrowsExactly<ArgumentNullException>(
+            () => assembly!.GetAttribute<AssemblyTitleAttribute>());
     }
 }

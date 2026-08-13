@@ -33,7 +33,7 @@ Add a new MSTest test class that exercises a source file in the SharedCode libra
    - Use `[TestMethod]` for single-scenario tests
    - Use `[DataTestMethod]` + `[DataRow(...)]` for parameterized tests
    - Follow the **Arrange / Act / Assert** pattern with blank lines separating each block
-   - Use **AwesomeAssertions** for assertions (`result.Should().Be(...)`, etc.)
+   - Use **MSTest assertions** (`Assert.AreEqual`, `Assert.IsTrue`, `Assert.IsNotNull`, `Assert.ThrowsException`, `[ExpectedException]`)
    - Name test methods as `<MemberUnderTest>_<Scenario>_<ExpectedOutcome>`
 
 5. **Verify zero warnings**: `dotnet build SharedCode.sln`
@@ -106,13 +106,8 @@ public void <Member>_<Scenario>_<ExpectedOutcome>(<InputType> input, <ExpectedTy
 [TestMethod]
 public void <Member>_<Condition>_Throws<ExceptionType>()
 {
-    // Arrange
-    <Type>? sut = null;
-
-    // Act
-    var act = () => sut!.<Member>();
-
-    // Assert
-    act.Should().Throw<<ExceptionType>>();
+    // Act / Assert
+    _ = Assert.ThrowsExactly<<ExceptionType>>(
+        () => <sut>.<Member>(<args>));
 }
 ```

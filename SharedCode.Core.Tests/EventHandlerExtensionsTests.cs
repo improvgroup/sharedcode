@@ -13,7 +13,7 @@ public class EventHandlerExtensionsTests
     /// handler with <see cref="EventArgs.Empty" />.
     /// </summary>
     [TestMethod]
-    public void Raise_HandlerIsNotNull_InvokesHandler()
+    public void RaiseNonGeneric_HandlerIsNotNull_InvokesHandler()
     {
         // Arrange
         object? capturedSender = null;
@@ -29,8 +29,8 @@ public class EventHandlerExtensionsTests
         handler.Raise(sender);
 
         // Assert
-        capturedSender.Should().BeSameAs(sender);
-        capturedArgs.Should().BeSameAs(EventArgs.Empty);
+        Assert.AreSame(sender, capturedSender);
+        Assert.AreSame(EventArgs.Empty, capturedArgs);
     }
 
     /// <summary>
@@ -38,16 +38,15 @@ public class EventHandlerExtensionsTests
     /// throw when the handler is null.
     /// </summary>
     [TestMethod]
-    public void Raise_HandlerIsNull_DoesNotThrow()
+    public void RaiseNonGeneric_HandlerIsNull_DoesNotThrow()
     {
         // Arrange
         EventHandler? handler = null;
 
-        // Act
-        var act = () => handler.Raise(new object());
-
-        // Assert
-        act.Should().NotThrow();
+        // Act / Assert — should not throw
+#pragma warning disable CS8604 // Possible null reference argument — intentional null test
+        handler!.Raise(new object());
+#pragma warning restore CS8604
     }
 
     /// <summary>
@@ -55,7 +54,7 @@ public class EventHandlerExtensionsTests
     /// invokes the handler with the expected value wrapped in <see cref="EventArgs{T}" />.
     /// </summary>
     [TestMethod]
-    public void Raise_Generic_HandlerIsNotNull_InvokesHandlerWithValue()
+    public void RaiseGenericValue_HandlerIsNotNull_InvokesHandlerWithValue()
     {
         // Arrange
         int? capturedValue = null;
@@ -66,7 +65,7 @@ public class EventHandlerExtensionsTests
         handler.Raise(sender, 42);
 
         // Assert
-        capturedValue.Should().Be(42);
+        Assert.AreEqual(42, capturedValue);
     }
 
     /// <summary>
@@ -74,7 +73,7 @@ public class EventHandlerExtensionsTests
     /// invokes the handler with the supplied <see cref="EventArgs" />.
     /// </summary>
     [TestMethod]
-    public void Raise_GenericEventArgs_HandlerIsNotNull_InvokesHandler()
+    public void RaiseGenericEventArgs_HandlerIsNotNull_InvokesHandler()
     {
         // Arrange
         EventArgs? capturedArgs = null;
@@ -85,6 +84,6 @@ public class EventHandlerExtensionsTests
         handler.Raise(new object(), args);
 
         // Assert
-        capturedArgs.Should().BeSameAs(args);
+        Assert.AreSame(args, capturedArgs);
     }
 }

@@ -22,7 +22,7 @@ public class PropertySupportTests
         var result = PropertySupport.ExtractPropertyName(() => target.Name);
 
         // Assert
-        result.Should().Be(nameof(SampleClass.Name));
+        Assert.AreEqual(nameof(SampleClass.Name), result);
     }
 
     /// <summary>
@@ -32,11 +32,9 @@ public class PropertySupportTests
     [TestMethod]
     public void ExtractPropertyName_NullExpression_ThrowsArgumentNullException()
     {
-        // Arrange / Act
-        var act = () => PropertySupport.ExtractPropertyName<string>(null!);
-
-        // Assert
-        act.Should().Throw<ArgumentNullException>();
+        // Act / Assert
+        _ = Assert.ThrowsExactly<ArgumentNullException>(
+            () => PropertySupport.ExtractPropertyName<string>(null!));
     }
 
     /// <summary>

@@ -12,7 +12,7 @@ public class ExtensionsTests
     /// Tests that <see cref="Extensions.IsBetween{T}" /> returns <see langword="true" /> when the
     /// value is within bounds.
     /// </summary>
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(5, 1, 10)]
     [DataRow(1, 1, 10)]
     [DataRow(10, 1, 10)]
@@ -22,14 +22,14 @@ public class ExtensionsTests
         var result = value.IsBetween(low, high);
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
     /// Tests that <see cref="Extensions.IsBetween{T}" /> returns <see langword="false" /> when
     /// the value is outside bounds.
     /// </summary>
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(0, 1, 10)]
     [DataRow(11, 1, 10)]
     public void IsBetween_ValueOutOfRange_ReturnsFalse(int value, int low, int high)
@@ -38,7 +38,7 @@ public class ExtensionsTests
         var result = value.IsBetween(low, high);
 
         // Assert
-        result.Should().BeFalse();
+        Assert.IsFalse(result);
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public class ExtensionsTests
         var result = value.In(1, 2, 3, 4);
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class ExtensionsTests
         var result = value.In(1, 2, 3, 4);
 
         // Assert
-        result.Should().BeFalse();
+        Assert.IsFalse(result);
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public class ExtensionsTests
         var result = target.IfNotNull(s => s.Length);
 
         // Assert
-        result.Should().Be(5);
+        Assert.AreEqual(5, result);
     }
 
     /// <summary>
@@ -100,13 +100,13 @@ public class ExtensionsTests
     public void IfNotNull_TargetIsNull_ReturnsDefault()
     {
         // Arrange
-        string? target = null;
+        string target = null!;
 
         // Act
         var result = target.IfNotNull(s => s.Length);
 
         // Assert
-        result.Should().Be(default);
+        Assert.AreEqual(default, result);
     }
 
     /// <summary>
@@ -116,14 +116,16 @@ public class ExtensionsTests
     [TestMethod]
     public void IsNull_NullObject_ReturnsTrue()
     {
-        // Arrange
+        // Arrange — use a nullable wrapper to avoid CS8602 on calling extension on null directly
         object? obj = null;
 
+#pragma warning disable CS8604 // Possible null reference argument — intentional null test
         // Act
-        var result = obj!.IsNull();
+        var result = obj.IsNull();
+#pragma warning restore CS8604
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -140,7 +142,7 @@ public class ExtensionsTests
         var result = obj.IsNotNull();
 
         // Assert
-        result.Should().BeTrue();
+        Assert.IsTrue(result);
     }
 
     /// <summary>
@@ -154,10 +156,10 @@ public class ExtensionsTests
         object source = "not-a-number";
 
         // Act
-        var result = source.ChangeType(defaultValue: -1);
+        var result = source.ChangeType(-1);
 
         // Assert
-        result.Should().Be(-1);
+        Assert.AreEqual(-1, result);
     }
 
     /// <summary>
@@ -173,7 +175,7 @@ public class ExtensionsTests
         var result = source.ChangeType<string>();
 
         // Assert
-        result.Should().Be("42");
+        Assert.AreEqual("42", result);
     }
 
     /// <summary>
@@ -190,7 +192,7 @@ public class ExtensionsTests
         var result = obj.GetPropertyValue<string>("Greeting");
 
         // Assert
-        result.Should().Be("World");
+        Assert.AreEqual("World", result);
     }
 
     /// <summary>
@@ -207,7 +209,7 @@ public class ExtensionsTests
         var result = obj.GetPropertyValue<string>("NonExistent");
 
         // Assert
-        result.Should().BeNull();
+        Assert.IsNull(result);
     }
 
     /// <summary>
