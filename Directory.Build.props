@@ -9,7 +9,7 @@
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
         <Company>improvGroup, LLC</Company>
-        <Copyright>Copyright © 2025 improvGroup, LLC and contributors. All Rights Reserved.</Copyright>
+        <Copyright>Copyright © 2026 improvGroup, LLC and contributors. All Rights Reserved.</Copyright>
         <DebugType>portable</DebugType>
         <Description>A library of code shared for free use to help with common scenarios.</Description>
         <Deterministic>true</Deterministic>
@@ -54,7 +54,7 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <Build Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
         <Revision Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
-        <Version Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">7.4.$(Build).$(Revision)</Version>
+        <Version Condition="'$(DesignTimeBuild)' != 'true' OR '$(BuildingProject)' == 'true'">7.5.$(Build).$(Revision)</Version>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Bcl.HashCode" />
