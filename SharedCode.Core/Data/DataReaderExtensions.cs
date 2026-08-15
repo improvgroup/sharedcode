@@ -95,7 +95,7 @@ public static class DataReaderExtensions
 						// If separator is in value, ensure it is put in double quotes.
 						if (
 #if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-							value?.IndexOf(separator, StringComparison.Ordinal) >= 0
+							value?.IndexOf(separator, StringComparison.Ordinal) is >= 0
 #else
 							value is not null &&
 							CultureInfo.InvariantCulture.CompareInfo.IndexOf(value, separator, CompareOptions.Ordinal) >= 0
