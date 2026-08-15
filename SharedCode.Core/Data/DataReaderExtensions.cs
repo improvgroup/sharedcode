@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Globalization;
 
 namespace SharedCode.Data;
 
@@ -96,7 +97,14 @@ public static class DataReaderExtensions
 						}
 
 						// If separtor are is in value, ensure it is put in double quotes.
-						if (value?.IndexOf(separator, StringComparison.Ordinal) >= 0)
+						if (
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+							value?.IndexOf(separator, StringComparison.Ordinal) >= 0
+#else
+							value is not null &&
+							CultureInfo.InvariantCulture.CompareInfo.IndexOf(value, separator, CompareOptions.Ordinal) >= 0
+#endif
+						)
 						{
 							value = $"\"{value}\"";
 						}
