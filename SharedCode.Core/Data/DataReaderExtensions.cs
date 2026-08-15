@@ -1,5 +1,7 @@
 ﻿using System.Data;
+#if !(NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER)
 using System.Globalization;
+#endif
 
 namespace SharedCode.Data;
 
@@ -81,13 +83,7 @@ public static class DataReaderExtensions
 					if (@this.GetFieldType(index) == typeof(string))
 					{
 						// If double quotes are used in value, ensure each are replaced but 2.
-						if (
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-							value?.IndexOf('"', StringComparison.Ordinal) >= 0
-#else
-							value?.IndexOf('"') >= 0
-#endif
-						)
+						if (value?.Contains('"', StringComparison.Ordinal) == true)
 						{
 #if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 							value = value.Replace("\"", "\"\"", StringComparison.Ordinal);
