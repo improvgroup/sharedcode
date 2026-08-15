@@ -367,13 +367,27 @@ public static partial class CollectionExtensions
         var count = 0;
         for (var i = 0; i < @this.Count; i++)
         {
-            var item = @this is IList<T> list ? list[i] : @this.ElementAt(i);
-            if (!match(item))
+            if (@this is IList<T> list)
             {
-                continue;
+                var item = list[i];
+                if (!match(item))
+                {
+                    continue;
+                }
+
+                list.RemoveAt(i);
+            }
+            else
+            {
+                var item = @this.ElementAt(i);
+                if (!match(item))
+                {
+                    continue;
+                }
+
+                _ = @this.Remove(item);
             }
 
-            _ = @this.Remove(item);
             count++;
             i--;
         }
