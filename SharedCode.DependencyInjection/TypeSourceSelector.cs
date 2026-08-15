@@ -154,11 +154,12 @@ internal sealed class TypeSourceSelector(IServiceCollection services) : ITypeSou
         }
 #endif
 
-        var assemblies = new List<Assembly> { assembly };
+        var referencedAssemblies = assembly.GetReferencedAssemblies();
+        var assemblies = new List<Assembly>(capacity: referencedAssemblies.Length + 1) { assembly };
 
         try
         {
-            foreach (var dependencyName in assembly.GetReferencedAssemblies())
+            foreach (var dependencyName in referencedAssemblies)
             {
                 try
                 {
