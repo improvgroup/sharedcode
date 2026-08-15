@@ -34,12 +34,36 @@ public static class EnumerableExtensions
 	/// <param name="defaultValue">The default value.</param>
 	/// <param name="aggregateFunction">The aggregate function.</param>
 	/// <returns>The result.</returns>
-	public static T? Aggregate<T>(this IEnumerable<T> @this, T? defaultValue, Func<T?, T?, T?> aggregateFunction) =>
-		@this is null
-		    ? defaultValue
-		    : @this.TryGetNonEnumeratedCount(out var count) && count == 0
-		        ? defaultValue
-		        : System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!);
+	public static T? Aggregate<T>(this IEnumerable<T> @this, T? defaultValue, Func<T?, T?, T?> aggregateFunction)
+	{
+		_ = aggregateFunction ?? throw new ArgumentNullException(nameof(aggregateFunction));
+
+		if (@this is null)
+		{
+			return defaultValue;
+		}
+
+		if (@this.TryGetNonEnumeratedCount(out var count))
+		{
+			return count == 0
+			    ? defaultValue
+			    : System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!);
+		}
+
+		using var enumerator = @this.GetEnumerator();
+		if (!enumerator.MoveNext())
+		{
+			return defaultValue;
+		}
+
+		T? result = enumerator.Current;
+		while (enumerator.MoveNext())
+		{
+			result = aggregateFunction(result, enumerator.Current);
+		}
+
+		return result;
+	}
 
 	/// <summary>
 	/// Starts execution of IQueryable on a ThreadPool thread and returns immediately with a
@@ -241,7 +265,7 @@ public static class EnumerableExtensions
 	/// <c>true</c> if the source enumerable is not null and contains items; otherwise, <c>false</c>.
 	/// </returns>
 	public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> @this) =>
-	    @this is not null && (!@this.TryGetNonEnumeratedCount(out var count) || count > 0);
+	    @this is not null && (@this.TryGetNonEnumeratedCount(out var count) ? count > 0 : @this.Any());
 
 	/// <summary>
 	/// Determines whether the source enumerable is null or contains no items.
