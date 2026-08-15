@@ -43,9 +43,16 @@ public static class EnumerableExtensions
 			return defaultValue;
 		}
 
-		if (@this.TryGetNonEnumeratedCount(out var count))
+		if (@this is ICollection<T> collection)
 		{
-			return count == 0
+			return collection.Count == 0
+			    ? defaultValue
+			    : System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!);
+		}
+
+		if (@this is IReadOnlyCollection<T> readOnlyCollection)
+		{
+			return readOnlyCollection.Count == 0
 			    ? defaultValue
 			    : System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!);
 		}
