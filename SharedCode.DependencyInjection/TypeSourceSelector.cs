@@ -154,7 +154,7 @@ internal sealed class TypeSourceSelector(IServiceCollection services) : ITypeSou
         }
 #endif
 
-        var assemblies = new List<Assembly> { assembly };
+        var assemblies = new List<Assembly>(capacity: 1) { assembly };
 
         try
         {

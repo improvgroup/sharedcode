@@ -211,10 +211,15 @@ internal static class DeepCloneGenerator
 
 		var rank = obj.Rank;
 
-		var lengths = Enumerable.Range(0, rank).Select(obj.GetLength).ToArray();
-
-		var lowerBounds = Enumerable.Range(0, rank).Select(obj.GetLowerBound).ToArray();
-		var idxes = Enumerable.Range(0, rank).Select(obj.GetLowerBound).ToArray();
+		var lengths = new int[rank];
+		var lowerBounds = new int[rank];
+		var idxes = new int[rank];
+		for (var i = 0; i < rank; i++)
+		{
+		    lengths[i] = obj.GetLength(i);
+		    lowerBounds[i] = obj.GetLowerBound(i);
+		    idxes[i] = lowerBounds[i];
+		}
 
 		var elementType = obj.GetType().GetElementType();
 		var outArray = Array.CreateInstance(elementType!, lengths, lowerBounds);

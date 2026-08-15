@@ -70,9 +70,12 @@ public static partial class CollectionExtensions
         _ = @this ?? throw new ArgumentNullException(nameof(@this));
         _ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
-        foreach (var item in @this.Where(item => predicate(item)))
+        foreach (var item in @this)
         {
-            return item;
+            if (predicate(item))
+            {
+                return item;
+            }
         }
 
         return default;
@@ -92,9 +95,12 @@ public static partial class CollectionExtensions
         _ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
         var all = new Collection<T>();
-        foreach (var item in @this.Where(item => predicate(item)))
+        foreach (var item in @this)
         {
-            all.Add(item);
+            if (predicate(item))
+            {
+                all.Add(item);
+            }
         }
 
         return all;
@@ -175,7 +181,7 @@ public static partial class CollectionExtensions
                 throw new ArgumentOutOfRangeException(nameof(@this));
             }
 
-            if (predicate(@this.ElementAt(i)))
+            if (predicate(@this is IList<T> list ? list[i] : @this.ElementAt(i)))
             {
                 return i;
             }
@@ -199,9 +205,10 @@ public static partial class CollectionExtensions
 
         for (var i = @this.Count - 1; i >= 0; i--)
         {
-            if (predicate(@this.ElementAt(i)))
+            var item = @this is IList<T> list ? list[i] : @this.ElementAt(i);
+            if (predicate(item))
             {
-                return @this.ElementAt(i);
+                return item;
             }
         }
 
@@ -285,7 +292,7 @@ public static partial class CollectionExtensions
                 throw new ArgumentOutOfRangeException(nameof(@this));
             }
 
-            if (predicate(@this.ElementAt(i)))
+            if (predicate(@this is IList<T> list ? list[i] : @this.ElementAt(i)))
             {
                 return i;
             }
@@ -360,12 +367,13 @@ public static partial class CollectionExtensions
         var count = 0;
         for (var i = 0; i < @this.Count; i++)
         {
-            if (!match(@this.ElementAt(i)))
+            var item = @this is IList<T> list ? list[i] : @this.ElementAt(i);
+            if (!match(item))
             {
                 continue;
             }
 
-            _ = @this.Remove(@this.ElementAt(i));
+            _ = @this.Remove(item);
             count++;
             i--;
         }

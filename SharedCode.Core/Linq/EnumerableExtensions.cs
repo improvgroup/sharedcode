@@ -35,7 +35,11 @@ public static class EnumerableExtensions
 	/// <param name="aggregateFunction">The aggregate function.</param>
 	/// <returns>The result.</returns>
 	public static T? Aggregate<T>(this IEnumerable<T> @this, T? defaultValue, Func<T?, T?, T?> aggregateFunction) =>
-		@this?.Any() ?? false ? System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!) : defaultValue;
+		@this is null
+		    ? defaultValue
+		    : @this.TryGetNonEnumeratedCount(out var count) && count == 0
+		        ? defaultValue
+		        : System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!);
 
 	/// <summary>
 	/// Starts execution of IQueryable on a ThreadPool thread and returns immediately with a
@@ -236,7 +240,8 @@ public static class EnumerableExtensions
 	/// <returns>
 	/// <c>true</c> if the source enumerable is not null and contains items; otherwise, <c>false</c>.
 	/// </returns>
-	public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> @this) => @this?.Any() == true;
+	public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> @this) =>
+	    @this is not null && (!@this.TryGetNonEnumeratedCount(out var count) || count > 0);
 
 	/// <summary>
 	/// Determines whether the source enumerable is null or contains no items.
@@ -260,7 +265,7 @@ public static class EnumerableExtensions
 	public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> @this, string sortExpression)
 	{
 		sortExpression += string.Empty;
-		var parts = sortExpression.Split(' ');
+		var parts = sortExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 		var descending = false;
 
 		if (parts.Length == 0 || string.IsNullOrEmpty(parts[0]))
