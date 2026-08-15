@@ -271,8 +271,19 @@ public static class EnumerableExtensions
 	/// <returns>
 	/// <c>true</c> if the source enumerable is not null and contains items; otherwise, <c>false</c>.
 	/// </returns>
-	public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> @this) =>
-		@this is not null && (@this.TryGetNonEnumeratedCount(out var count) ? count > 0 : @this.Any());
+	public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> @this)
+	{
+		if (@this is null)
+		{
+			return false;
+		}
+
+#if NET6_0_OR_GREATER
+		return @this.TryGetNonEnumeratedCount(out var count) ? count > 0 : @this.Any();
+#else
+		return @this.Any();
+#endif
+	}
 
 	/// <summary>
 	/// Determines whether the source enumerable is null or contains no items.

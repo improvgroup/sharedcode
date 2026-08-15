@@ -67,7 +67,12 @@ public class BufferedWriter : IDisposable
 
 		if (this.StringBuilder.Length > 0)
 		{
+#if NET8_0_OR_GREATER
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
+#else
+			token.ThrowIfCancellationRequested();
+			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(false);
+#endif
 			_ = this.StringBuilder.Clear();
 		}
 
@@ -102,7 +107,12 @@ public class BufferedWriter : IDisposable
 
 		if (this.StringBuilder.Length > 0)
 		{
+#if NET8_0_OR_GREATER
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
+#else
+			token.ThrowIfCancellationRequested();
+			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
+#endif
 			_ = this.StringBuilder.Clear();
 		}
 	}
@@ -128,7 +138,12 @@ public class BufferedWriter : IDisposable
 	{
 		if (this.StringBuilder.Length > BufferLength)
 		{
+#if NET8_0_OR_GREATER
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
+#else
+			token.ThrowIfCancellationRequested();
+			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
+#endif
 			_ = this.StringBuilder.Clear();
 		}
 	}
