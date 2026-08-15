@@ -80,7 +80,11 @@ public static class DataReaderExtensions
 					if (@this.GetFieldType(index) == typeof(string))
 					{
 						// If double quotes are used in value, ensure each are replaced but 2.
-						if (value?.Contains('"', StringComparison.Ordinal) == true)
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+						if (value?.IndexOf('"', StringComparison.Ordinal) >= 0)
+#else
+						if (value?.IndexOf('"') >= 0)
+#endif
 						{
 #if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 							value = value.Replace("\"", "\"\"", StringComparison.Ordinal);
@@ -89,8 +93,8 @@ public static class DataReaderExtensions
 #endif
 						}
 
-						// If separtor are is in value, ensure it is put in double quotes.
-						if (value?.Contains(separator, StringComparison.Ordinal) == true)
+						// If separator is in value, ensure it is put in double quotes.
+						if (value?.IndexOf(separator, StringComparison.Ordinal) >= 0)
 						{
 							value = $"\"{value}\"";
 						}
