@@ -216,9 +216,9 @@ internal static class DeepCloneGenerator
 		var idxes = new int[rank];
 		for (var i = 0; i < rank; i++)
 		{
-		    lengths[i] = obj.GetLength(i);
-		    lowerBounds[i] = obj.GetLowerBound(i);
-		    idxes[i] = lowerBounds[i];
+			lengths[i] = obj.GetLength(i);
+			lowerBounds[i] = obj.GetLowerBound(i);
+			idxes[i] = lowerBounds[i];
 		}
 
 		var elementType = obj.GetType().GetElementType();
