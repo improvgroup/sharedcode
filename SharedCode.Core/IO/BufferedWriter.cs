@@ -71,6 +71,7 @@ public class BufferedWriter : IDisposable
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(false);
 #else
 			token.ThrowIfCancellationRequested();
+			// Older targets do not expose a cancellable TextWriter string overload.
 			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(false);
 #endif
 			_ = this.StringBuilder.Clear();
@@ -111,6 +112,7 @@ public class BufferedWriter : IDisposable
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 #else
 			token.ThrowIfCancellationRequested();
+			// Older targets do not expose a cancellable TextWriter string overload.
 			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
 #endif
 			_ = this.StringBuilder.Clear();
@@ -142,6 +144,7 @@ public class BufferedWriter : IDisposable
 			await this.writer.WriteAsync(this.StringBuilder, token).ConfigureAwait(true);
 #else
 			token.ThrowIfCancellationRequested();
+			// Older targets do not expose a cancellable TextWriter string overload.
 			await this.writer.WriteAsync(this.StringBuilder.ToString()).ConfigureAwait(true);
 #endif
 			_ = this.StringBuilder.Clear();

@@ -96,7 +96,7 @@ public static class DataReaderExtensions
 #endif
 						}
 
-						// If separtor are is in value, ensure it is put in double quotes.
+						// If separator is in value, ensure it is put in double quotes.
 						if (
 #if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 							value?.IndexOf(separator, StringComparison.Ordinal) >= 0
