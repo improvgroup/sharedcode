@@ -59,7 +59,7 @@ jobs:
       run: dotnet build -c Release SharedCode.sln && dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_version }} -o . SharedCode.sln
 
     - name: Upload Package for Publishing
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: PackedLib
         path: ./*.nupkg
@@ -72,7 +72,7 @@ jobs:
       packages: write
     steps:
     - name: Download built project
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v8
       with:
         name: PackedLib
 
@@ -93,7 +93,7 @@ jobs:
       id-token: write
     steps:
     - name: Download built project
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v8
       with:
         name: PackedLib
 
