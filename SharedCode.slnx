@@ -4,27 +4,11 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/SharedCode.Data.Tests/">
-    <Project Path="SharedCode.Data.Tests/Data.Tests.csproj" />
-  </Folder>
-  <Folder Name="/SharedCode.Data/" />
-  <Folder Name="/Solution Items/">
-    <File Path=".editorconfig" />
-    <File Path=".gitattributes" />
-    <File Path=".github/workflows/codeql-analysis.yml" />
-    <File Path=".github/workflows/devskim.yml" />
-    <File Path=".github/workflows/dotnet.yml" />
-    <File Path=".github/workflows/release.yml" />
-    <File Path=".gitignore" />
-    <File Path="CODE_OF_CONDUCT.md" />
-    <File Path="LICENSE" />
-    <File Path="README.md" />
-    <File Path="SECURITY.md" />
-  </Folder>
   <Project Path="SharedCode.Core.Tests/Core.Tests.csproj" />
   <Project Path="SharedCode.Core/Core.csproj" />
   <Project Path="SharedCode.Data.CosmosDb/Data.CosmosDb.csproj" />
   <Project Path="SharedCode.Data.EntityFramework/Data.EntityFramework.csproj" />
+  <Project Path="SharedCode.Data.Tests/Data.Tests.csproj" />
   <Project Path="SharedCode.Data/Data.csproj" />
   <Project Path="SharedCode.DependencyInjection/DependencyInjection.csproj" />
   <Project Path="SharedCode.MediatR/MediatR.csproj" />
