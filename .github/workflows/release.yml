@@ -26,7 +26,7 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Run Tests
-      run: dotnet test SharedCode.sln --verbosity normal
+      run: dotnet test SharedCode.slnx --verbosity normal
 
   semantic-release:
     needs: test
@@ -56,7 +56,7 @@ jobs:
         body: ${{ steps.tag_version.outputs.changelog }}
 
     - name: Create Nuget Package
-      run: dotnet build -c Release SharedCode.sln && dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_version }} -o . SharedCode.sln
+      run: dotnet build -c Release SharedCode.slnx && dotnet pack -c Release -p:PackageVersion=${{ steps.tag_version.outputs.new_version }} -o . SharedCode.slnx
 
     - name: Upload Package for Publishing
       uses: actions/upload-artifact@v7

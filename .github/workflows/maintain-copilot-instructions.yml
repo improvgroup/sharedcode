@@ -6,7 +6,7 @@ on:
     branches: [main]
     paths:
       - '**/*.csproj'
-      - 'SharedCode.sln'
+      - 'SharedCode.slnx'
       - 'Directory.Build.props'
       - 'Directory.Packages.props'
   # Run on the first day of each month to catch any drift that slipped through
@@ -34,11 +34,12 @@ jobs:
           instructions=".github/copilot-instructions.md"
 
           # Collect all SharedCode project names from the solution file.
-          # The .sln format uses Windows paths: "SharedCode.<Name>\<Name>.csproj"
-          # so we extract the folder name (everything between the opening quote
-          # and the first backslash).
-          projects=$(grep -oP '"SharedCode\.[^\\"]+(?=\\)' SharedCode.sln \
-            | tr -d '"' | sort -u)
+          # The .slnx format uses XML project paths like
+          # "Project Path=\"SharedCode.<Name>/<Name>.csproj\"" so we extract the
+          # folder name before the first slash.
+          projects=$(grep -oP 'Path="[^"]+\.csproj"' SharedCode.slnx \
+            | sed -E 's#^Path="([^/]+)/[^"]+\.csproj"$#\1#' \
+            | sort -u)
 
           missing_list=""
           while IFS= read -r project; do

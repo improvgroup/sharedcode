@@ -26,10 +26,10 @@ jobs:
       run: dotnet tool restore
 
     - name: Restore dependencies
-      run: dotnet restore SharedCode.sln
+      run: dotnet restore SharedCode.slnx
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release SharedCode.sln
+      run: dotnet build --no-restore --configuration Release SharedCode.slnx
 
     - name: Run tests with coverage
       shell: pwsh
