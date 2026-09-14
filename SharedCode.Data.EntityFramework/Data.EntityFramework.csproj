@@ -13,6 +13,11 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" />
 	</ItemGroup>
+	<!-- Microsoft.EntityFrameworkCore 10.x only supports net10.0; use the latest 9.x release on net8.0/net9.0. -->
+	<ItemGroup Condition="'$(TargetFramework)' != 'net10.0'">
+		<PackageReference Update="Microsoft.EntityFrameworkCore" VersionOverride="9.0.20" />
+		<PackageReference Update="Microsoft.EntityFrameworkCore.Relational" VersionOverride="9.0.20" />
+	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
