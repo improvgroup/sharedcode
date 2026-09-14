@@ -1,4 +1,4 @@
-﻿using SharedCode.Linq;
+using SharedCode.Linq;
 
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -24,7 +24,7 @@ public static class EnumerableExtensions
 	/// <param name="this">The source enumerable.</param>
 	/// <param name="aggregateFunction">The aggregate function.</param>
 	/// <returns>The result.</returns>
-	public static T? Aggregate<T>(this IEnumerable<T> @this, Func<T?, T?, T?> aggregateFunction) => @this.Aggregate(default, aggregateFunction);
+	public static T? Aggregate<T>(this IEnumerable<T> @this, Func<T?, T?, T?> aggregateFunction) => Aggregate(@this, default, aggregateFunction);
 
 	/// <summary>
 	/// Aggregates the source.
@@ -41,20 +41,6 @@ public static class EnumerableExtensions
 		if (@this is null)
 		{
 			return defaultValue;
-		}
-
-		if (@this is ICollection<T> collection)
-		{
-			return collection.Count == 0
-			    ? defaultValue
-			    : System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!);
-		}
-
-		if (@this is IReadOnlyCollection<T> readOnlyCollection)
-		{
-			return readOnlyCollection.Count == 0
-			    ? defaultValue
-			    : System.Linq.Enumerable.Aggregate(@this, (a, b) => aggregateFunction(a, b)!);
 		}
 
 		using var enumerator = @this.GetEnumerator();
@@ -976,3 +962,5 @@ public static class EnumerableExtensions
 	/// ReSharper disable once SuspiciousTypeConversion.Global
 	private static double StdDevLogic(this IEnumerable<int> source, int buffer = 1) => source.Select(Convert.ToDouble).StdDevLogic(buffer);
 }
+
+

@@ -24,7 +24,9 @@
         <IncludeSymbols>true</IncludeSymbols>
         <LangVersion>preview</LangVersion>
         <NeutralLanguage>en-US</NeutralLanguage>
-        <NoWarn>$(NoWarn);CA1014;NU1510</NoWarn>
+        <NoWarn>$(NoWarn);CA1014;NU1510;GCop501</NoWarn>
+        <!-- MSB3277: benign assembly-version unification warnings from multi-targeted libraries; harmless for non-executable projects. -->
+        <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3277</MSBuildWarningsAsMessages>
         <Nullable>enable</Nullable>
         <PackageIcon>share.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
