@@ -12,6 +12,12 @@ namespace SharedCode.Text;
 /// </summary>
 public static partial class StringExtensions
 {
+	private const string GuidPattern =
+		"^[A-Fa-f0-9]{32}$|"
+		+ "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|"
+		+ "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)"
+		+ "([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$";
+
 	/// <summary>
 	/// Default masking character used in a mask.
 	/// </summary>
@@ -419,12 +425,11 @@ public static partial class StringExtensions
 	{
 		_ = @this ?? throw new ArgumentNullException(nameof(@this));
 
-		var format = new Regex(
-			"^[A-Fa-f0-9]{32}$|" + "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|"
-			+ "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$");
-		var match = format.Match(@this);
-
-		return match.Success;
+#if NET8_0_OR_GREATER
+		return GuidRegex().IsMatch(@this);
+#else
+		return GuidRegex.IsMatch(@this);
+#endif
 	}
 
 	/// <summary>
@@ -950,5 +955,10 @@ public static partial class StringExtensions
 #if NET8_0_OR_GREATER
 	[GeneratedRegex("</?.+?>")]
 	private static partial Regex HtmlTagRegex();
+
+	[GeneratedRegex(GuidPattern)]
+	private static partial Regex GuidRegex();
+#else
+	private static readonly Regex GuidRegex = new(GuidPattern, RegexOptions.Compiled);
 #endif
 }
